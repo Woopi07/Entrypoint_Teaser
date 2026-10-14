@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Builds both teaser cuts: out/bsaid_teaser_16x9.mp4 and out/bsaid_teaser_9x16.mp4
-# Requires: node + playwright (Chromium), python3 + numpy, ffmpeg.
+# Requires: node + playwright (Chromium), python3 + numpy + kokoro-onnx + soundfile, ffmpeg,
+# and the Kokoro model files in $TTS_MODEL_DIR (default /opt/tts), see voiceover.py.
 set -euo pipefail
 cd "$(dirname "$0")"
 WORK="${WORK:-$(mktemp -d)}"
 mkdir -p ../out "$WORK"
 
-python3 audio.py "$WORK/teaser.wav"
+python3 voiceover.py "$WORK/vo" "${TTS_MODEL_DIR:-/opt/tts}"
+python3 audio.py "$WORK/teaser.wav" "$WORK/vo/vo_cues.json"
 
 node render.mjs 1920 1080 "$WORK/f169" &
 node render.mjs 1080 1920 "$WORK/f916" &

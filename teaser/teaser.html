@@ -50,118 +50,6 @@ section{position:absolute;inset:0;opacity:0;overflow:hidden}
 .chip{border:1px solid rgba(255,255,255,.35);color:#dfe7ff;border-radius:999px;padding:.35em .9em;
   font-size:calc(1.7*var(--u));letter-spacing:.08em;text-transform:uppercase;font-weight:600}
 
-/* ---------- case card ---------- */
-#case{display:flex;align-items:center;justify-content:center;background:var(--paper)}
-#case .lines{position:absolute;inset:0;background-image:repeating-linear-gradient(transparent 0 calc(4.4*var(--u) - 1px),#cfe0f5 calc(4.4*var(--u) - 1px) calc(4.4*var(--u)));opacity:.8}
-#case .margin{position:absolute;top:0;bottom:0;left:12%;width:2px;background:#f2a3a3}
-#case .card{position:relative;background:#fff;border:3px solid var(--navy);border-radius:calc(2*var(--u));
-  padding:calc(4*var(--u)) calc(6*var(--u));box-shadow:calc(1.4*var(--u)) calc(1.4*var(--u)) 0 var(--navy);text-align:center;max-width:90vw}
-#case .tab{position:absolute;top:calc(-3.6*var(--u));left:calc(3*var(--u));background:var(--gold);color:var(--navy);
-  font-weight:800;padding:.4em 1em;border-radius:calc(1*var(--u)) calc(1*var(--u)) 0 0;font-size:calc(2*var(--u));letter-spacing:.12em;border:3px solid var(--navy);border-bottom:none}
-#case .num{font-weight:900;color:var(--navy);font-size:calc(5*var(--u));letter-spacing:.04em}
-#case .name{font-weight:900;font-size:calc(9*var(--u));line-height:1.02;color:var(--ink);margin:.12em 0 .18em;letter-spacing:-.02em}
-#case .topic{display:inline-block;background:var(--navy);color:#fff;font-weight:700;border-radius:999px;
-  padding:.45em 1.2em;font-size:calc(2.8*var(--u))}
-#case .icon{font-size:calc(9*var(--u));line-height:1;margin-bottom:calc(1*var(--u))}
-#case .stamp{position:absolute;right:calc(-3*var(--u));top:calc(-3*var(--u));transform:rotate(12deg);
-  border:4px solid var(--red);color:var(--red);font-weight:900;padding:.2em .5em;border-radius:.3em;font-size:calc(2.6*var(--u));
-  letter-spacing:.1em;background:rgba(255,255,255,.85)}
-
-/* ---------- workstation ---------- */
-#ws{background:#dfe6f3}
-#cam{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:0 0}
-.wsbox{position:absolute;left:3%;top:4%;width:94%;height:92%;background:#f4f6fb;border:4px solid var(--navy);border-radius:calc(1.6*var(--u));
-  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 calc(1*var(--u)) calc(4*var(--u)) rgba(20,30,70,.35)}
-.hdr{background:linear-gradient(180deg,#22336f,#1a2858);color:#fff;display:flex;align-items:center;gap:calc(1.6*var(--u));
-  padding:calc(1.1*var(--u)) calc(1.8*var(--u));font-size:calc(1.6*var(--u))}
-.hdr .mini{font-family:"Inter Display";font-weight:900;font-size:calc(3.6*var(--u));letter-spacing:-.03em}
-.hdr .mini b{color:var(--gold)}
-.hdr .pl{display:flex;align-items:center;gap:.7em;border:1px solid rgba(255,255,255,.25);border-radius:.6em;padding:.35em .8em;line-height:1.35}
-.hdr .av{width:calc(4.4*var(--u));height:calc(4.4*var(--u));border-radius:50%;background:#ffe2c6;border:2px solid var(--gold);overflow:hidden}
-.hdr .stage{border:1px solid rgba(255,255,255,.25);border-radius:.6em;padding:.35em .9em;text-align:center;line-height:1.3}
-.hdr .stage b{display:block;font-size:1.25em}
-.hdr .lvl{display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;border-radius:.4em;padding:.05em .6em;margin-top:.2em}
-.hdr .prog{flex:1;min-width:0}
-.hdr .bar{height:.7em;border-radius:1em;background:rgba(255,255,255,.2);margin-top:.35em;overflow:hidden}
-.hdr .bar i{display:block;height:100%;width:66%;background:#58d27e}
-.hdr .icons{display:flex;gap:.6em}
-.hdr .icons span{width:2.4em;height:2.4em;border-radius:.5em;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:1.1em}
-.body{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:calc(1.4*var(--u));padding:calc(1.6*var(--u))}
-.pnl{position:relative;border:2px solid #b9c4dc;border-radius:calc(1*var(--u));padding:calc(3.2*var(--u)) calc(1.6*var(--u)) calc(1.4*var(--u));font-size:calc(1.9*var(--u))}
-.pnl>.lbl{position:absolute;top:calc(-1.4*var(--u));left:calc(1.2*var(--u));background:var(--navy);color:#fff;font-weight:800;
-  font-size:calc(1.45*var(--u));letter-spacing:.12em;padding:.35em .9em;border-radius:.4em}
-#pTx{background:var(--cream);border-color:#e7c77b}
-#pTx .t1{font-weight:800;font-size:1.25em}
-#pTx .t2{margin-top:.5em;font-size:1.15em}
-#pTx .t2 b{font-size:1.25em}
-#pTx .t3{margin-top:.6em;color:#6a5a2c;font-size:.9em}
-#pCoa{background:var(--mint);border-color:#9fd3a9}
-.fld{margin-bottom:.8em}
-.fld label{display:block;font-weight:700;font-size:.9em;margin-bottom:.3em}
-.sel{position:relative;background:#fff;border:2px solid #9aa7c3;border-radius:.45em;padding:.5em .8em;display:flex;justify-content:space-between;align-items:center;font-size:.95em}
-.sel.on{border-color:var(--green);box-shadow:0 0 0 3px rgba(47,166,90,.25)}
-.sel .ph{color:#8a93a8}
-.dd{position:absolute;left:-2px;right:-2px;top:100%;margin-top:4px;background:#fff;border:2px solid #9aa7c3;border-radius:.45em;
-  box-shadow:0 .6em 1.4em rgba(20,30,70,.25);z-index:5;overflow:hidden;transform-origin:top}
-.dd div{padding:.42em .8em;border-bottom:1px solid #edf0f6}
-.dd div.hl{background:#d9f2e0;font-weight:700}
-.dd .grp{font-size:.72em;letter-spacing:.12em;color:#7b86a3;font-weight:700;background:#f5f7fb;padding:.3em .8em}
-.bot{display:grid;grid-template-columns:1.35fr 1fr;gap:calc(1.4*var(--u));grid-column:1/3}
-#pComp{background:#fff;display:flex;gap:calc(1.6*var(--u));align-items:center}
-#pComp .amts{flex:1}
-.inp{background:#fff;border:2px solid #9aa7c3;border-radius:.45em;padding:.5em .8em;font-weight:700;min-height:2.3em}
-.inp.on{border-color:var(--green)}
-.calc{background:#2a3350;border-radius:.7em;padding:.6em;display:grid;grid-template-columns:repeat(4,2.4em);gap:.4em;flex:none}
-.calc .scr{grid-column:1/5;background:#cfe3c9;color:#1b2a1b;text-align:right;border-radius:.3em;padding:.25em .4em;font-weight:700;font-size:1.05em;min-height:1.7em}
-.calc .k{height:2.1em;border-radius:.35em;background:#e9edf6;display:grid;place-items:center;font-weight:700;font-size:.95em;color:#24304d}
-.calc .k.op{background:#c3cbe0}
-.calc .k.eq{background:#f39a3a;color:#fff}
-.calc .k.pr{background:var(--gold);transform:scale(.88)}
-#pFb{background:#e8effc;display:flex;flex-direction:column;justify-content:center;line-height:1.4}
-#pFb.ok{background:#dcf5e4;border-color:#5cc37f}
-#pFb .okh{color:var(--green);font-weight:900;font-size:1.35em;margin-bottom:.25em}
-.nav{display:flex;gap:calc(1.2*var(--u));align-items:center;padding:0 calc(1.6*var(--u)) calc(1.6*var(--u))}
-.btn{color:#fff;font-weight:800;border-radius:.5em;padding:.65em 1.3em;font-size:calc(1.8*var(--u));letter-spacing:.04em;white-space:nowrap;box-shadow:0 .25em 0 rgba(0,0,0,.25)}
-.btn.g{background:var(--green)} .btn.y{background:var(--yellow);color:#4a3200} .btn.r{background:var(--red)}
-.btn.pr{transform:translateY(.15em) scale(.96);box-shadow:0 .08em 0 rgba(0,0,0,.25)}
-.nav .tip{flex:1;background:#24345f;color:#e6ecff;border-radius:.5em;padding:.6em 1em;font-size:calc(1.5*var(--u))}
-.hl-ring{position:absolute;border:4px solid var(--gold);border-radius:calc(1.2*var(--u));box-shadow:0 0 0 9999px rgba(13,21,48,.0);pointer-events:none}
-
-/* portrait workstation */
-@media (orientation:portrait){
-  .wsbox{left:4%;top:6%;width:92%;height:88%}
-  .hdr{flex-wrap:wrap;gap:calc(1.2*var(--u))}
-  .hdr .prog{display:none}
-  .body{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;font-size:1.1em}
-  .bot{grid-column:1;grid-template-columns:1fr}
-  .pnl{font-size:calc(2.6*var(--u))}
-  .nav{flex-wrap:wrap}
-  .nav .tip{flex-basis:100%}
-  .btn{font-size:calc(2.4*var(--u))}
-}
-
-/* ---------- T-account ---------- */
-#tacc{background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center}
-#tacc .lines{position:absolute;inset:0;background-image:repeating-linear-gradient(transparent 0 calc(4.4*var(--u) - 1px),#cfe0f5 calc(4.4*var(--u) - 1px) calc(4.4*var(--u)));opacity:.6}
-#tacc .hd{position:relative;font-weight:900;color:var(--navy);font-size:calc(4.2*var(--u));letter-spacing:.06em;text-transform:uppercase;margin-bottom:calc(2*var(--u))}
-#tacc .hd span{color:#a6782a}
-.tw{position:relative;display:flex;gap:calc(4*var(--u));align-items:flex-start}
-.jr{background:#fff;border:2px solid #b9c4dc;border-radius:calc(1*var(--u));padding:calc(1.6*var(--u));font-size:calc(2.5*var(--u));width:calc(62*var(--u));box-shadow:0 .5em 1.4em rgba(20,30,70,.12)}
-.jr h4{font-size:.8em;letter-spacing:.14em;color:#7b86a3;margin-bottom:.6em}
-.jr .row{display:flex;justify-content:space-between;padding:.35em .2em;border-bottom:1px dashed #d8deea}
-.jr .row.cr{padding-left:1.6em;color:#45506d}
-.jr .row.act{background:#fff4cf;border-radius:.3em}
-.T{position:relative;width:calc(66*var(--u));font-size:calc(3.1*var(--u))}
-.T .tt{text-align:center;font-weight:900;font-size:1.3em;border-bottom:4px solid var(--ink);padding-bottom:.25em}
-.T .cols{display:grid;grid-template-columns:1fr 1fr;min-height:calc(20*var(--u))}
-.T .cols>div{padding:.4em .6em}
-.T .cols>div:first-child{border-right:4px solid var(--ink)}
-.T .sub{display:flex;justify-content:space-between;font-size:.62em;font-weight:800;letter-spacing:.14em;color:#7b86a3;margin-top:.3em}
-.T .e{display:flex;justify-content:space-between;padding:.25em 0;font-weight:700}
-.T .e small{color:#7b86a3;font-weight:500;font-size:.62em;align-self:center}
-.T .bal{margin-top:.3em;border-top:3px double var(--ink);display:flex;justify-content:space-between;padding-top:.3em;font-weight:900;color:var(--green)}
-@media (orientation:portrait){ .tw{flex-direction:column;align-items:center} .jr{width:calc(80*var(--u));font-size:calc(2.8*var(--u))} .T{width:calc(84*var(--u));font-size:calc(3.4*var(--u))} }
-
 /* ---------- visual novel ---------- */
 #vn svg.bg{position:absolute;inset:0;width:100%;height:100%}
 #vn .spr{position:absolute;bottom:0;height:86%;transform-origin:50% 100%}
@@ -212,6 +100,31 @@ section{position:absolute;inset:0;opacity:0;overflow:hidden}
 #poster .foot{position:absolute;bottom:calc(3.5*var(--u));font-size:calc(1.6*var(--u));opacity:.75;letter-spacing:.14em;text-transform:uppercase;padding:0 4vw}
 @media (orientation:portrait){ #poster .tiles{flex-wrap:wrap;justify-content:center;max-width:90vw} #poster .tile{width:calc(28*var(--u));height:calc(18*var(--u));font-size:calc(2.4*var(--u))}
   #poster .pl{font-size:calc(4.2*var(--u))} #poster .url{font-size:calc(3.8*var(--u))} #poster .cta{font-size:calc(5*var(--u))} #title .logline{font-size:calc(4.6*var(--u))} }
+
+/* ---------- real Entry Point screens ---------- */
+.shot{background:radial-gradient(ellipse at 50% 40%,#24387a,#121c40 75%)}
+.shot .cam{position:absolute;left:0;top:0;transform-origin:0 0}
+.shot .cam>img{display:block;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.ov{position:absolute;pointer-events:none}
+.ring{border:5px solid var(--gold);border-radius:18px;box-shadow:0 0 0 6px rgba(245,184,46,.25),0 0 40px rgba(245,184,46,.6)}
+.optsel{border:3px solid #2f80ed;background:rgba(47,128,237,.08);border-radius:12px}
+.optok{border:3px solid #2fa65a;background:rgba(47,166,90,.12);border-radius:12px}
+.optok b{position:absolute;right:22px;top:50%;transform:translateY(-50%);color:#fff;background:#2fa65a;border-radius:999px;
+  font:800 19px Inter;padding:5px 14px}
+.insight{background:#dcf5e4;border:3px solid #2fa65a;border-radius:16px;padding:22px 20px;font:500 15.5px/1.38 Inter;color:#173b25}
+.insight h5{font:800 14px Inter;letter-spacing:.06em;color:#1f8a47;margin-bottom:6px}
+.barfill{height:10px;border-radius:6px;background:linear-gradient(90deg,#2fa65a,#7ad69a)}
+.pct{background:#fff;font:800 15px Inter;color:#16213f;text-align:right}
+.toast{background:#2fa65a;color:#fff;font:800 22px Inter;border-radius:999px;padding:10px 26px;box-shadow:0 10px 30px rgba(0,0,0,.25);white-space:nowrap}
+#cap{position:absolute;left:50%;bottom:calc(5*var(--u));transform:translateX(-50%);z-index:25;max-width:86vw;text-align:center;
+  background:rgba(13,21,48,.82);color:#fff;border-radius:calc(1*var(--u));padding:.45em 1em;font-weight:700;font-size:calc(2.7*var(--u));line-height:1.3;opacity:0}
+#cap i{font-style:normal;color:var(--gold2)}
+@media (orientation:portrait){ #cap{font-size:calc(4*var(--u));bottom:calc(9*var(--u))} }
+#title .ep{margin-top:calc(1.4*var(--u));color:#9fb3e8;font-weight:700;letter-spacing:.3em;font-size:calc(1.8*var(--u))}
+#poster .tile{position:relative;overflow:hidden;padding:0;background:#000}
+#poster .tile img{position:absolute;left:0;top:0;max-width:none}
+#poster .tile span{position:absolute;left:0;right:0;bottom:0;padding:.4em .6em;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-size:.95em;line-height:1.2}
+#poster .tile span small{display:block;font-weight:600;opacity:.8;font-size:.75em}
 
 /* ---------- overlays ---------- */
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:40}
@@ -295,106 +208,37 @@ section{position:absolute;inset:0;opacity:0;overflow:hidden}
     <div class="word">BS<b>Aid</b></div>
   </div>
   <div class="logline" id="tLine"></div>
-  <div class="tagrow" id="tTags"><span class="chip">Educational</span><span class="chip">Simulation</span><span class="chip">Visual Novel</span><span class="chip">RPG</span></div>
+  <div class="tagrow" id="tTags"><div class="ep" style="flex-basis:100%;text-align:center">NOW PLAYABLE ON · ENTRY POINT</div><span class="chip">Educational</span><span class="chip">Simulation</span><span class="chip">Visual Novel</span><span class="chip">RPG</span></div>
 </section>
 
-<!-- ======================= 3. CASE CARD ======================= -->
-<section id="case">
-  <div class="lines"></div><div class="margin"></div>
-  <div class="card" id="cCard">
-    <div class="tab">CASE FILE</div>
-    <div class="stamp" id="cStamp">OPEN</div>
-    <div class="icon" id="cIcon"></div>
-    <div class="num" id="cNum"></div>
-    <div class="name disp" id="cName"></div>
-    <div class="topic" id="cTopic"></div>
-  </div>
-</section>
+<!-- ======================= 3–6. REAL ENTRY POINT SCREENS ======================= -->
+<section id="shCase" class="shot"><div class="cam">
+  <img src="assets/case_files.webp" width="1882" height="897">
+  <div class="ov ring" id="ringCase" style="left:104px;top:297px;width:344px;height:309px"></div>
+</div></section>
 
-<!-- ======================= 4. WORKSTATION ======================= -->
-<section id="ws">
-  <div id="cam">
-    <div class="wsbox" id="wsBox">
-      <div class="hdr">
-        <div class="mini">BS<b>Aid</b></div>
-        <div class="pl"><div class="av"><svg viewBox="0 0 40 40"><circle cx="20" cy="17" r="9" fill="#ffd9b8"/><path d="M10 16 Q12 4 20 5 Q29 4 30 16 Q25 10 20 11 Q14 10 10 16Z" fill="#3b2a1f"/><rect x="9" y="27" width="22" height="16" rx="8" fill="#fff"/></svg></div>
-          <div>Player: <b>Freshie</b><br>Rank: A · Points: <b id="hPts">250</b> 🪙</div></div>
-        <div class="stage">Stage 1 · Case #01<b>Transaction Analysis</b><span class="lvl">Level 3 / 4</span></div>
-        <div class="prog">Progress 2 / 3<div class="bar"><i id="hBar"></i></div></div>
-        <div class="icons"><span>⚙️</span><span>❔</span><span>🚪</span></div>
-      </div>
-      <div class="body">
-        <div class="pnl" id="pTx"><div class="lbl">TRANSACTION</div>
-          <div class="t1">Aling Nena's Sari-Sari Store</div>
-          <div class="t2">Sold goods to a customer for cash, <b class="mono">₱5,600</b>.</div>
-          <div class="t3">Analyze: which account is debited, which is credited?</div>
-        </div>
-        <div class="pnl" id="pCoa"><div class="lbl">📖 CHART OF ACCOUNTS</div>
-          <div class="fld"><label>Debit Account:</label>
-            <div class="sel" id="selDr"><span class="ph" id="selDrT">Select Account</span><span>▾</span>
-              <div class="dd" id="dd">
-                <div class="grp">ASSETS</div>
-                <div id="o0">Cash</div><div id="o1">Accounts Receivable</div><div id="o2">Merchandise Inventory</div>
-                <div class="grp">LIABILITIES</div><div id="o3">Accounts Payable</div>
-                <div class="grp">INCOME</div><div id="o4">Sales Revenue</div>
-              </div>
-            </div></div>
-          <div class="fld"><label>Credit Account:</label><div class="sel" id="selCr"><span class="ph" id="selCrT">Select Account</span><span>▾</span></div></div>
-        </div>
-        <div class="bot">
-          <div class="pnl" id="pComp"><div class="lbl">COMPUTATION AREA</div>
-            <div class="amts">
-              <div class="fld"><label>Debit Amount:</label><div class="inp mono" id="inDr">₱</div></div>
-              <div class="fld" style="margin:0"><label>Credit Amount:</label><div class="inp mono" id="inCr">₱</div></div>
-            </div>
-            <div class="calc" id="calc">
-              <div class="scr mono" id="cScr">0</div>
-              <div class="k">7</div><div class="k">8</div><div class="k">9</div><div class="k op">÷</div>
-              <div class="k" id="k4">4</div><div class="k" id="k5">5</div><div class="k" id="k6">6</div><div class="k op">×</div>
-              <div class="k">1</div><div class="k">2</div><div class="k">3</div><div class="k op">−</div>
-              <div class="k" id="k0">0</div><div class="k">.</div><div class="k eq" id="kEq">=</div><div class="k op">+</div>
-            </div>
-          </div>
-          <div class="pnl" id="pFb"><div class="lbl">FEEDBACK / MESSAGE</div><div id="fbT"></div></div>
-        </div>
-      </div>
-      <div class="nav">
-        <div class="btn g" id="bSubmit">✔ SUBMIT ANSWER</div><div class="btn y">💡 HINT</div><div class="btn r">✖ EXIT LEVEL</div>
-        <div class="tip">💡 Tip: Think about which accounts increase or decrease in this transaction.</div>
-      </div>
-    </div>
-  </div>
-  <div class="hl-ring" id="ring"></div>
-</section>
+<section id="shTx" class="shot"><div class="cam">
+  <img src="assets/transaction_analysis.png" width="1897" height="907">
+  <div class="ov optsel" id="optB" style="left:404px;top:619px;width:1091px;height:67px"></div>
+  <div class="ov optok" id="optOk" style="left:404px;top:619px;width:1091px;height:67px"><b>✓ Correct</b></div>
+  <div class="ov insight" id="insight" style="left:1154px;top:200px;width:370px;height:141px">
+    <h5>💡 INSIGHT · NAYEOM</h5>Hiring a cashier isn't a transaction yet: no money or resources changed hands, so there's nothing to record.</div>
+  <div class="ov toast" id="toast" style="left:1230px;top:384px">+10 pts · Streak ×1</div>
+</div></section>
 
-<!-- ======================= 5. T-ACCOUNT ======================= -->
-<section id="tacc">
-  <div class="lines"></div>
-  <div class="hd">Posting <span>→</span> Unadjusted Trial Balance</div>
-  <div class="tw">
-    <div class="jr" id="jr"><h4>GENERAL JOURNAL · BREW &amp; BALANCE COFFEE</h4>
-      <div class="row" id="j0"><span>Jan 1 · Cash</span><b class="mono">50,000</b></div>
-      <div class="row cr"><span>Owner's Capital</span><span class="mono">50,000</span></div>
-      <div class="row" id="j1"><span>Jan 3 · Equipment</span><b class="mono">18,000</b></div>
-      <div class="row cr"><span>Cash</span><span class="mono">18,000</span></div>
-      <div class="row" id="j2"><span>Jan 5 · Cash</span><b class="mono">7,450</b></div>
-      <div class="row cr"><span>Service Revenue</span><span class="mono">7,450</span></div>
-    </div>
-    <div class="T">
-      <div class="tt">Cash</div>
-      <div class="cols">
-        <div><div class="sub"><span>DEBIT</span></div>
-          <div class="e mono" id="e0"><small>Jan 1</small>50,000</div>
-          <div class="e mono" id="e2"><small>Jan 5</small>7,450</div>
-          <div class="bal mono" id="eB"><small style="color:inherit">Bal.</small>39,450</div>
-        </div>
-        <div><div class="sub"><span></span><span>CREDIT</span></div>
-          <div class="e mono" id="e1"><small>Jan 3</small>18,000</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section id="shOv" class="shot"><div class="cam">
+  <img src="assets/overview_status.png" width="1907" height="900">
+  <div id="bars"></div>
+</div></section>
+
+<section id="shCon" class="shot"><div class="cam">
+  <img src="assets/concepts.png" width="1903" height="896">
+  <div class="ov ring" id="ringCon" style="left:100px;top:302px;width:244px;height:214px"></div>
+</div></section>
+
+<section id="shPdf" class="shot"><div class="cam">
+  <img src="assets/concept_notes.png" width="1888" height="897">
+</div></section>
 
 <!-- ======================= 6. VISUAL NOVEL ======================= -->
 <section id="vn">
@@ -429,7 +273,7 @@ section{position:absolute;inset:0;opacity:0;overflow:hidden}
   <div id="confetti"></div>
   <div class="panel">
     <div class="lc disp" id="rLc">LEVEL COMPLETE!</div>
-    <div class="sub">Case #01 · Sari-Sari Store · Level 4</div>
+    <div class="sub">Case #001 · Nayeom's Groceria · Level 1</div>
     <div class="badge" id="rBadge"><span>S</span></div>
     <div class="stars" id="rStars">★★★</div>
     <div class="stats"><div class="st" id="rS1">Mistakes <b>0</b></div><div class="st" id="rS2">Rank <b>S</b></div><div class="st" id="rS3">+<b id="rPts">0</b> Points 🪙</div></div>
@@ -441,18 +285,19 @@ section{position:absolute;inset:0;opacity:0;overflow:hidden}
   <div class="grid"></div>
   <div class="logo" id="pLogo"></div>
   <div class="tiles" id="pTiles">
-    <div class="tile" style="background:linear-gradient(160deg,#f7c96b,#d9813a)">🏪 Case #01<br>Sari-Sari Store</div>
-    <div class="tile" style="background:linear-gradient(160deg,#a8794f,#5b3a22)">☕ Case #02<br>Coffee Shop</div>
-    <div class="tile" style="background:linear-gradient(160deg,#9fb5ff,#5462c9)">💎 Case #03<br>Jewelry Store</div>
-    <div class="tile" style="background:linear-gradient(160deg,#7fd49a,#2f8a52)">🛒 Case #04<br>Supermarket</div>
+    <div class="tile" data-x="110"><span>Nayeom's Groceria<small>Case #001 · Retail</small></span></div>
+    <div class="tile" data-x="469"><span>Alahas ni Lukas<small>Case #002 · Fine Jewelry</small></span></div>
+    <div class="tile" data-x="828"><span>Surume's Coffee Shop<small>Case #003 · Food &amp; Beverage</small></span></div>
+    <div class="tile" data-x="1187"><span>SwiftGo Delivery<small>Case #004 · Logistics</small></span></div>
   </div>
   <div class="pl">Every transaction tells a story. <em>Will you make the right entry?</em></div>
-  <div class="cta" id="pCta">▶ PLAY NOW</div>
+  <div class="cta" id="pCta">▶ PLAY NOW ON ENTRY POINT</div>
   <div class="url mono" id="pUrl">https://entry-point-sigma.vercel.app/</div>
   <div class="foot">A capstone educational game for first-year BSA students · FAR1 · PLV</div>
 </section>
 
 <div id="lt"></div>
+<div id="cap"></div>
 <svg id="cursor" viewBox="0 0 24 24"><path d="M3 2 L3 20 L8 15 L11.5 22 L14.5 20.6 L11 13.8 L18 13.8Z" fill="#fff" stroke="#16213f" stroke-width="1.6" stroke-linejoin="round"/></svg>
 <div id="flash"></div>
 <div id="fade"></div>
@@ -511,210 +356,207 @@ $('pLogo').innerHTML = $('tLogo').innerHTML;
   let h=''; for(let i=0;i<70;i++) h+=`<i class="conf" data-x="${r()}" data-d="${r()}" data-s="${r()}" style="background:${cols[i%cols.length]}"></i>`;
   $('confetti').innerHTML=h; })();
 
-// ---------------------------------------------------------------- workstation camera
-let rects=null;
-function measure(){
-  $('ws').style.opacity=1; $('cam').style.transform='none';
-  const r = el => { const b=$(el).getBoundingClientRect(); return {x:b.left,y:b.top,w:b.width,h:b.height}; };
-  rects = {all:r('wsBox'),tx:r('pTx'),coa:r('pCoa'),comp:r('pComp'),calc:r('calc'),fb:r('pFb'),nav:r('bSubmit'),
-           k5:r('k5'),k6:r('k6'),k0:r('k0'),kEq:r('kEq'),o0:r('o0'),o4:r('o4'),selDr:r('selDr'),selCr:r('selCr')};
-  $('ws').style.opacity=0;
-}
-function camFor(rc,pad=1.15,minS=1){
-  // never zoom out below 1:1 on a detail shot (portrait panels are already full-width)
-  if(minS && portrait()) minS=1.12;
-  const s=Math.max(minS,Math.min(W()/(rc.w*pad),H()/(rc.h*pad)));
-  let x=W()/2-(rc.x+rc.w/2)*s, y=H()/2-(rc.y+rc.h/2)*s;
-  if(minS && rects){ // keep the workstation filling the frame on detail shots
-    const A=rects.all, m=2*U();
-    x= portrait() ? W()/2-(A.x+A.w/2)*s : clamp(x, W()-(A.x+A.w)*s-m, -A.x*s+m); y=clamp(y, H()-(A.y+A.h)*s-m, -A.y*s+m); }
+// ---------------------------------------------------------------- screenshot camera
+// Each shot is a real Entry Point screenshot. Keyframes give the region (in
+// screenshot pixels) the camera frames at a time; portrait may use its own region.
+const IMG = {shCase:[1882,897], shTx:[1897,907], shOv:[1907,900], shCon:[1903,896], shPdf:[1888,897]};
+function fit(r,dims,pad=1.06){
+  const s=Math.min(W()/(r[2]*pad),H()/(r[3]*pad));
+  let x=W()/2-(r[0]+r[2]/2)*s, y=H()/2-(r[1]+r[3]/2)*s;
+  // never show empty space past the screenshot edge when it can fill the frame; center it when it can't
+  const iw=dims[0]*s, ih=dims[1]*s;
+  x = iw>=W() ? clamp(x,W()-iw,0) : (W()-iw)/2;
+  y = ih>=H() ? clamp(y,H()-ih,0) : (H()-ih)/2;
   return {s,x,y};
 }
-const camMix=(a,b,x)=>({s:lerp(a.s,b.s,x),x:lerp(a.x,b.x,x),y:lerp(a.y,b.y,x)});
-const toScreen=(c,p)=>({x:p.x*c.s+c.x,y:p.y*c.s+c.y});
-const center=rc=>({x:rc.x+rc.w*.5,y:rc.y+rc.h*.55});
+function camAt(t,keys,dims){ // keys: [time, landscapeRect, portraitRect?]
+  const pick=k=>portrait()&&k[2]?k[2]:k[1];
+  if(t<=keys[0][0]) return fit(pick(keys[0]),dims);
+  for(let i=1;i<keys.length;i++){
+    if(t<keys[i][0]){
+      const a=fit(pick(keys[i-1]),dims), b=fit(pick(keys[i]),dims), x=eio(seg(t,keys[i-1][0],keys[i][0]));
+      // interpolate in log-scale so zooms feel even
+      const s=Math.exp(lerp(Math.log(a.s),Math.log(b.s),x));
+      const ca={x:(W()/2-a.x)/a.s,y:(H()/2-a.y)/a.s}, cb={x:(W()/2-b.x)/b.s,y:(H()/2-b.y)/b.s};
+      const c={x:lerp(ca.x,cb.x,x),y:lerp(ca.y,cb.y,x)};
+      return {s, x:W()/2-c.x*s, y:H()/2-c.y*s};
+    }
+  }
+  return fit(pick(keys[keys.length-1]),dims);
+}
+function shot(id,t,a,b,keys){
+  if(t<a||t>=b){ show(id,0); return null; }
+  show(id,1);
+  const c=camAt(t,keys,IMG[id]);
+  document.querySelector('#'+id+' .cam').style.transform=`translate(${c.x}px,${c.y}px) scale(${c.s})`;
+  return c;
+}
+const scr=(c,x,y)=>({x:x*c.s+c.x,y:y*c.s+c.y});
+function cursorPath(t,c,pts){ // pts: [time,x,y] in screenshot px
+  let p=pts[0];
+  for(let i=1;i<pts.length;i++) if(t>=pts[i-1][0]){ const k=eio(seg(t,pts[i-1][0],pts[i][0])); p=[0,lerp(pts[i-1][1],pts[i][1],k),lerp(pts[i-1][2],pts[i][2],k)]; }
+  return scr(c,p[1],p[2]);
+}
+
+// overview bars (Performance by Topic rows in the screenshot)
+const BAR_Y=[507,566,613,651,699,758,817,887], BAR_V=[100,90,80,70,85,65,55,40];
+$('bars').innerHTML=BAR_Y.map((y,i)=>`<div class="ov barfill" id="bf${i}" style="left:368px;top:${y-5}px;width:0"></div>
+  <div class="ov pct" id="bp${i}" style="left:955px;top:${y-11}px;width:46px;height:22px">0%</div>`).join('');
+
+// poster tiles use the real storefront art from the Case Files screen
+function layoutTiles(){
+  document.querySelectorAll('#pTiles .tile').forEach(el=>{
+    const k=el.clientWidth/332, im=el.querySelector('img')||el.insertBefore(new Image(),el.firstChild);
+    im.src='assets/case_files.webp'; im.style.width=1882*k+'px';
+    im.style.left=-(+el.dataset.x)*k+'px'; im.style.top=-303*k+'px';
+    el.style.height=147*k+'px';
+  });
+}
+
+// captions (match LINES in voiceover.py)
+const CAPS=[[0.45,2.4,'Every transaction tells a story.'],[2.55,4.1,'<i>Will you make the right entry?</i>'],
+  [4.7,7.5,'Open a case file. Step inside a real business.'],[7.75,11.2,'<i>Nayeom:</i> We hired a new cashier. Do we record that?'],
+  [11.4,13.2,'Answer, and get <i>instant feedback.</i>'],[14.15,16.45,'Track your progress, topic by topic,'],
+  [16.55,18.6,'and review the concept notes anytime.'],[24.3,26.4,"Zero mistakes? That's an <i>S rank.</i>"],
+  [26.75,29.2,'<i>BSAid.</i> Play now on Entry Point.']];
 
 // ---------------------------------------------------------------- render(t)
 const LOG1='Every transaction tells a story.', LOG2=' Will you make the right entry?';
 function show(id,o,tf){ const e=$(id); e.style.opacity=o; e.style.visibility=o>0?'visible':'hidden'; if(tf!==undefined) e.style.transform=tf; }
+let tilesDone=false;
 
 function render(t){
-  if(!rects) measure();
+  if(!tilesDone){ layoutTiles(); tilesDone=true; }
   const u=U();
   let flash=0, cursor=null, lt=null;
+  const cut=(a)=>{ if(t>=a&&t-a<.08) flash=Math.max(flash,.35*(1-(t-a)/.08)); };
 
-  // ===== 0–5  HOOK =====
-  // campus 0 → 2.6 (fade out to title)
-  { const o = t<2.2?1:1-seg(t,2.2,2.9);
-    show('campus',t<2.9?o:0);
-    document.querySelector('#campus svg').style.transform=`scale(${1.04+.05*seg(t,0,2.9)}) translate(${-1.2*seg(t,0,2.9)}%,0)`;
+  // ===== 0–4.6  HOOK =====
+  { const o = t<2.0?1:1-seg(t,2.0,2.6);
+    show('campus',t<2.6?o:0);
+    document.querySelector('#campus svg').style.transform=`scale(${1.04+.05*seg(t,0,2.6)}) translate(${-1.2*seg(t,0,2.6)}%,0)`;
     $('clouds').setAttribute('transform',`translate(${40*t},0)`);
     $('flag').setAttribute('transform',`skewY(${Math.sin(t*6)*3})`);
     $('students').setAttribute('transform',`translate(${-30*t},0)`);
-    document.querySelector('#campus .loc').style.opacity = win(t,.4,2.4,.4,.4);
+    document.querySelector('#campus .loc').style.opacity = win(t,.3,2.2,.4,.4);
   }
-  { const a=2.3, o = t<a?0: (t<5? seg(t,a,a+.6) : 0);
-    show('title',o);
-    const lp=back(seg(t,2.5,3.2));
-    $('tLogo').style.transform=`scale(${lerp(.6,1,lp)})`; $('tLogo').style.opacity=seg(t,2.5,2.9);
-    const p=seg(t,3.05,4.55), full=LOG1+LOG2, s=typed(full,p);
+  { const o = t<2.05?0:(t<4.5? seg(t,2.05,2.5) : 1-seg(t,4.5,4.65));
+    show('title',t<4.65?o:0);
+    const lp=back(seg(t,2.1,2.7));
+    $('tLogo').style.transform=`scale(${lerp(.6,1,lp)})`; $('tLogo').style.opacity=seg(t,2.1,2.4);
+    const p=seg(t,2.4,3.9), full=LOG1+LOG2, s=typed(full,p);
     const a1=s.slice(0,LOG1.length), a2=s.slice(LOG1.length);
-    $('tLine').innerHTML = a1 + (a2?`<br><em>${a2.trim()}</em>`:'') + (t<4.9 && Math.floor(t*4)%2===0?'<span class="caret"></span>':'');
-    $('tTags').style.opacity=seg(t,4.4,4.8);
+    $('tLine').innerHTML = a1 + (a2?`<br><em>${a2.trim()}</em>`:'') + (t<4.2 && Math.floor(t*4)%2===0?'<span class="caret"></span>':'');
+    $('tTags').style.opacity=seg(t,3.8,4.2);
   }
 
-  // ===== 5–15  CORE GAMEPLAY =====
-  const caseShot=(a,b,num,name,topic,icon)=>{
-    if(t<a||t>=b) return false;
-    show('case',1);
-    const p=back(seg(t,a,a+.35));
-    $('cCard').style.transform=`translateY(${lerp(40,0,p)}vh) rotate(${lerp(-6,-1.5,p)}deg) scale(${1+.04*seg(t,a+.35,b)})`;
-    $('cNum').textContent=num; $('cName').textContent=name; $('cTopic').textContent=topic; $('cIcon').textContent=icon;
-    const sp=seg(t,a+.45,a+.6); $('cStamp').style.opacity=sp; $('cStamp').style.transform=`rotate(12deg) scale(${lerp(2.2,1,sp)})`;
-    if(t-a<.08) flash=Math.max(flash,.5*(1-(t-a)/.08));
-    return true;
-  };
-  let caseOn = caseShot(5.0,6.2,'CASE #01','Sari-Sari Store','Debit-Credit & Journalizing','🏪')
-            || caseShot(11.6,12.8,'CASE #02','Coffee Shop','Posting & Unadjusted Trial Balance','☕');
-  if(!caseOn) show('case',0);
+  // ===== 4.6–7.6  CASE FILES =====
+  { const c=shot('shCase',t,4.6,7.6,[[4.6,[0,0,1882,897],[830,280,560,560]],[5.6,[90,280,1100,330],[470,280,560,560]],
+        [6.6,[60,240,1500,420],[100,280,560,560]],[7.2,[90,260,380,380],[90,260,380,380]]]);
+    if(c){ cut(4.6); lt=['CASE FILES','Six businesses to solve'];
+      if(portrait()){ /* portrait pans across two cards then lands on Nayeom */ }
+      const rp=eout(seg(t,6.75,7.0)); $('ringCase').style.opacity=rp;
+      cursor=cursorPath(t,c,[[5.0,1300,700],[6.0,700,560],[6.8,280,420],[7.6,280,420]]);
+      cursor.click=t>=6.85&&t<7.05;
+      if(t>=6.85&&t<6.95) flash=Math.max(flash,.2);
+    } }
 
-  if(t>=6.2 && t<11.6){
-    show('ws',1);
-    const R=rects, cAll=camFor(R.all,1.04,0), cTx=camFor(R.tx,1.3), cCoa=camFor({x:R.coa.x,y:R.coa.y,w:R.coa.w,h:R.coa.h*2.1},1.15),
-          cComp=camFor(R.comp,1.12);
-    let c;
-    if(t<7.6){ c=camMix(cAll,cTx,eio(seg(t,6.2,6.8))); lt=['TRANSACTION AREA','Read the scenario'];}
-    else if(t<9.2){ c=camMix(cTx,cCoa,eio(seg(t,7.6,7.95))); lt=['CHART OF ACCOUNTS','Pick the debit & credit'];}
-    else if(t<10.6){ c=camMix(cCoa,cComp,eio(seg(t,9.2,9.55))); lt=['BUILT-IN CALCULATOR','Compute the amount'];}
-    else { c=camMix(cComp,cAll,eio(seg(t,10.6,10.9))); lt=['INSTANT FEEDBACK','Learn from every entry'];}
-    $('cam').style.transform=`translate(${c.x}px,${c.y}px) scale(${c.s})`;
-    if(t-6.2<.08) flash=Math.max(flash,.35);
+  // ===== 7.6–13.9  TRANSACTION ANALYSIS (Nayeom) =====
+  { const full=[0,0,1897,907], dlg=[380,370,1140,330], card=[370,85,1160,700];
+    const c=shot('shTx',t,7.6,13.9,[[7.6,full,[376,90,560,700]],[8.3,dlg,[390,380,560,420]],[9.5,dlg,[950,380,560,420]],[9.9,dlg,[400,500,560,320]],[10.9,dlg,[700,500,800,320]],
+        [11.6,[370,80,1160,720],[1120,190,440,460]],[13.9,[370,80,1160,720],[1120,190,440,460]]]);
+    if(c){ cut(7.6); lt = t<11 ? ['TRANSACTION ANALYSIS','Should this be recorded?'] : ['INSTANT FEEDBACK','Learn the "why" behind it'];
+      const sel=t>=10.15, ok=t>=10.85;
+      $('optB').style.opacity = sel&&!ok ? 1:0;
+      $('optOk').style.opacity = ok ? 1:0;
+      const ip=eout(seg(t,10.95,11.3)); $('insight').style.opacity=ip; $('insight').style.transform=`scale(${lerp(.92,1,ip)})`;
+      const tp=back(seg(t,11.0,11.35)); $('toast').style.opacity=clamp(tp)*(1-seg(t,13.2,13.5)); $('toast').style.transform=`translateY(${lerp(30,0,tp)}px)`;
+      if(!portrait()||t<11){
+        cursor=cursorPath(t,c,[[8.4,1300,500],[9.7,1300,500],[10.1,560,652],[10.35,560,652],[10.75,1425,734],[13.9,1425,734]]);
+        cursor.click=(t>=10.15&&t<10.3)||(t>=10.8&&t<10.95);
+      }
+    } }
 
-    // dropdown state
-    const ddOpen = t>=8.0 && t<8.75;
-    $('dd').style.display = ddOpen?'block':'none';
-    $('dd').style.transform=`scaleY(${eout(seg(t,8.0,8.15))})`;
-    $('o0').className = t>=8.45?'hl':''; $('o4').className='';
-    const drSet=t>=8.75, crSet=t>=9.05;
-    $('selDrT').textContent=drSet?'Cash':'Select Account'; $('selDrT').className=drSet?'':'ph'; $('selDr').className='sel'+(drSet?' on':'');
-    $('selCrT').textContent=crSet?'Sales Revenue':'Select Account'; $('selCrT').className=crSet?'':'ph'; $('selCr').className='sel'+(crSet?' on':'');
+  // ===== 13.9–16.5  OVERVIEW STATUS =====
+  { const c=shot('shOv',t,13.9,16.5,[[13.9,[100,80,1790,320],[100,90,560,320]],[14.6,[100,80,1790,320],[100,90,560,320]],
+        [15.3,[100,410,940,490],[110,420,560,480]],[16.5,[100,410,940,490],[450,420,560,480]]]);
+    if(c){ cut(13.9); lt=['OVERVIEW STATUS','See where you stand'];
+      BAR_Y.forEach((y,i)=>{ const p=eout(seg(t,15.0+i*.09,15.7+i*.09)), v=BAR_V[i]*p;
+        $('bf'+i).style.width=(573*v/100)+'px'; $('bp'+i).textContent=Math.round(v)+'%'; });
+    } }
 
-    // calculator keypresses: 5 6 0 0 =
-    const keys=[['k5',9.6],['k6',9.78],['k0',9.96],['k0',10.14],['kEq',10.32]];
-    ['k5','k6','k0','kEq'].forEach(k=>$(k).classList.remove('pr'));
-    let shown='0'; const seq='5600';
-    keys.forEach(([k,kt],i)=>{ if(t>=kt && t<kt+.12) $(k).classList.add('pr'); if(t>=kt && i<4) shown=seq.slice(0,i+1); });
-    $('cScr').textContent = shown==='0'?'0':Number(shown).toLocaleString('en-US');
-    const amt = t>=10.4 ? '₱5,600.00' : '₱';
-    $('inDr').textContent=amt; $('inCr').textContent=amt;
-    $('inDr').className='inp mono'+(t>=10.4?' on':''); $('inCr').className='inp mono'+(t>=10.4?' on':'');
+  // ===== 16.5–19.1  CONCEPTS + NOTES =====
+  { const c=shot('shCon',t,16.5,17.6,[[16.5,[90,90,1100,440],[90,290,560,560]],[17.6,[90,280,480,260],[90,280,480,400]]]);
+    if(c){ cut(16.5); lt=['CONCEPTS','Interactive lesson notes'];
+      $('ringCon').style.opacity=eout(seg(t,17.15,17.35));
+      cursor=cursorPath(t,c,[[16.6,700,450],[17.1,222,420],[17.6,222,420]]); cursor.click=t>=17.15&&t<17.35; } }
+  { const c=shot('shPdf',t,17.6,19.1,[[17.6,[600,60,1060,840],[640,90,560,700]],[19.1,[640,300,980,560],[660,380,560,520]]]);
+    if(c){ cut(17.6); lt=['CASE NOTES','Fundamentals of Accounting']; } }
 
-    // submit + feedback
-    $('bSubmit').className='btn g'+(t>=10.95&&t<11.1?' pr':'');
-    if(t>=11.05){ $('pFb').className='pnl ok';
-      $('fbT').innerHTML='<div class="okh">✔ Correct! +1 streak</div>Cash (asset) increases → <b>Debit</b>.<br>Sales earned → <b>Credit Sales Revenue</b>.'; }
-    else { $('pFb').className='pnl'; $('fbT').textContent='Solve the transaction by selecting the correct accounts and entering the amounts.'; }
-    $('hPts').textContent = t>=11.05 ? 260 : 250;
-
-    // cursor path (in workstation coords → screen)
-    const P=(rc)=>toScreen(c,center(rc));
-    let pts=[];
-    if(t>=7.6&&t<9.2){ pts=[[7.6,{x:R.selDr.x+R.selDr.w*.9,y:R.selDr.y-40}],[7.95,center(R.selDr)],[8.3,center(R.o0)],[8.75,center(R.o0)],[8.9,center(R.selCr)],[9.2,center(R.selCr)]]; }
-    else if(t>=9.2&&t<10.6){ pts=[[9.3,center(R.k5)],[9.6,center(R.k5)],[9.78,center(R.k6)],[9.96,center(R.k0)],[10.14,center(R.k0)],[10.32,center(R.kEq)],[10.6,center(R.kEq)]]; }
-    else if(t>=10.6){ pts=[[10.6,center(R.calc)],[10.95,center(R.nav)],[11.6,center(R.nav)]]; }
-    if(pts.length){ let p=pts[0][1];
-      for(let i=1;i<pts.length;i++){ if(t>=pts[i-1][0]){ const x=eio(seg(t,pts[i-1][0],pts[i][0])); p={x:lerp(pts[i-1][1].x,pts[i][1].x,x),y:lerp(pts[i-1][1].y,pts[i][1].y,x)}; } }
-      const clicks=[7.95,8.75,9.05,9.6,9.78,9.96,10.14,10.32,10.95];
-      const ck=clicks.find(k=>t>=k&&t<k+.3);
-      cursor={...toScreen(c,p), rip: ck===undefined?null:seg(t,ck,ck+.3)};
-    }
-  } else show('ws',0);
-
-  if(t>=12.8 && t<15.0){
-    show('tacc',1);
-    if(t-12.8<.08) flash=Math.max(flash,.35);
-    lt=['T-ACCOUNTS','Post each entry to the ledger'];
-    const steps=[['j0','e0',13.1],['j1','e1',13.65],['j2','e2',14.2]];
-    steps.forEach(([j,e,a])=>{ const p=eout(seg(t,a,a+.3));
-      $(e).style.opacity=p; $(e).style.transform=`translateX(${lerp(-40,0,p)}px)`;
-      $(j).className='row'+(t>=a&&t<a+.55?' act':''); });
-    const bp=seg(t,14.6,14.85); $('eB').style.opacity=bp; $('eB').style.transform=`scale(${lerp(1.3,1,bp)})`;
-  } else show('tacc',0);
-
-  // ===== 15–22  STORY & CHARACTERS =====
-  if(t>=15 && t<22){
+  // ===== 19.1–24.1  STORY & CHARACTERS =====
+  if(t>=19.1 && t<24.1){
     show('vn',1);
-    if(t-15<.1) flash=Math.max(flash,.6*(1-(t-15)/.1));
-    const pt=portrait();
-    const A=$('sprA'),B=$('sprB');
-    let who, line, start, cap;
-    // quick cuts accelerate toward the end (music build)
-    const cuts=[[15,18.3,'A'],[18.3,20.6,'B'],[20.6,21.15,'A'],[21.15,21.6,'B'],[21.6,22,'A']];
-    const cur=cuts.find(c=>t>=c[0]&&t<c[1]); who=cur[2]; start=cur[0];
-    if(t-start<.07 && start>15) flash=Math.max(flash,.45);
-    const lines={
-      A15:'You actually enrolled?! Told you — accounting is basically one big puzzle game!',
-      B18:'A puzzle? Every peso has to balance, Faraday. No shortcuts. Not in my field.',
-      A20:'Then we balance them together. Right, partner?',
-      B21:'…Prove it. Your first case file is waiting.',
-      A21:'Let\'s make the right entry!'};
-    const key=who+Math.floor(start);
-    line=lines[key];
+    if(t-19.1<.1) flash=Math.max(flash,.6*(1-(t-19.1)/.1));
+    const pt=portrait(), A=$('sprA'), B=$('sprB');
+    const cuts=[[19.1,21.6,'A'],[21.6,24.1,'B']];
+    const cur=cuts.find(c=>t>=c[0]&&t<c[1]), who=cur[2], start=cur[0];
+    if(t-start<.07 && start>19.1) flash=Math.max(flash,.45);
+    const line = who==='A' ? 'Accounting is basically one big puzzle game!' : 'Prove it. Every peso must balance.';
     const bounce=Math.abs(Math.sin((t-start)*9))*Math.max(0,1-(t-start)*2)*1.4*u;
-    const zoom = 1 + .06*seg(t,20.6,22);
+    const zoom=1+.05*seg(t,start,cur[1]);
     if(who==='A'){
-      A.style.opacity=1; B.style.opacity=t>=18.3?.0:0;
-      A.style.left=pt?'50%':'22%'; A.style.transform=`translate(-50%,${-bounce}px) scale(${zoom})`; A.style.filter='none';
-      cap=['FARADAY','The quirky natural genius'];
+      A.style.opacity=1; A.style.left=pt?'50%':'24%'; A.style.transform=`translate(-50%,${-bounce}px) scale(${zoom})`;
+      B.style.opacity=pt?0:seg(t,20.4,20.9)*.9; B.style.left='76%'; B.style.transform='translate(-50%,0) scale(.92)'; B.style.filter='brightness(.15) blur(1px)';
     } else {
-      B.style.opacity=1; A.style.opacity=0;
+      A.style.opacity=0; B.style.opacity=1; B.style.filter='none';
       B.style.left=pt?'50%':'72%'; B.style.transform=`translate(-50%,${-bounce}px) scale(${zoom})`;
-      cap=['FARAHNAZ','The strict CPA topnotcher'];
     }
-    if(start===15){ // two-shot reveal: Farahnaz silhouetted in the background
-      B.style.opacity=pt?0:seg(t,16.5,17)*.9; B.style.left='76%'; B.style.transform='translate(-50%,0) scale(.92)';
-      B.style.filter='brightness(.15) blur(1px)';
-    } else B.style.filter='none';
-    $('vnBg').style.transform=`scale(${1.05+.03*seg(t,15,22)})`;
+    $('vnBg').style.transform=`scale(${1.05+.03*seg(t,19.1,24.1)})`;
     $('vnBg').style.filter = who==='B' ? 'hue-rotate(-12deg) saturate(.8) brightness(.92)' : 'none';
     $('vnNm').innerHTML = (who==='A'?'Faraday':'Farahnaz') + `<i>${who==='A'?'Freshman · BSA 1':'CPA Board Topnotcher'}</i>`;
-    const dur = Math.min((cur[1]-start)*.72, Math.max(.3, line.length*.035));
-    $('vnTx').textContent = typed(line, seg(t,start+.05,start+dur));
+    // type in step with the voice line
+    const vo = who==='A' ? [19.35,21.5] : [21.75,23.7];
+    $('vnTx').textContent = typed(line, seg(t,vo[0],vo[1]));
+    const cap = who==='A' ? ['FARADAY','The quirky natural genius'] : ['FARAHNAZ','The strict CPA topnotcher'];
     $('vnCap').innerHTML = `${cap[0]}<small>${cap[1]}</small>`;
     const cp=eout(seg(t,start,start+.25)); $('vnCap').style.transform=`translateX(${lerp(-30,0,cp)}%)`; $('vnCap').style.opacity=cp;
-    $('vnBox').style.transform = `translateX(${(t>20.6? Math.sin(t*80)*.25*u*seg(t,20.6,22):0)}px)`;
   } else show('vn',0);
 
-  // ===== 22–30  OUTRO =====
-  if(t>=22 && t<26.2){
-    show('result', t<25.8?1:1-seg(t,25.8,26.2));
-    if(t-22<.15) flash=Math.max(flash,1-(t-22)/.15);
-    $('rays').style.transform=`rotate(${(t-22)*18}deg)`;
-    $('rLc').style.transform=`scale(${back(seg(t,22.05,22.45))})`;
-    const bp=seg(t,22.6,22.9); $('rBadge').style.transform=`scale(${lerp(3,1,eout(bp))}) rotate(${lerp(-25,0,bp)}deg)`; $('rBadge').style.opacity=bp;
-    if(t>=22.9&&t<23.0) flash=Math.max(flash,.4);
-    $('rStars').textContent=['','★','★★','★★★'][Math.min(3,Math.floor(clamp((t-23)/.2,0,3)))].padEnd(3,'☆');
-    ['rS1','rS2','rS3'].forEach((id,i)=>{ const p=eout(seg(t,23.5+i*.2,23.8+i*.2)); $(id).style.opacity=p; $(id).style.transform=`translateY(${lerp(20,0,p)}px)`; });
-    $('rPts').textContent=Math.round(100*eout(seg(t,23.9,24.8)));
-    document.querySelectorAll('.conf').forEach(c=>{ const x=+c.dataset.x,d=+c.dataset.d,s=+c.dataset.s; const tt=t-22.6-d*.4;
+  // ===== 24.1–26.9  RESULT =====
+  if(t>=24.1 && t<26.9){
+    show('result', t<26.5?1:1-seg(t,26.5,26.9));
+    if(t-24.1<.15) flash=Math.max(flash,1-(t-24.1)/.15);
+    $('rays').style.transform=`rotate(${(t-24.1)*18}deg)`;
+    $('rLc').style.transform=`scale(${back(seg(t,24.15,24.55))})`;
+    const bp=seg(t,24.6,24.9); $('rBadge').style.transform=`scale(${lerp(3,1,eout(bp))}) rotate(${lerp(-25,0,bp)}deg)`; $('rBadge').style.opacity=bp;
+    if(t>=24.9&&t<25.0) flash=Math.max(flash,.4);
+    $('rStars').textContent=['','★','★★','★★★'][Math.min(3,Math.floor(clamp((t-25)/.2,0,3)))].padEnd(3,'☆');
+    ['rS1','rS2','rS3'].forEach((id,i)=>{ const p=eout(seg(t,25.3+i*.15,25.6+i*.15)); $(id).style.opacity=p; $(id).style.transform=`translateY(${lerp(20,0,p)}px)`; });
+    $('rPts').textContent=Math.round(100*eout(seg(t,25.6,26.3)));
+    document.querySelectorAll('.conf').forEach(c=>{ const x=+c.dataset.x,d=+c.dataset.d,s=+c.dataset.s; const tt=t-24.6-d*.4;
       c.style.opacity=tt>0?1:0; c.style.left=(x*100+Math.sin(tt*3+d*9)*3)+'%'; c.style.top=(-5+tt*(28+s*30))+'%';
       c.style.transform=`rotate(${tt*(200+s*400)}deg)`; });
   } else show('result',0);
 
-  if(t>=25.8){
-    show('poster', seg(t,25.8,26.3));
-    const lp=back(seg(t,26.0,26.5)); $('pLogo').style.transform=`scale(${lerp(.7,1,lp)})`;
-    [...$('pTiles').children].forEach((c,i)=>{ const p=back(seg(t,26.3+i*.12,26.7+i*.12)); c.style.opacity=clamp(p); c.style.transform=`translateY(${lerp(30,0,p)}px) rotate(${(i-1.5)*2}deg)`; });
-    const cp=back(seg(t,27.1,27.5)); $('pCta').style.transform=`scale(${cp*(1+.03*Math.sin(t*6))})`;
-    $('pUrl').style.opacity=seg(t,27.3,27.7);
+  // ===== 26.5–30  POSTER =====
+  if(t>=26.5){
+    show('poster', seg(t,26.5,26.9));
+    const lp=back(seg(t,26.6,27.1)); $('pLogo').style.transform=`scale(${lerp(.7,1,lp)})`;
+    [...$('pTiles').children].forEach((c,i)=>{ const p=back(seg(t,26.9+i*.12,27.3+i*.12)); c.style.opacity=clamp(p); c.style.transform=`translateY(${lerp(30,0,p)}px) rotate(${(i-1.5)*2}deg)`; });
+    const cp=back(seg(t,27.6,28.0)); $('pCta').style.transform=`scale(${cp*(1+.03*Math.sin(t*6))})`;
+    $('pUrl').style.opacity=seg(t,27.8,28.2);
   } else show('poster',0);
 
   // ===== overlays =====
   const L=$('lt');
   if(lt){ L.innerHTML=`${lt[0]}<small>${lt[1]}</small>`; L.style.opacity=1; } else L.style.opacity=0;
   const C=$('cursor');
-  if(cursor){ C.style.opacity=1; C.style.transform=`translate(${cursor.x}px,${cursor.y}px) scale(${cursor.rip!==null&&cursor.rip<.3?.85:1})`; }
+  if(cursor){ C.style.opacity=1; C.style.transform=`translate(${cursor.x}px,${cursor.y}px) scale(${cursor.click?.82:1})`; }
   else C.style.opacity=0;
+  const cap=CAPS.find(c=>t>=c[0]&&t<c[1]);
+  // the title card already shows the logline, and the poster shows its own text
+  const capOn = cap && !(t>=2.3&&t<4.6) && !(t>=26.5);
+  $('cap').innerHTML=cap?cap[2]:''; $('cap').style.opacity=capOn?Math.min(seg(t,cap[0],cap[0]+.15),1-seg(t,cap[1]-.15,cap[1])):0;
   $('flash').style.opacity=clamp(flash);
   $('fade').style.opacity= t<.35 ? 1-seg(t,0,.35) : seg(t,29.3,30);
 }
@@ -725,7 +567,7 @@ if(!location.search.includes('render')){
   const t0=performance.now();
   (function loop(){ render(((performance.now()-t0)/1000)%30); requestAnimationFrame(loop); })();
 }
-addEventListener('resize',()=>{rects=null;});
+addEventListener('resize',()=>{tilesDone=false;});
 </script>
 </body>
 </html>
