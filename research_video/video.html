@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Technical Skills</title>
+<!--
+  Research explainer video. Every frame is a pure function of time: render(t).
+  Scene and line timings come from timeline.js (written by build_timeline.py),
+  so visuals, subtitles and voice-over stay in sync when the script changes.
+-->
+<style>
+:root{
+  --u: calc(min(100vw,100vh*1.7778)/100);
+  --bg:#f6f7fb; --ink:#13203f; --mute:#5b6787; --navy:#0b2a6f; --blue:#1f4fb8; --sky:#e7eeff;
+  --gold:#f2b705; --gold2:#ffd66b; --teal:#0f9d9a; --red:#d94848; --green:#1f9d55; --card:#fff; --line:#d9dfee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:Inter,"DejaVu Sans",sans-serif;color:var(--ink)}
+#stage{position:relative;width:100vw;height:100vh;overflow:hidden;
+  background:radial-gradient(ellipse at 80% 0%,#e3ebff 0%,transparent 55%),radial-gradient(ellipse at 0% 100%,#fff4d6 0%,transparent 45%),var(--bg)}
+#dots{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(#c9d3ea 1.2px,transparent 1.4px);background-size:calc(2.4*var(--u)) calc(2.4*var(--u))}
+section{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;visibility:hidden;padding:calc(7*var(--u)) calc(6*var(--u)) calc(9*var(--u))}
+.disp{font-family:"Inter Display",Inter,sans-serif}
+.eyebrow{font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);font-size:calc(1.35*var(--u));margin-bottom:calc(1.2*var(--u))}
+.h{font-family:"Inter Display";font-weight:800;font-size:calc(3.6*var(--u));line-height:1.1;text-align:center;letter-spacing:-.01em}
+.h em{font-style:normal;color:var(--blue)}
+.cite{font-size:calc(1.05*var(--u));color:var(--mute);font-style:italic;margin-top:calc(.6*var(--u))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:calc(1.4*var(--u));box-shadow:0 calc(.5*var(--u)) calc(2*var(--u)) rgba(19,32,63,.08)}
+.row{display:flex;gap:calc(2*var(--u));align-items:stretch;justify-content:center}
+.pop{opacity:0}
+.ico{font-size:calc(4.2*var(--u));line-height:1}
+
+/* chrome */
+#brand{position:absolute;left:calc(3*var(--u));top:calc(2.6*var(--u));display:flex;align-items:center;gap:calc(.9*var(--u));font-weight:700;font-size:calc(1.15*var(--u));color:var(--navy);z-index:5}
+#brand .seal{width:calc(3*var(--u));height:calc(3*var(--u));border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:900;font-size:calc(.9*var(--u));letter-spacing:.04em}
+#brand small{display:block;font-weight:500;color:var(--mute);font-size:.85em}
+#track{position:absolute;right:calc(3*var(--u));top:calc(2.9*var(--u));display:flex;gap:calc(.5*var(--u));z-index:5}
+#track div{font-size:calc(.95*var(--u));font-weight:800;letter-spacing:.12em;padding:.45em .9em;border-radius:999px;border:1px solid var(--line);color:#9aa4bf;background:#fff}
+#track div.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+#track div.done{color:var(--navy);border-color:#b8c6ea}
+#track div.soon{border-style:dashed}
+#bar{position:absolute;left:0;bottom:0;height:calc(.45*var(--u));background:linear-gradient(90deg,var(--blue),var(--teal));z-index:6}
+#cap{position:absolute;left:50%;bottom:calc(2.6*var(--u));transform:translateX(-50%);max-width:74vw;text-align:center;z-index:8;
+  background:rgba(11,22,52,.86);color:#fff;border-radius:calc(.8*var(--u));padding:.45em 1em;font-weight:600;font-size:calc(1.85*var(--u));line-height:1.35}
+#fade{position:absolute;inset:0;background:#0b1634;opacity:0;z-index:20;pointer-events:none}
+
+/* 1 hook */
+#hook .chips{display:flex;gap:calc(2.4*var(--u));margin-bottom:calc(4*var(--u))}
+#hook .chip{width:calc(17*var(--u));padding:calc(2*var(--u)) 0;text-align:center;font-weight:800;font-size:calc(1.7*var(--u))}
+#hook .chip .ico{margin-bottom:calc(.8*var(--u))}
+#hook .shift{display:flex;align-items:center;gap:calc(3*var(--u))}
+#hook .role{width:calc(26*var(--u));padding:calc(1.8*var(--u));text-align:center;font-weight:800;font-size:calc(2*var(--u))}
+#hook .role small{display:block;font-weight:500;color:var(--mute);font-size:.62em;margin-top:.3em}
+#hook .role.old{color:var(--mute)}
+#hook .role.new{border:2px solid var(--blue);color:var(--navy)}
+#hook .arrow{font-size:calc(4*var(--u));color:var(--blue);font-weight:900}
+#hook .strike{position:absolute;left:8%;right:8%;top:50%;height:4px;background:var(--red);transform-origin:left;border-radius:4px}
+
+/* 2 title */
+#title .seal{width:calc(7*var(--u));height:calc(7*var(--u));border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:900;font-size:calc(1.9*var(--u));margin-bottom:calc(2*var(--u));box-shadow:0 0 0 calc(.5*var(--u)) #fff,0 0 0 calc(.8*var(--u)) var(--gold)}
+#title .big{font-family:"Inter Display";font-weight:900;font-size:calc(7.4*var(--u));letter-spacing:-.025em;color:var(--navy);line-height:1}
+#title .big span{display:inline-block}
+#title .sub{max-width:calc(72*var(--u));text-align:center;font-size:calc(1.75*var(--u));color:var(--ink);line-height:1.4;margin-top:calc(2*var(--u));font-weight:500}
+#title .au{margin-top:calc(2.4*var(--u));display:flex;flex-wrap:wrap;gap:calc(.6*var(--u)) calc(1*var(--u));justify-content:center;max-width:calc(80*var(--u))}
+#title .au span{font-size:calc(1.2*var(--u));color:var(--mute);background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35em .9em}
+#title .rq{margin-top:calc(2.6*var(--u));font-weight:800;color:var(--blue);font-size:calc(1.3*var(--u));letter-spacing:.14em}
+
+/* 3 gap */
+#gap .bars{width:calc(70*var(--u));padding:calc(1.6*var(--u)) calc(3*var(--u))}
+#gap .lbl{display:flex;justify-content:space-between;font-weight:700;font-size:calc(1.5*var(--u));margin:calc(1.2*var(--u)) 0 calc(.6*var(--u))}
+#gap .track{height:calc(3*var(--u));border-radius:calc(.7*var(--u));background:#eef1f8;position:relative;overflow:visible}
+#gap .fill{height:100%;border-radius:calc(.7*var(--u))}
+#gap .need{background:linear-gradient(90deg,var(--blue),#4f7ae0)}
+#gap .have{background:linear-gradient(90deg,var(--teal),#47c2bf)}
+#gap .gapmark{position:absolute;top:-30%;height:160%;border:2px dashed var(--red);border-radius:calc(.6*var(--u));display:flex;align-items:center;justify-content:center;
+  color:var(--red);font-weight:900;font-size:calc(1.2*var(--u));letter-spacing:.1em;background:rgba(217,72,72,.06)}
+#gap .issues{display:flex;gap:calc(2*var(--u));margin-top:calc(1.6*var(--u))}
+#gap .issue{width:calc(30*var(--u));padding:calc(1.1*var(--u)) calc(1.6*var(--u));display:flex;gap:calc(1.2*var(--u));align-items:center;font-weight:700;font-size:calc(1.5*var(--u))}
+#gap .issue .ico{font-size:calc(3*var(--u))}
+#gap .issue small{display:block;font-weight:500;color:var(--mute);font-size:.72em;font-style:italic;margin-top:.2em}
+#gap .q{margin-top:calc(1.6*var(--u));border:2px solid var(--gold);background:#fffaf0;padding:calc(1.4*var(--u)) calc(2.4*var(--u));font-weight:800;font-size:calc(1.8*var(--u));display:flex;align-items:center;gap:calc(1.2*var(--u))}
+#gap .q b{background:var(--gold);color:var(--navy);border-radius:.4em;padding:.15em .6em;font-size:.7em;letter-spacing:.12em}
+
+/* 4 theory */
+#theory .t{width:calc(25*var(--u));padding:calc(2.4*var(--u)) calc(2*var(--u));text-align:center}
+#theory .t .ico{font-size:calc(5*var(--u));margin-bottom:calc(1.2*var(--u))}
+#theory .t h3{font-family:"Inter Display";font-size:calc(2.1*var(--u));font-weight:800;color:var(--navy);line-height:1.15}
+#theory .t .who{font-weight:700;color:var(--blue);font-size:calc(1.3*var(--u));margin-top:calc(.6*var(--u));letter-spacing:.06em}
+#theory .t p{color:var(--mute);font-size:calc(1.35*var(--u));margin-top:calc(1*var(--u));line-height:1.4}
+#theory .t.on{border:2px solid var(--blue)}
+
+/* 5 IPO */
+#ipo .box{width:calc(25*var(--u));padding:0 0 calc(1.8*var(--u));overflow:hidden}
+#ipo .box h4{color:#fff;font-weight:900;letter-spacing:.2em;font-size:calc(1.5*var(--u));padding:calc(1*var(--u)) 0;text-align:center}
+#ipo .box ul{list-style:none;padding:calc(1.6*var(--u)) calc(1.8*var(--u)) 0}
+#ipo .box li{font-size:calc(1.45*var(--u));line-height:1.35;padding:.45em 0;border-bottom:1px dashed var(--line);font-weight:600}
+#ipo .box li:last-child{border:none}
+#ipo .ar{align-self:center;font-size:calc(4*var(--u));color:var(--gold);font-weight:900}
+#ipo .in h4{background:var(--blue)} #ipo .pr h4{background:var(--teal)} #ipo .out h4{background:var(--navy)}
+
+/* 6 competencies */
+#comp .wheel{position:relative;width:calc(70*var(--u));height:calc(27*var(--u));margin-top:calc(3.6*var(--u))}
+#comp .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(14*var(--u));height:calc(14*var(--u));border-radius:50%;
+  background:var(--navy);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:calc(1.5*var(--u));line-height:1.25;padding:calc(1.4*var(--u));
+  box-shadow:0 0 0 calc(.8*var(--u)) #dfe7ff}
+#comp .core small{font-weight:500;font-size:.75em;opacity:.8;margin-top:.4em}
+#comp .cn{position:absolute;transform:translate(-50%,-50%);width:calc(18*var(--u));padding:calc(1*var(--u));display:flex;align-items:center;gap:calc(.9*var(--u));font-weight:800;font-size:calc(1.45*var(--u));line-height:1.2}
+#comp .cn .ico{font-size:calc(2.8*var(--u))}
+#comp .cn.lit{border:2px solid var(--gold);background:#fffaf0}
+#comp svg.spokes{position:absolute;inset:0;width:100%;height:100%}
+#comp .ies{margin-top:calc(5.6*var(--u));font-size:calc(1.2*var(--u));color:var(--mute);font-weight:600}
+
+/* 7 hypothesis */
+#hypo .vars{display:flex;align-items:center;gap:calc(2*var(--u));margin-bottom:calc(3*var(--u))}
+#hypo .v{width:calc(24*var(--u));padding:calc(1.8*var(--u));text-align:center;font-weight:800;font-size:calc(1.6*var(--u));line-height:1.3}
+#hypo .link{width:calc(14*var(--u));height:4px;background:repeating-linear-gradient(90deg,var(--blue) 0 10px,transparent 10px 18px);position:relative}
+#hypo .link b{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(4.4*var(--u));height:calc(4.4*var(--u));border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:calc(2.4*var(--u));font-weight:900}
+#hypo .h0{position:relative;width:calc(64*var(--u));padding:calc(2.2*var(--u)) calc(3*var(--u));display:flex;gap:calc(2*var(--u));align-items:center}
+#hypo .h0 .sym{font-family:"Inter Display";font-weight:900;font-size:calc(5*var(--u));color:var(--blue)}
+#hypo .h0 p{font-size:calc(1.6*var(--u));line-height:1.4;font-weight:500}
+#hypo .stamp{position:absolute;right:calc(-2*var(--u));top:calc(-2.4*var(--u));border:3px solid var(--teal);color:var(--teal);background:#fff;font-weight:900;letter-spacing:.12em;
+  font-size:calc(1.4*var(--u));padding:.35em .8em;border-radius:.4em;transform:rotate(8deg)}
+
+/* 8 design */
+#design .step{width:calc(22*var(--u));padding:calc(2.2*var(--u));text-align:center}
+#design .step .tag{display:inline-block;font-weight:900;letter-spacing:.16em;font-size:calc(1.15*var(--u));padding:.3em .8em;border-radius:999px;color:#fff;margin-bottom:calc(1*var(--u))}
+#design .step h4{font-family:"Inter Display";font-size:calc(2.2*var(--u));font-weight:800}
+#design .step p{color:var(--mute);font-size:calc(1.3*var(--u));margin-top:calc(.6*var(--u));line-height:1.4}
+#design .ar{align-self:center;font-size:calc(3.6*var(--u));color:var(--gold);font-weight:900}
+
+/* 9 sample */
+#sample .wrap{display:flex;gap:calc(4*var(--u));align-items:center}
+#sample .grid{display:grid;grid-template-columns:repeat(14,calc(2.2*var(--u)));gap:calc(.7*var(--u))}
+#sample .grid i{width:calc(2.2*var(--u));height:calc(2.2*var(--u));border-radius:50%;background:#cfd8ee;display:block}
+#sample .grid i.s{background:var(--gold)}
+#sample .stat{width:calc(40*var(--u))}
+#sample .num{font-family:"Inter Display";font-weight:900;font-size:calc(5.6*var(--u));line-height:1;color:var(--navy)}
+#sample .num.g{color:#c99400}
+#sample .num small{font-size:.32em;font-weight:700;color:var(--mute);margin-left:.3em}
+#sample .sl{font-weight:600;font-size:calc(1.35*var(--u));color:var(--mute);margin:calc(.3*var(--u)) 0 calc(1.2*var(--u))}
+#sample .crit{list-style:none;padding:calc(1.4*var(--u)) calc(1.8*var(--u))}
+#sample .crit li{font-weight:700;font-size:calc(1.35*var(--u));padding:.3em 0;display:flex;gap:.6em;align-items:center}
+#sample .crit li b{color:#fff;background:var(--green);border-radius:50%;width:1.4em;height:1.4em;display:grid;place-items:center;font-size:.8em;flex:none}
+
+/* 10 survey */
+#survey .form{width:calc(44*var(--u));padding:0;overflow:hidden}
+#survey .form .top{height:calc(1*var(--u));background:#673ab7}
+#survey .form .bd{padding:calc(2*var(--u)) calc(2.4*var(--u))}
+#survey .form h5{font-size:calc(1.15*var(--u));color:var(--mute);font-weight:700;letter-spacing:.08em}
+#survey .form .qq{font-weight:700;font-size:calc(1.6*var(--u));margin:calc(.8*var(--u)) 0 calc(1.6*var(--u));line-height:1.35}
+#survey .lik{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(.8*var(--u))}
+#survey .lik div{border:2px solid var(--line);border-radius:calc(.8*var(--u));text-align:center;padding:calc(1*var(--u)) .2em;font-weight:800;font-size:calc(2*var(--u))}
+#survey .lik div small{display:block;font-weight:600;font-size:.5em;color:var(--mute);margin-top:.2em}
+#survey .lik div.on{border-color:#673ab7;background:#f1eafc;color:#673ab7}
+#survey .people{display:grid;grid-template-columns:repeat(5,calc(5.4*var(--u)));gap:calc(1*var(--u));margin-bottom:calc(1.4*var(--u))}
+#survey .people span{font-size:calc(4*var(--u));text-align:center}
+#survey .iv{width:calc(32*var(--u));padding:calc(2.2*var(--u))}
+#survey .iv h4{font-family:"Inter Display";font-size:calc(2.2*var(--u));font-weight:800}
+#survey .iv p{color:var(--mute);font-size:calc(1.3*var(--u));margin-top:.5em;line-height:1.4}
+
+/* 11 analysis */
+#analysis .tool{width:calc(23*var(--u));padding:calc(2.2*var(--u));text-align:center}
+#analysis .tool .ico{font-size:calc(4.4*var(--u));margin-bottom:calc(1*var(--u))}
+#analysis .tool h4{font-family:"Inter Display";font-size:calc(1.9*var(--u));font-weight:800;color:var(--navy)}
+#analysis .tool p{color:var(--mute);font-size:calc(1.3*var(--u));margin-top:.5em;line-height:1.4}
+#analysis .tri{margin-top:calc(2.4*var(--u));background:var(--navy);color:#fff;border-radius:999px;padding:.6em 1.6em;font-weight:800;font-size:calc(1.6*var(--u));letter-spacing:.06em}
+
+/* 12 ethics */
+#ethics .shield{font-size:calc(9*var(--u));line-height:1;margin-bottom:calc(2*var(--u))}
+#ethics .chips{display:flex;flex-wrap:wrap;gap:calc(1*var(--u));justify-content:center;max-width:calc(70*var(--u))}
+#ethics .chips span{background:#fff;border:2px solid var(--line);border-radius:999px;padding:.55em 1.1em;font-weight:700;font-size:calc(1.5*var(--u))}
+#ethics .chips span.k{border-color:var(--teal);color:var(--teal)}
+
+/* 13 impact */
+#impact .who{width:calc(19*var(--u));padding:calc(2.4*var(--u)) calc(1.6*var(--u));text-align:center}
+#impact .who .ico{font-size:calc(5*var(--u));margin-bottom:calc(1*var(--u))}
+#impact .who h4{font-family:"Inter Display";font-size:calc(1.8*var(--u));font-weight:800}
+#impact .who p{color:var(--mute);font-size:calc(1.2*var(--u));margin-top:.5em;line-height:1.4}
+
+/* 14 outro */
+#outro{background:linear-gradient(160deg,#0b2a6f,#0b1634)}
+#outro .big{font-family:"Inter Display";font-weight:900;font-size:calc(7*var(--u));color:#fff;letter-spacing:-.02em}
+#outro .big em{font-style:normal;color:var(--gold2)}
+#outro .tl{color:#cdd8f5;font-size:calc(2*var(--u));margin-top:calc(1.2*var(--u));text-align:center}
+#outro .meta{margin-top:calc(3*var(--u));display:flex;gap:calc(1*var(--u));flex-wrap:wrap;justify-content:center;max-width:calc(80*var(--u))}
+#outro .meta span{color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.4em 1em;font-size:calc(1.25*var(--u))}
+#outro .next{margin-top:calc(2.4*var(--u));color:var(--gold2);font-weight:800;letter-spacing:.14em;font-size:calc(1.3*var(--u))}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="dots"></div>
+<div id="brand"><div class="seal">PLV</div><div>Pamantasan ng Lungsod ng Valenzuela<small>BS Accountancy · Research Proposal</small></div></div>
+<div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div class="soon" id="tkR">RESULTS · SOON</div><div id="tkS">SIGNIFICANCE</div></div>
+
+<!-- 1 HOOK -->
+<section id="hook">
+  <div class="chips">
+    <div class="card chip pop" id="h0"><div class="ico">🤖</div>Artificial Intelligence</div>
+    <div class="card chip pop" id="h1"><div class="ico">⚙️</div>Automation</div>
+    <div class="card chip pop" id="h2"><div class="ico">⛓️</div>Blockchain</div>
+  </div>
+  <div class="shift">
+    <div class="card role old pop" id="h3" style="position:relative">📒 Record keeper<small>traditional bookkeeping</small><div class="strike" id="hStrike"></div></div>
+    <div class="arrow pop" id="h4">➜</div>
+    <div class="card role new pop" id="h5">📊 Analyst &amp; Advisor<small>decision-making partner</small></div>
+  </div>
+  <div class="cite pop" id="h6">Chukwuani &amp; Egiyi, 2020 · Ali et al., 2026 · Coman et al., 2022</div>
+</section>
+
+<!-- 2 TITLE -->
+<section id="title">
+  <div class="seal pop" id="t0">PLV</div>
+  <div class="big pop" id="t1"><span>Beyond</span> <span>Technical</span> <span>Skills</span></div>
+  <div class="sub pop" id="t2">Perceived Effects of Technology-Integrated Accounting Education on the Development of Multidimensional Competencies among Newly Passed Certified Public Accountants from Pamantasan ng Lungsod ng Valenzuela</div>
+  <div class="au pop" id="t3"><span>Adversario, A. F. U.</span><span>Campo, G. J. G.</span><span>Dumigpe, R. M.</span><span>Larioque, A. P. R.</span><span>Orbase, J. R. M.</span><span>Silencio, M. J.</span></div>
+</section>
+
+<!-- 3 GAP -->
+<section id="gap">
+  <div class="eyebrow">The problem</div>
+  <div class="card bars pop" id="g0">
+    <div class="lbl"><span>Skills employers need</span></div>
+    <div class="track"><div class="fill need" id="gNeed"></div></div>
+    <div class="lbl"><span>Skills graduates bring</span></div>
+    <div class="track"><div class="fill have" id="gHave"></div><div class="gapmark" id="gMark" style="left:62%;right:0">COMPETENCY GAP</div></div>
+    <div class="cite">Tiron-Tudor et al., 2025</div>
+  </div>
+  <div class="issues">
+    <div class="card issue pop" id="g1"><div class="ico">📚</div><div>Theory-heavy instruction<small>Saayir et al., 2025</small></div></div>
+    <div class="card issue pop" id="g2"><div class="ico">🖱️</div><div>Limited hands-on exposure<small>Ingalls et al., 2025</small></div></div>
+  </div>
+  <div class="card q pop" id="g3"><b>RESEARCH GAP</b>How does technology in the curriculum build competencies?</div>
+</section>
+
+<!-- 4 THEORY -->
+<section id="theory">
+  <div class="eyebrow">Theoretical framework</div>
+  <div class="row">
+    <div class="card t pop" id="th0"><div class="ico">🔄</div><h3>Experiential Learning Theory</h3><div class="who">DAVID A. KOLB</div><p>We learn by doing, in learning spaces shaped by tools and simulations.</p></div>
+    <div class="card t pop" id="th1"><div class="ico">🌐</div><h3>Connectivism</h3><div class="who">GEORGE SIEMENS</div><p>Knowledge lives across digital networks and platforms.</p></div>
+    <div class="card t pop" id="th2"><div class="ico">👀</div><h3>Social Cognitive Theory</h3><div class="who">ALBERT BANDURA</div><p>We learn by observing, modeling, and building self-efficacy.</p></div>
+  </div>
+</section>
+
+<!-- 5 IPO -->
+<section id="ipo">
+  <div class="eyebrow">Conceptual framework · Input–Process–Output</div>
+  <div class="row">
+    <div class="card box in pop" id="ip0"><h4>INPUT</h4><ul><li>Demographic profile of respondents</li><li>Multidimensional core competencies (IES, IFAC)</li></ul></div>
+    <div class="ar pop" id="ipa0">➜</div>
+    <div class="card box pr pop" id="ip1"><h4>PROCESS</h4><ul><li>How technology-integrated accounting education influences competency development</li></ul></div>
+    <div class="ar pop" id="ipa1">➜</div>
+    <div class="card box out pop" id="ip2"><h4>OUTPUT</h4><ul><li>Evidence-based strategies</li><li>Policy recommendations</li><li>Institutionalized technology integration</li></ul></div>
+  </div>
+</section>
+
+<!-- 6 COMPETENCIES -->
+<section id="comp">
+  <div class="eyebrow">What we measure</div>
+  <div class="wheel">
+    <svg class="spokes" id="spokes"></svg>
+    <div class="core pop" id="cCore">Technology-integrated accounting education<small>as rated by newly passed CPAs</small></div>
+    <div class="card cn pop" id="c0"><span class="ico">🧠</span>Intellectual skills</div>
+    <div class="card cn pop" id="c1"><span class="ico">🧮</span>Technical &amp; functional skills</div>
+    <div class="card cn pop" id="c2"><span class="ico">🧭</span>Personal skills</div>
+    <div class="card cn pop" id="c3"><span class="ico">💬</span>Interpersonal &amp; communication</div>
+    <div class="card cn pop" id="c4"><span class="ico">🏢</span>Organizational &amp; business mgmt.</div>
+  </div>
+  <div class="ies pop" id="cIes">Core competencies from the International Education Standards (IFAC)</div>
+</section>
+
+<!-- 7 HYPOTHESIS -->
+<section id="hypo">
+  <div class="eyebrow">Research question &amp; hypothesis</div>
+  <div class="vars">
+    <div class="card v pop" id="hy0">💻 Technology-integrated accounting education</div>
+    <div class="link pop" id="hy1"><b>?</b></div>
+    <div class="card v pop" id="hy2">🎯 Multidimensional competencies</div>
+  </div>
+  <div class="card h0 pop" id="hy3"><div class="sym">H₀</div><p>There is <b>no significant relationship</b> between technology-integrated accounting education and the development of multidimensional competencies among newly passed CPAs from PLV.</p>
+    <div class="stamp pop" id="hy4">TO BE TESTED</div></div>
+</section>
+
+<!-- 8 DESIGN -->
+<section id="design">
+  <div class="eyebrow">Methods · Research design</div>
+  <div class="h" style="margin-bottom:calc(3*var(--u))">Mixed methods, <em>nested design</em></div>
+  <div class="row">
+    <div class="card step pop" id="d0"><span class="tag" style="background:var(--blue)">PHASE 1 · QUAN</span><h4>📋 Survey</h4><p>Correlational design measuring exposure and perceived competencies</p></div>
+    <div class="ar pop" id="da0">➜</div>
+    <div class="card step pop" id="d1"><span class="tag" style="background:var(--teal)">PHASE 2 · QUAL</span><h4>🎙️ Interviews</h4><p>Explain the patterns behind the numbers</p></div>
+    <div class="ar pop" id="da1">➜</div>
+    <div class="card step pop" id="d2"><span class="tag" style="background:var(--navy)">INTEGRATION</span><h4>🔺 Triangulation</h4><p>Statistically grounded, contextually meaningful</p></div>
+  </div>
+</section>
+
+<!-- 9 SAMPLE -->
+<section id="sample">
+  <div class="eyebrow">Methods · Respondents</div>
+  <div class="wrap">
+    <div class="grid" id="sGrid"></div>
+    <div class="stat">
+      <div class="num" id="sN">0<small>newly passed CPAs</small></div>
+      <div class="sl" id="sNl">population, from the PLV registrar</div>
+      <div class="num g pop" id="sn">88<small>minimum sample</small></div>
+      <div class="sl pop" id="snl">Slovin's formula · 5% margin of error</div>
+      <ul class="card crit pop" id="sCrit">
+        <li id="sc0"><b>✓</b>Passed the CPALE, 2023–2025</li>
+        <li id="sc1"><b>✓</b>BS Accountancy graduate of PLV</li>
+        <li id="sc2"><b>✓</b>Employed in an accounting-related field</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 SURVEY + INTERVIEWS -->
+<section id="survey">
+  <div class="eyebrow">Methods · Instruments</div>
+  <div class="row" style="align-items:center">
+    <div class="card form pop" id="sv0"><div class="top"></div><div class="bd">
+      <h5>GOOGLE FORMS · VALIDATED &amp; PILOT-TESTED</h5>
+      <div class="qq">“Technology-integrated accounting education improved my ability to solve accounting-related problems.”</div>
+      <div class="lik"><div id="lk4">4<small>Strongly Agree</small></div><div id="lk3">3<small>Agree</small></div><div id="lk2">2<small>Disagree</small></div><div id="lk1">1<small>Strongly Disagree</small></div></div>
+    </div></div>
+    <div class="pop" id="sv1">
+      <div class="people" id="svPeople"></div>
+      <div class="card iv"><h4>10 informants</h4><p>Semi-structured online interviews · at least one from each area of practice</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ANALYSIS -->
+<section id="analysis">
+  <div class="eyebrow">Methods · Data analysis</div>
+  <div class="row">
+    <div class="card tool pop" id="a0"><div class="ico">📊</div><h4>Descriptive statistics</h4><p>Frequency, percentage, weighted mean, standard deviation</p></div>
+    <div class="card tool pop" id="a1"><div class="ico">📈</div><h4>Correlation analysis</h4><p>Strength and direction of the relationship</p></div>
+    <div class="card tool pop" id="a2"><div class="ico">🗂️</div><h4>Thematic analysis</h4><p>Familiarize, code, build and refine themes</p></div>
+  </div>
+  <div class="tri pop" id="a3">🔺 Integrated through triangulation</div>
+</section>
+
+<!-- 12 ETHICS -->
+<section id="ethics">
+  <div class="eyebrow">Ethical considerations</div>
+  <div class="shield pop" id="e0">🛡️</div>
+  <div class="chips" id="eChips"><span>Voluntary participation</span><span>Informed consent</span><span>Right to withdraw</span><span>Anonymity</span><span>Restricted access</span><span class="k">Data Privacy Act of 2012</span></div>
+</section>
+
+<!-- 13 IMPACT -->
+<section id="impact">
+  <div class="eyebrow">Significance of the study</div>
+  <div class="row">
+    <div class="card who pop" id="im0"><div class="ico">🎓</div><h4>Newly passed CPAs</h4><p>Self-evaluate and strengthen their skills</p></div>
+    <div class="card who pop" id="im1"><div class="ico">📖</div><h4>Accounting students</h4><p>Readiness for the profession's emerging demands</p></div>
+    <div class="card who pop" id="im2"><div class="ico">🧑‍🏫</div><h4>Educators</h4><p>Better-designed teaching approaches</p></div>
+    <div class="card who pop" id="im3"><div class="ico">🏛️</div><h4>PLV administrators</h4><p>Curriculum, faculty training, tech investment</p></div>
+  </div>
+</section>
+
+<!-- 14 OUTRO -->
+<section id="outro">
+  <div class="big pop" id="o0">Beyond <em>Technical</em> Skills</div>
+  <div class="tl pop" id="o1">The accountant of the future needs more than technical skills.</div>
+  <div class="meta pop" id="o2"><span>Adversario</span><span>Campo</span><span>Dumigpe</span><span>Larioque</span><span>Orbase</span><span>Silencio</span></div>
+  <div class="next pop" id="o3">DATA COLLECTION · 1ST SEMESTER, A.Y. 2026–2027 · RESULTS TO FOLLOW</div>
+</section>
+
+<div id="cap"></div>
+<div id="bar"></div>
+<div id="fade"></div>
+</div>
+
+<script src="timeline.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL;
+const SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+const linesOf=id=>TL.lines.filter(l=>l.scene===id);
+// time a word is (roughly) spoken: proportional to its position in the line
+function when(id,k,word){ const l=linesOf(id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); return l.start+(l.end-l.start)*Math.max(0,i)/l.text.length; }
+
+// element appears at time a: fade + rise (or scale)
+function pop(id,t,a,mode='rise',d=.45){
+  const e=$(id); const p=seg(t,a,a+d), b=back(p);
+  e.style.opacity=clamp(p*1.4);
+  e.style.transform = mode==='center' ? `translate(-50%,-50%) scale(${lerp(.85,1,b)})` : mode==='scale' ? `scale(${lerp(.85,1,b)})` : mode==='left' ? `translateX(${lerp(-40,0,b)}px)` : `translateY(${lerp(28,0,b)}px)`;
+}
+
+// static builders
+$('sGrid').innerHTML=Array.from({length:112},(_,i)=>`<i id="sd${i}"></i>`).join('');
+$('svPeople').innerHTML=Array.from({length:10},(_,i)=>`<span id="pp${i}">${['👩','👨','👩‍💼','👨‍💼','🧑'][i%5]}</span>`).join('');
+// deterministic pick of 88 highlighted dots
+const pick=(()=>{let s=11;const r=()=>(s=(s*16807)%2147483647)/2147483647;const a=[...Array(112).keys()];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a.slice(0,88);})();
+const pickOrder={}; pick.forEach((d,i)=>pickOrder[d]=i);
+
+function layoutWheel(){
+  const w=$('comp').querySelector('.wheel'), W=w.clientWidth, H=w.clientHeight;
+  const pos=[[.5,.02],[.9,.3],[.76,.98],[.24,.98],[.1,.3]];
+  let svg='';
+  pos.forEach((p,i)=>{ const el=$('c'+i); el.style.left=p[0]*100+'%'; el.style.top=p[1]*100+'%';
+    svg+=`<line id="sp${i}" x1="${W/2}" y1="${H/2}" x2="${p[0]*W}" y2="${p[1]*H}" stroke="#b9c7ea" stroke-width="3" stroke-dasharray="6 6"/>`; });
+  $('spokes').innerHTML=svg;
+}
+
+function render(t){
+  // scene visibility with crossfade
+  const cur=TL.scenes.find(s=>t>=s.start&&t<s.end)||TL.scenes[TL.scenes.length-1];
+  TL.scenes.forEach(s=>{ const e=$(s.id); let o=0;
+    if(t>=s.start-.01&&t<s.end){ o=Math.min(seg(t,s.start,s.start+.4), s.id==='outro'?1:1-seg(t,s.end-.3,s.end)); }
+    e.style.opacity=o; e.style.visibility=o>0?'visible':'hidden';
+    e.style.transform=`scale(${1+.02*seg(t,s.start,s.end)})`; });
+
+  // chapter track
+  const intro=['hook','title','gap','theory','ipo','comp','hypo'], meth=['design','sample','survey','analysis','ethics'];
+  const ph = intro.includes(cur.id)?0 : meth.includes(cur.id)?1 : 2;
+  $('tkI').className = ph===0?'on':'done'; $('tkM').className = ph===1?'on':(ph>1?'done':'');
+  $('tkS').className = ph===2?'on':''; $('tkR').className='soon';
+  const chromeOn = cur.id!=='outro' && cur.id!=='title';
+  $('track').style.opacity = chromeOn?1:0; $('brand').style.opacity = cur.id==='outro'?0:1;
+  $('bar').style.width=(100*t/TL.total)+'%';
+
+  // ---- scenes
+  let s;
+  s=SC.hook; if(t<s.end+.1){
+    pop('h0',t,when('hook',0,'AI'),'scale'); pop('h1',t,when('hook',0,'automation'),'scale'); pop('h2',t,when('hook',0,'blockchain'),'scale');
+    pop('h3',t,when('hook',1,'record')-.3); pop('h4',t,when('hook',1,'analyst')-.2,'left'); pop('h5',t,when('hook',1,'analyst'),'scale'); pop('h6',t,when('hook',1,'analyst')+.4);
+    $('hStrike').style.transform=`scaleX(${eout(seg(t,when('hook',1,'but'),when('hook',1,'but')+.35))})`;
+  }
+  s=SC.title; if(t>=s.start-.1&&t<s.end+.1){
+    pop('t0',t,s.start+.1,'scale');
+    pop('t1',t,s.start+.3,'scale'); [...$('t1').children].forEach((c,i)=>{ const p=back(seg(t,s.start+.3+i*.15,s.start+.75+i*.15)); c.style.transform=`translateY(${lerp(30,0,p)}px)`; c.style.opacity=clamp(p*1.5); });
+    pop('t2',t,s.start+1.0); pop('t3',t,s.start+1.6);
+  }
+  s=SC.gap; if(t>=s.start-.1&&t<s.end+.1){
+    pop('g0',t,s.start+.1);
+    $('gNeed').style.width=100*eout(seg(t,when('gap',0,'need')-.3,when('gap',0,'need')+.5))+'%';
+    $('gHave').style.width=62*eout(seg(t,when('gap',0,'graduates')-.4,when('gap',0,'graduates')+.5))+'%';
+    $('gMark').style.opacity=seg(t,when('gap',0,'bring'),when('gap',0,'bring')+.3);
+    pop('g1',t,when('gap',1,'theory')); pop('g2',t,when('gap',1,'hands-on'));
+    pop('g3',t,when('gap',2,'how')-.2,'scale');
+  }
+  s=SC.theory; if(t>=s.start-.1&&t<s.end+.1){
+    const k=[when('theory',0,'Kolb'),when('theory',0,'Siemens'),when('theory',0,'Bandura')];
+    k.forEach((a,i)=>{ pop('th'+i,t,a-.15); $('th'+i).classList.toggle('on', t>=a && (i===2 || t<k[i+1])); });
+  }
+  s=SC.ipo; if(t>=s.start-.1&&t<s.end+.1){
+    pop('ip0',t,when('ipo',0,'Input')); pop('ipa0',t,when('ipo',0,'Process')-.15,'left'); pop('ip1',t,when('ipo',0,'Process'));
+    pop('ipa1',t,when('ipo',0,'Output')-.15,'left'); pop('ip2',t,when('ipo',0,'Output'));
+  }
+  s=SC.comp; if(t>=s.start-.1&&t<s.end+.1){
+    if(!layoutWheel.done){ layoutWheel(); layoutWheel.done=true; }
+    pop('cCore',t,s.start+.1,'center'); pop('cIes',t,when('comp',0,'International'));
+    const w=['intellectual','technical','personal','interpersonal','organizational'];
+    w.forEach((x,i)=>{ const a=when('comp',1,x); const shown=t>=a-.1;
+      pop('c'+i,t,i===0? Math.min(a,when('comp',0,'five')+i*.12) : Math.min(a,when('comp',0,'five')+i*.12),'center');
+      $('c'+i).classList.toggle('lit', t>=a && t<a+1.1);
+      const sp=$('sp'+i); if(sp) sp.setAttribute('stroke', t>=a? '#f2b705':'#b9c7ea'); });
+  }
+  s=SC.hypo; if(t>=s.start-.1&&t<s.end+.1){
+    pop('hy0',t,s.start+.1,'left'); pop('hy2',t,s.start+.25); pop('hy1',t,when('hypo',0,'relationship'),'scale');
+    pop('hy3',t,when('hypo',0,'null')-.1); pop('hy4',t,when('hypo',0,'data')-.1,'scale',.3);
+  }
+  s=SC.design; if(t>=s.start-.1&&t<s.end+.1){
+    pop('d0',t,when('design',0,'survey')-.2); pop('da0',t,when('design',0,'then')-.2,'left'); pop('d1',t,when('design',0,'interviews')-.1);
+    pop('da1',t,when('design',0,'interviews')+.15,'left'); pop('d2',t,when('design',0,'interviews')+.3);
+  }
+  s=SC.sample; if(t>=s.start-.1&&t<s.end+.1){
+    const a=s.start+.2, cnt=Math.round(112*eout(seg(t,a,a+1.6)));
+    $('sN').firstChild.textContent=cnt;
+    const hs=when('sample',0,'eighty'), hp=seg(t,hs-.6,hs+.8);
+    for(let i=0;i<112;i++){ const d=$('sd'+i); d.style.opacity=i<cnt?1:.15;
+      d.className = (pickOrder[i]!==undefined && pickOrder[i] < 88*hp) ? 's':''; }
+    pop('sn',t,hs-.2,'scale'); pop('snl',t,hs);
+    pop('sCrit',t,when('sample',1,'passed')-.3);
+    ['passed','2023','work'].forEach((w,i)=>{ const p=seg(t,when('sample',1,w),when('sample',1,w)+.3); $('sc'+i).style.opacity=.25+.75*p; });
+  }
+  s=SC.survey; if(t>=s.start-.1&&t<s.end+.1){
+    pop('sv0',t,s.start+.1);
+    const lk=when('survey',0,'Likert'); [4,3,2,1].forEach((v,i)=>{ $('lk'+v).className = (t>=lk+i*.12 && t<lk+i*.12+.5) || (v===4 && t>=lk+.9) ? 'on':''; });
+    pop('sv1',t,when('survey',0,'ten')-.3);
+    for(let i=0;i<10;i++){ const p=back(seg(t,when('survey',0,'ten')+i*.07,when('survey',0,'ten')+i*.07+.3)); const e=$('pp'+i); e.style.opacity=clamp(p*1.5); e.style.display='inline-block'; e.style.transform=`scale(${p})`; }
+  }
+  s=SC.analysis; if(t>=s.start-.1&&t<s.end+.1){
+    pop('a0',t,when('analysis',0,'weighted')); pop('a1',t,when('analysis',0,'correlation')); pop('a2',t,when('analysis',0,'thematic'));
+    pop('a3',t,when('analysis',0,'insight')-.2,'scale');
+  }
+  s=SC.ethics; if(t>=s.start-.1&&t<s.end+.1){
+    pop('e0',t,s.start+.1,'scale');
+    const ch=[...$('eChips').children], a=when('ethics',0,'voluntary')-.1, b=when('ethics',0,'Privacy');
+    ch.forEach((c,i)=>{ const at = i===ch.length-1 ? b-.3 : a+i*((b-a-.5)/(ch.length-1)); const p=back(seg(t,at,at+.35)); c.style.opacity=clamp(p*1.5); c.style.display='inline-block'; c.style.transform=`scale(${lerp(.8,1,p)})`; });
+  }
+  s=SC.impact; if(t>=s.start-.1&&t<s.end+.1){
+    ['CPAs','students','educators','PLV'].forEach((w,i)=>pop('im'+i,t,when('impact',0,w)-.15));
+  }
+  s=SC.outro; if(t>=s.start-.1){
+    pop('o0',t,s.start+.2,'scale'); pop('o1',t,when('outro',0,'')+.2); pop('o2',t,when('outro',0,'technical')); pop('o3',t,TL.lines[TL.lines.length-1].end+.3);
+  }
+
+  // subtitles
+  const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.25);
+  const C=$('cap'); C.textContent=ln?ln.text:''; C.style.opacity=ln?Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.1,ln.end+.25)):0;
+  $('fade').style.opacity = t<.4 ? 1-seg(t,0,.4) : seg(t,TL.total-.8,TL.total);
+}
+window.render=render;
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script>
+</body>
+</html>
