@@ -45,6 +45,24 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   background:rgba(11,22,52,.86);color:#fff;border-radius:calc(.8*var(--u));padding:.45em 1em;font-weight:600;font-size:calc(1.85*var(--u));line-height:1.35}
 #fade{position:absolute;inset:0;background:#0b1634;opacity:0;z-index:20;pointer-events:none}
 
+/* ---- interactive layer ---- */
+#blobs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#blobs i{position:absolute;border-radius:50%;filter:blur(calc(6*var(--u)));opacity:.55}
+#wipe{position:absolute;top:0;bottom:0;left:0;width:130%;z-index:4;pointer-events:none;transform:translateX(-120%);
+  background:linear-gradient(100deg,transparent 0,var(--navy) 9%,var(--navy) 88%,var(--gold) 88%,var(--gold) 91%,transparent 91%)}
+#ptr{position:absolute;left:0;top:0;z-index:7;pointer-events:none;opacity:0;width:calc(3.2*var(--u));height:calc(3.2*var(--u))}
+#ptr svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+#ptr .rip{position:absolute;left:-60%;top:-60%;width:120%;height:120%;border-radius:50%;border:3px solid var(--gold);opacity:0}
+.focus{box-shadow:0 0 0 3px var(--gold),0 calc(1*var(--u)) calc(3*var(--u)) rgba(242,183,5,.35)!important}
+.shine{position:relative;overflow:hidden}
+.shine::after{content:"";position:absolute;top:0;bottom:0;width:30%;left:var(--sx,-40%);background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)}
+#title .uline{height:calc(.7*var(--u));background:var(--gold);border-radius:99px;margin-top:calc(1.2*var(--u));width:0}
+.flow{position:relative}
+.flow i{position:absolute;top:50%;width:calc(.9*var(--u));height:calc(.9*var(--u));margin-top:calc(-.45*var(--u));border-radius:50%;background:var(--gold);opacity:0}
+.mini{width:100%;height:calc(6*var(--u));margin-top:calc(1.2*var(--u))}
+.tags{display:flex;flex-wrap:wrap;gap:.4em;justify-content:center;margin-top:calc(1.2*var(--u));min-height:calc(6*var(--u));align-content:center}
+.tags span{font-size:calc(1.05*var(--u));font-weight:700;border-radius:999px;padding:.25em .7em;color:#fff}
+
 /* 1 hook */
 #hook .chips{display:flex;gap:calc(2.4*var(--u));margin-bottom:calc(4*var(--u))}
 #hook .chip{width:calc(17*var(--u));padding:calc(2*var(--u)) 0;text-align:center;font-weight:800;font-size:calc(1.7*var(--u))}
@@ -100,7 +118,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 #ipo .in h4{background:var(--blue)} #ipo .pr h4{background:var(--teal)} #ipo .out h4{background:var(--navy)}
 
 /* 6 competencies */
-#comp .wheel{position:relative;width:calc(70*var(--u));height:calc(27*var(--u));margin-top:calc(3.6*var(--u))}
+#comp .wheel{position:relative;width:calc(70*var(--u));height:calc(25*var(--u));margin-top:calc(2.6*var(--u));margin-bottom:calc(3*var(--u))}
 #comp .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(14*var(--u));height:calc(14*var(--u));border-radius:50%;
   background:var(--navy);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:calc(1.5*var(--u));line-height:1.25;padding:calc(1.4*var(--u));
   box-shadow:0 0 0 calc(.8*var(--u)) #dfe7ff}
@@ -109,7 +127,8 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 #comp .cn .ico{font-size:calc(2.8*var(--u))}
 #comp .cn.lit{border:2px solid var(--gold);background:#fffaf0}
 #comp svg.spokes{position:absolute;inset:0;width:100%;height:100%}
-#comp .ies{margin-top:calc(5.6*var(--u));font-size:calc(1.2*var(--u));color:var(--mute);font-weight:600}
+#comp .eyebrow{order:-2;margin-bottom:calc(.4*var(--u))}
+#comp .ies{order:-1;margin-top:0;margin-bottom:calc(1*var(--u));font-size:calc(1.2*var(--u));color:var(--mute);font-weight:600}
 
 /* 7 hypothesis */
 #hypo .vars{display:flex;align-items:center;gap:calc(2*var(--u));margin-bottom:calc(3*var(--u))}
@@ -190,8 +209,9 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 </head>
 <body>
 <div id="stage">
+<div id="blobs"><i id="b0" style="width:40vw;height:40vw;background:#cfe0ff"></i><i id="b1" style="width:32vw;height:32vw;background:#ffe9b0"></i><i id="b2" style="width:28vw;height:28vw;background:#c9f0ec"></i></div>
 <div id="dots"></div>
-<div id="brand"><div class="seal">PLV</div><div>Pamantasan ng Lungsod ng Valenzuela<small>BS Accountancy · Research Proposal</small></div></div>
+<div id="brand"><div class="seal">PLV</div><div>Pamantasan ng Lungsod ng Valenzuela<small>BS Accountancy</small></div></div>
 <div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div class="soon" id="tkR">RESULTS · SOON</div><div id="tkS">SIGNIFICANCE</div></div>
 
 <!-- 1 HOOK -->
@@ -212,7 +232,8 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 <!-- 2 TITLE -->
 <section id="title">
   <div class="seal pop" id="t0">PLV</div>
-  <div class="big pop" id="t1"><span>Beyond</span> <span>Technical</span> <span>Skills</span></div>
+  <div class="big pop shine" id="t1"><span>Beyond</span> <span>Technical</span> <span>Skills</span></div>
+  <div class="uline" id="tUl"></div>
   <div class="sub pop" id="t2">Perceived Effects of Technology-Integrated Accounting Education on the Development of Multidimensional Competencies among Newly Passed Certified Public Accountants from Pamantasan ng Lungsod ng Valenzuela</div>
   <div class="au pop" id="t3"><span>Adversario, A. F. U.</span><span>Campo, G. J. G.</span><span>Dumigpe, R. M.</span><span>Larioque, A. P. R.</span><span>Orbase, J. R. M.</span><span>Silencio, M. J.</span></div>
 </section>
@@ -231,7 +252,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
     <div class="card issue pop" id="g1"><div class="ico">📚</div><div>Theory-heavy instruction<small>Saayir et al., 2025</small></div></div>
     <div class="card issue pop" id="g2"><div class="ico">🖱️</div><div>Limited hands-on exposure<small>Ingalls et al., 2025</small></div></div>
   </div>
-  <div class="card q pop" id="g3"><b>RESEARCH GAP</b>How does technology in the curriculum build competencies?</div>
+  <div class="card q pop" id="g3"><b>RESEARCH GAP</b><span id="g3t"></span></div>
 </section>
 
 <!-- 4 THEORY -->
@@ -249,9 +270,9 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   <div class="eyebrow">Conceptual framework · Input–Process–Output</div>
   <div class="row">
     <div class="card box in pop" id="ip0"><h4>INPUT</h4><ul><li>Demographic profile of respondents</li><li>Multidimensional core competencies (IES, IFAC)</li></ul></div>
-    <div class="ar pop" id="ipa0">➜</div>
+    <div class="ar pop" id="ipa0"><span class="flow" style="display:inline-block">➜<i></i><i></i><i></i></span></div>
     <div class="card box pr pop" id="ip1"><h4>PROCESS</h4><ul><li>How technology-integrated accounting education influences competency development</li></ul></div>
-    <div class="ar pop" id="ipa1">➜</div>
+    <div class="ar pop" id="ipa1"><span class="flow" style="display:inline-block">➜<i></i><i></i><i></i></span></div>
     <div class="card box out pop" id="ip2"><h4>OUTPUT</h4><ul><li>Evidence-based strategies</li><li>Policy recommendations</li><li>Institutionalized technology integration</li></ul></div>
   </div>
 </section>
@@ -289,9 +310,9 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   <div class="h" style="margin-bottom:calc(3*var(--u))">Mixed methods, <em>nested design</em></div>
   <div class="row">
     <div class="card step pop" id="d0"><span class="tag" style="background:var(--blue)">PHASE 1 · QUAN</span><h4>📋 Survey</h4><p>Correlational design measuring exposure and perceived competencies</p></div>
-    <div class="ar pop" id="da0">➜</div>
+    <div class="ar pop" id="da0"><span class="flow" style="display:inline-block">➜<i></i><i></i><i></i></span></div>
     <div class="card step pop" id="d1"><span class="tag" style="background:var(--teal)">PHASE 2 · QUAL</span><h4>🎙️ Interviews</h4><p>Explain the patterns behind the numbers</p></div>
-    <div class="ar pop" id="da1">➜</div>
+    <div class="ar pop" id="da1"><span class="flow" style="display:inline-block">➜<i></i><i></i><i></i></span></div>
     <div class="card step pop" id="d2"><span class="tag" style="background:var(--navy)">INTEGRATION</span><h4>🔺 Triangulation</h4><p>Statistically grounded, contextually meaningful</p></div>
   </div>
 </section>
@@ -335,9 +356,9 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 <section id="analysis">
   <div class="eyebrow">Methods · Data analysis</div>
   <div class="row">
-    <div class="card tool pop" id="a0"><div class="ico">📊</div><h4>Descriptive statistics</h4><p>Frequency, percentage, weighted mean, standard deviation</p></div>
-    <div class="card tool pop" id="a1"><div class="ico">📈</div><h4>Correlation analysis</h4><p>Strength and direction of the relationship</p></div>
-    <div class="card tool pop" id="a2"><div class="ico">🗂️</div><h4>Thematic analysis</h4><p>Familiarize, code, build and refine themes</p></div>
+    <div class="card tool pop" id="a0"><div class="ico">📊</div><h4>Descriptive statistics</h4><svg class="mini" id="miniBars" viewBox="0 0 120 50"></svg><p>Frequency, percentage, weighted mean, standard deviation</p></div>
+    <div class="card tool pop" id="a1"><div class="ico">📈</div><h4>Correlation analysis</h4><svg class="mini" id="miniCorr" viewBox="0 0 120 50"></svg><p>Strength and direction of the relationship</p></div>
+    <div class="card tool pop" id="a2"><div class="ico">🗂️</div><h4>Thematic analysis</h4><div class="tags" id="miniTags"></div><p>Familiarize, code, build and refine themes</p></div>
   </div>
   <div class="tri pop" id="a3">🔺 Integrated through triangulation</div>
 </section>
@@ -362,12 +383,14 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 
 <!-- 14 OUTRO -->
 <section id="outro">
-  <div class="big pop" id="o0">Beyond <em>Technical</em> Skills</div>
+  <div class="big pop shine" id="o0">Beyond <em>Technical</em> Skills</div>
   <div class="tl pop" id="o1">The accountant of the future needs more than technical skills.</div>
   <div class="meta pop" id="o2"><span>Adversario</span><span>Campo</span><span>Dumigpe</span><span>Larioque</span><span>Orbase</span><span>Silencio</span></div>
   <div class="next pop" id="o3">DATA COLLECTION · 1ST SEMESTER, A.Y. 2026–2027 · RESULTS TO FOLLOW</div>
 </section>
 
+<div id="wipe"></div>
+<div id="ptr"><div class="rip" id="rip"></div><svg viewBox="0 0 24 24"><path d="M3 2 L3 20 L8 15 L11.5 22 L14.5 20.6 L11 13.8 L18 13.8Z" fill="#fff" stroke="#13203f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
 <div id="cap"></div>
 <div id="bar"></div>
 <div id="fade"></div>
@@ -409,6 +432,94 @@ function layoutWheel(){
   pos.forEach((p,i)=>{ const el=$('c'+i); el.style.left=p[0]*100+'%'; el.style.top=p[1]*100+'%';
     svg+=`<line id="sp${i}" x1="${W/2}" y1="${H/2}" x2="${p[0]*W}" y2="${p[1]*H}" stroke="#b9c7ea" stroke-width="3" stroke-dasharray="6 6"/>`; });
   $('spokes').innerHTML=svg;
+}
+
+// ---------------------------------------------------------------- interactive layer
+// Pointer "clicks" each item as the narrator mentions it; the item lifts into focus.
+const FOCUS=[
+  ['hook',0,'AI','h0'],['hook',0,'automation','h1'],['hook',0,'blockchain','h2'],['hook',1,'analyst','h5'],
+  ['gap',0,'bring','gMark'],['gap',1,'theory','g1'],['gap',1,'hands-on','g2'],['gap',2,'how','g3'],
+  ['theory',0,'Kolb','th0'],['theory',0,'Siemens','th1'],['theory',0,'Bandura','th2'],
+  ['ipo',0,'Input','ip0'],['ipo',0,'Process','ip1'],['ipo',0,'Output','ip2'],
+  ['comp',1,'intellectual','c0'],['comp',1,'technical','c1'],['comp',1,'personal','c2'],['comp',1,'interpersonal','c3'],['comp',1,'organizational','c4'],
+  ['hypo',0,'relationship','hy1'],['hypo',0,'null','hy3'],
+  ['design',0,'survey','d0'],['design',0,'interviews','d1'],
+  ['sample',0,'eighty','sn'],['sample',1,'passed','sc0'],['sample',1,'2023','sc1'],['sample',1,'work','sc2'],
+  ['survey',0,'Likert','lk4'],['survey',0,'ten','sv1'],
+  ['analysis',0,'weighted','a0'],['analysis',0,'correlation','a1'],['analysis',0,'thematic','a2'],
+  ['ethics',0,'Privacy','eChipLast'],
+  ['impact',0,'CPAs','im0'],['impact',0,'students','im1'],['impact',0,'educators','im2'],['impact',0,'PLV','im3'],
+].map(([sc,k,w,id])=>({sc,id,t:when(sc,k,w)+.05}));
+// design's third step has no spoken cue of its own: click it right after "interviews"
+FOCUS.push({sc:'design',id:'d2',t:when('design',0,'interviews')+.9});
+FOCUS.sort((a,b)=>a.t-b.t);
+document.querySelector('#eChips span:last-child').id='eChipLast';
+
+// mini charts in the analysis cards
+$('miniBars').innerHTML=[30,44,22,38,48].map((h,i)=>`<rect id="mb${i}" x="${8+i*22}" y="50" width="14" height="0" rx="2" fill="${['#1f4fb8','#0f9d9a','#f2b705','#1f4fb8','#0f9d9a'][i]}"/>`).join('');
+$('miniCorr').innerHTML=[[10,40],[22,36],[34,33],[46,27],[58,28],[70,20],[82,18],[94,12],[106,9]].map((p,i)=>`<circle id="md${i}" cx="${p[0]}" cy="${p[1]}" r="3" fill="#1f4fb8" opacity="0"/>`).join('')
+  +'<line id="mline" x1="8" y1="42" x2="112" y2="8" stroke="#f2b705" stroke-width="3" stroke-linecap="round" stroke-dasharray="120" stroke-dashoffset="120"/>';
+const TAGS=[['Exposure','#1f4fb8'],['Software','#1f4fb8'],['Challenges','#d94848'],['Readiness','#0f9d9a'],['Gaps','#d94848'],['Growth','#0f9d9a']];
+$('miniTags').innerHTML=TAGS.map(([w,c],i)=>`<span id="tg${i}" style="background:${c}">${w}</span>`).join('');
+
+const center=el=>{const r=el.getBoundingClientRect();return {x:r.left+r.width*.55,y:r.top+r.height*.62};};
+function interactive(t,cur){
+  const u=Math.min(innerWidth,innerHeight*1.7778)/100;
+  // drifting background blobs
+  [[.15,.2,.05],[.75,.7,.04],[.55,.1,.035]].forEach(([x,y,f],i)=>{ const b=$('b'+i);
+    b.style.left=(x*100+Math.sin(t*f*6+i)*6-15)+'vw'; b.style.top=(y*100+Math.cos(t*f*5+i*2)*6-15)+'vh'; });
+  // scene wipe: a navy panel with a gold edge sweeps across each cut
+  let wp=null; TL.scenes.forEach((s,i)=>{ if(i>0 && t>=s.start-.35 && t<s.start+.35) wp=seg(t,s.start-.35,s.start+.35); });
+  $('wipe').style.transform = wp===null ? 'translateX(-120%)' : `translateX(${lerp(-120,110,eout(wp))}%)`;
+  $('wipe').style.opacity = wp===null ? 0 : .92;
+  // idle motion on icons
+  document.querySelectorAll('section .ico').forEach((e,i)=>{ e.style.translate=`0 ${Math.sin(t*2.2+i*1.3)*.35*u}px`; });
+  $('h1').querySelector('.ico').style.rotate=(t*60)+'deg';
+  const q=$('hy1').querySelector('b'); q.style.scale=1+.12*Math.max(0,Math.sin(t*5));
+  // arrows: dots flowing along them
+  document.querySelectorAll('.flow').forEach(f=>[...f.children].forEach((d,i)=>{ const p=((t*.9+i/3)%1);
+    d.style.left=lerp(-60,90,p)+'%'; d.style.opacity=Math.sin(p*Math.PI)*.9; }));
+  // research-gap question types out
+  const g3s=when('gap',2,'how')-.2, full='How does technology in the curriculum build competencies?';
+  $('g3t').textContent=full.slice(0,Math.round(full.length*seg(t,g3s+.2,g3s+1.6)));
+  // title underline + shines
+  $('tUl').style.width=lerp(0,30,eout(seg(t,SC.title.start+.9,SC.title.start+1.6)))+'%';
+  $('t1').style.setProperty('--sx',lerp(-40,130,seg(t,SC.title.start+1.2,SC.title.start+2.2))+'%');
+  $('o0').style.setProperty('--sx',lerp(-40,130,seg(t,SC.outro.start+.9,SC.outro.start+2.0))+'%');
+  // mini charts
+  const an=when('analysis',0,'weighted'); [30,44,22,38,48].forEach((h,i)=>{ const p=eout(seg(t,an+.2+i*.08,an+.7+i*.08));
+    $('mb'+i).setAttribute('y',50-h*p); $('mb'+i).setAttribute('height',h*p); });
+  const co=when('analysis',0,'correlation'); for(let i=0;i<9;i++) $('md'+i).setAttribute('opacity',seg(t,co+.1+i*.05,co+.25+i*.05));
+  $('mline').setAttribute('stroke-dashoffset',120*(1-eout(seg(t,co+.6,co+1.2))));
+  const th=when('analysis',0,'thematic'); TAGS.forEach((_,i)=>{ const p=back(seg(t,th+.1+i*.07,th+.45+i*.07)); const e=$('tg'+i);
+    e.style.opacity=clamp(p*1.5); e.style.scale=lerp(.6,1,p); });
+  // survey: the pointer's click lands on "4 Strongly Agree"
+  const lk=when('survey',0,'Likert'); if(t>=lk) { $('lk4').className='on'; }
+
+  // pointer + focus
+  const evs=FOCUS.filter(e=>e.sc===cur.id);
+  document.querySelectorAll('.focus').forEach(e=>{ e.classList.remove('focus'); e.style.scale=''; });
+  const P=$('ptr');
+  if(!evs.length){ P.style.opacity=0; return; }
+  let k=-1; evs.forEach((e,i)=>{ if(t>=e.t-.55) k=i; });
+  const firstMove=evs[0].t-.55;
+  if(k<0 && t<firstMove-.4){ P.style.opacity=0; return; }
+  const tgt=e=>center($(e.id));
+  let pos;
+  if(k<0){ const b=tgt(evs[0]); pos={x:b.x+6*u,y:b.y+8*u}; }
+  else {
+    const e=evs[k], b=tgt(e);
+    const a = k>0 ? tgt(evs[k-1]) : {x:b.x+6*u,y:b.y+8*u};
+    const p=eout(seg(t,e.t-.55,e.t-.05)); pos={x:lerp(a.x,b.x,p),y:lerp(a.y,b.y,p)};
+  }
+  const fadeOut=1-seg(t,cur.end-.45,cur.end-.15);
+  P.style.opacity=Math.min(seg(t,firstMove-.4,firstMove),fadeOut);
+  // click: press + ripple
+  const last=evs.filter(e=>t>=e.t).pop();
+  const since=last? t-last.t : 9;
+  P.style.transform=`translate(${pos.x}px,${pos.y}px) scale(${since<.12?.82:1})`;
+  const R=$('rip'); R.style.opacity= since<.45 ? 1-since/.45 : 0; R.style.transform=`scale(${.4+since*3})`;
+  if(last){ const el=$(last.id); el.classList.add('focus'); el.style.scale=1+.035*eout(seg(t,last.t,last.t+.2)); }
 }
 
 function render(t){
@@ -504,6 +615,8 @@ function render(t){
   s=SC.outro; if(t>=s.start-.1){
     pop('o0',t,s.start+.2,'scale'); pop('o1',t,when('outro',0,'')+.2); pop('o2',t,when('outro',0,'technical')); pop('o3',t,TL.lines[TL.lines.length-1].end+.3);
   }
+
+  interactive(t,cur);
 
   // subtitles
   const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.25);

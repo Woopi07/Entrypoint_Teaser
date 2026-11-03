@@ -24,7 +24,9 @@ await page.evaluate(() => document.fonts.ready);
 
 const secs = await page.evaluate(() => window.TL.total);
 const times = only ? only.split(',').map(Number) : [...Array(Math.round(fps * secs)).keys()].map(i => i / fps);
-for (let i = 0; i < times.length; i++) {
+// FRAMES=a-b re-renders only that frame range (to patch one scene)
+const [fa, fb] = (process.env.FRAMES || `0-${times.length - 1}`).split('-').map(Number);
+for (let i = fa; i <= Math.min(fb, times.length - 1); i++) {
   await page.evaluate(t => window.render(t), times[i]);
   const name = only ? `t${times[i].toFixed(2)}.png` : `f${String(i).padStart(5, '0')}.jpg`;
   await page.screenshot({ path: path.join(outDir, name), type: only ? 'png' : 'jpeg', quality: only ? undefined : 93 });
