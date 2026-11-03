@@ -3,7 +3,8 @@
 Calm, academic piano bed (no drums until a light pulse in Methods), with
 soft transition swells at scene changes. The music ducks under the narration.
 
-Usage: python3 audio.py <timeline.json> <out.wav>
+Usage: python3 audio.py <timeline.json> <out.wav> [stemsDir]
+With stemsDir, also writes voiceover.wav and music.wav separately (for editing in CapCut etc.).
 """
 import json
 import sys
@@ -134,6 +135,7 @@ for ln in tl['lines']:
     duck[max(0, i - int(.2 * SR)): min(N, i + len(x) + int(.3 * SR))] = .3
 k = int(.15 * SR)
 duck = np.convolve(duck, np.ones(k) / k, mode='same')
+music_only = mix.copy()
 mix = mix * duck[:, None] * .6 + vo[:, None]
 mix = np.tanh(mix / np.max(np.abs(mix)) * 1.15) * .9
 
@@ -143,3 +145,22 @@ with wave.open(sys.argv[2], 'wb') as w:
     w.setframerate(SR)
     w.writeframes((mix * 32767).astype('<i2').tobytes())
 print('wrote', sys.argv[2], f'{DUR:.1f}s')
+
+
+def write(path, x):
+    x = np.atleast_2d(x.T).T if x.ndim == 1 else x
+    if x.shape[1] == 1:
+        x = np.repeat(x, 2, axis=1)
+    with wave.open(path, 'wb') as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes((np.clip(x, -1, 1) * 32767).astype('<i2').tobytes())
+
+
+if len(sys.argv) > 3:
+    import os
+    os.makedirs(sys.argv[3], exist_ok=True)
+    write(os.path.join(sys.argv[3], 'voiceover.wav'), (vo / np.max(np.abs(vo)) * .9)[:, None])
+    write(os.path.join(sys.argv[3], 'music.wav'), music_only * .5)
+    print('stems written to', sys.argv[3])

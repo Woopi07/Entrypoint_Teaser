@@ -1,0 +1,30 @@
+BEYOND TECHNICAL SKILLS - CapCut editing pack
+=============================================
+
+WHAT'S INSIDE
+  0_finished_video_reference.mp4  The finished video (voice + music + subtitles), for reference only
+  1_video_no_subtitles.mp4        The animation with NO subtitles and NO audio: put this on the main track
+  2_voiceover.mp3                 Narration only
+  3_music.mp3                     Background music only (no ducking applied)
+  4_subtitles.srt                 Subtitles, imported as editable CapCut captions
+  5_scenes/                       The same video cut into its 14 scenes, if you'd rather rearrange or replace scenes
+
+CAPCUT DESKTOP / WEB (recommended)
+  1. New project > Import: add 1_video_no_subtitles.mp4, 2_voiceover.mp3 and 3_music.mp3.
+  2. Drag the video onto the timeline at 0:00. Drag 2_voiceover.mp3 below it, also at 0:00.
+  3. Drag 3_music.mp3 to another audio track at 0:00 and lower its volume (about 20-30%)
+     so the narration stays clear.
+  4. Captions: Text > Captions/Subtitles > Import local captions (or "Import file")
+     and choose 4_subtitles.srt. The captions are now editable text: change the font, size,
+     color or wording in one place and it applies to all of them.
+  5. Export at 1080p, 30 fps.
+
+CAPCUT MOBILE
+  The mobile app can't import .srt files. Either use 0_finished_video_reference.mp4
+  (subtitles already burned in), or use Text > Auto captions on the voice-over track
+  and correct any wrong words.
+
+TIPS
+  * Everything is timed from 0:00, so if the tracks all start together they stay in sync.
+  * To replace the computer voice with your own: mute 2_voiceover.mp3 and record over it,
+    following the same timing (the .srt shows when each line is spoken).

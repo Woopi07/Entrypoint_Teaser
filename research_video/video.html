@@ -507,7 +507,8 @@ function render(t){
 
   // subtitles
   const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.25);
-  const C=$('cap'); C.textContent=ln?ln.text:''; C.style.opacity=ln?Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.1,ln.end+.25)):0;
+  const C=$('cap'); if(location.search.includes('nocap')) C.style.display='none';
+  C.textContent=ln?ln.text:''; C.style.opacity=ln?Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.1,ln.end+.25)):0;
   $('fade').style.opacity = t<.4 ? 1-seg(t,0,.4) : seg(t,TL.total-.8,TL.total);
 }
 window.render=render;

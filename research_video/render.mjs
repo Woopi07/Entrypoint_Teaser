@@ -19,7 +19,7 @@ const browser = await playwright.chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
 });
 const page = await browser.newPage({ viewport: { width: +w, height: +h } });
-await page.goto(pathToFileURL(path.join(here, 'video.html')).href + '?render');
+await page.goto(pathToFileURL(path.join(here, 'video.html')).href + '?render' + (process.env.RENDER_QUERY || ''));
 await page.evaluate(() => document.fonts.ready);
 
 const secs = await page.evaluate(() => window.TL.total);

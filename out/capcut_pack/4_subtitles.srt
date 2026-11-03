@@ -1,0 +1,76 @@
+1
+00:00:00,800 --> 00:00:04,432
+Accounting now runs on AI, automation, and blockchain.
+
+2
+00:00:04,482 --> 00:00:09,300
+The accountant is no longer just a record keeper, but an analyst and advisor.
+
+3
+00:00:09,750 --> 00:00:13,567
+So, does learning with technology build more than technical skills?
+
+4
+00:00:15,617 --> 00:00:19,698
+Employers see a gap between the skills they need and what graduates bring.
+
+5
+00:00:19,748 --> 00:00:24,542
+Many programs still lean on theory, with limited hands-on use of digital tools.
+
+6
+00:00:24,592 --> 00:00:29,389
+But past studies haven't shown how this technology actually builds competencies.
+
+7
+00:00:29,839 --> 00:00:37,149
+Our study is anchored on Kolb's Experiential Learning, Siemens' Connectivism, and Bandura's Social Cognitive Theory.
+
+8
+00:00:37,599 --> 00:00:45,035
+An Input, Process, Output model links respondents and core competencies to evidence-based policy recommendations.
+
+9
+00:00:45,485 --> 00:00:52,733
+We ask newly passed CPAs how technology shaped five competencies from the International Education Standards:
+
+10
+00:00:52,783 --> 00:00:57,548
+intellectual, technical, personal, interpersonal, and organizational skills.
+
+11
+00:00:58,598 --> 00:01:04,099
+Is there a significant relationship? Our null hypothesis says no. The data will decide.
+
+12
+00:01:04,549 --> 00:01:08,988
+We use a mixed-methods, nested design: a survey first, then interviews.
+
+13
+00:01:10,438 --> 00:01:17,306
+From 112 newly passed CPAs from PLV, Slovin's formula sets a sample of at least 88.
+
+14
+00:01:17,356 --> 00:01:23,662
+All passed the board exam from 2023 to 2025, and work in accounting.
+
+15
+00:01:24,112 --> 00:01:29,318
+They answer a validated, four-point Likert survey, and ten join in-depth interviews.
+
+16
+00:01:29,768 --> 00:01:34,829
+Weighted means, correlation, and thematic analysis turn their answers into insight.
+
+17
+00:01:35,879 --> 00:01:41,220
+Participation is voluntary, and all data is protected under the Data Privacy Act.
+
+18
+00:01:41,670 --> 00:01:49,231
+The findings will help CPAs, students, educators, and PLV shape an education that keeps pace with technology.
+
+19
+00:01:49,681 --> 00:01:53,561
+Because the accountant of the future needs more than technical skills.
+
