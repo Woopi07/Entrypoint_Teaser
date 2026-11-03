@@ -19,12 +19,12 @@ from kokoro_onnx import Kokoro
 
 from script import CAPTIONS, LINES
 
-VOICE, SPEED = 'af_heart', 1.06
+VOICE, SPEED = 'af_heart', 1.15
 LEAD_IN = 0.8        # silence before the first line
 GAP = 0.3           # pause between lines in the same scene
-SCENE_GAP = 0.7      # pause when the scene changes
-TAIL = 3.2           # hold on the end card after the last line
-HOLD = {'title': 1.6, 'comp': 0.6, 'design': 1.0, 'analysis': 0.6}   # extra time after a scene's last line
+SCENE_GAP = 0.55      # pause when the scene changes
+TAIL = 2.3           # hold on the end card after the last line
+HOLD = {'title': 1.1, 'comp': 0.5, 'design': 0.6, 'analysis': 0.4}   # extra time after a scene's last line
 
 
 def trim(x, sr, thresh=.008):

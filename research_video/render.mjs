@@ -23,6 +23,11 @@ await page.goto(pathToFileURL(path.join(here, 'video.html')).href + '?render' + 
 await page.evaluate(() => document.fonts.ready);
 
 const secs = await page.evaluate(() => window.TL.total);
+// EVENTS_OUT=file writes the pointer-click times, so audio.py can add click sounds
+if (process.env.EVENTS_OUT) {
+  const ev = await page.evaluate(() => FOCUS.map(e => e.t));
+  (await import('fs')).writeFileSync(process.env.EVENTS_OUT, JSON.stringify(ev));
+}
 const times = only ? only.split(',').map(Number) : [...Array(Math.round(fps * secs)).keys()].map(i => i / fps);
 // FRAMES=a-b re-renders only that frame range (to patch one scene)
 const [fa, fb] = (process.env.FRAMES || `0-${times.length - 1}`).split('-').map(Number);

@@ -41,7 +41,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 #track div.done{color:var(--navy);border-color:#b8c6ea}
 #track div.soon{border-style:dashed}
 #bar{position:absolute;left:0;bottom:0;height:calc(.45*var(--u));background:linear-gradient(90deg,var(--blue),var(--teal));z-index:6}
-#cap{position:absolute;left:50%;bottom:calc(2.6*var(--u));transform:translateX(-50%);max-width:74vw;text-align:center;z-index:8;
+#cap{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;bottom:calc(2.6*var(--u));max-width:84vw;text-align:center;z-index:8;
   background:rgba(11,22,52,.86);color:#fff;border-radius:calc(.8*var(--u));padding:.45em 1em;font-weight:600;font-size:calc(1.85*var(--u));line-height:1.35}
 #fade{position:absolute;inset:0;background:#0b1634;opacity:0;z-index:20;pointer-events:none}
 
@@ -212,7 +212,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 <div id="blobs"><i id="b0" style="width:40vw;height:40vw;background:#cfe0ff"></i><i id="b1" style="width:32vw;height:32vw;background:#ffe9b0"></i><i id="b2" style="width:28vw;height:28vw;background:#c9f0ec"></i></div>
 <div id="dots"></div>
 <div id="brand"><div class="seal">PLV</div><div>Pamantasan ng Lungsod ng Valenzuela<small>BS Accountancy</small></div></div>
-<div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div class="soon" id="tkR">RESULTS · SOON</div><div id="tkS">SIGNIFICANCE</div></div>
+<div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div id="tkS">SIGNIFICANCE</div></div>
 
 <!-- 1 HOOK -->
 <section id="hook">
@@ -386,7 +386,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   <div class="big pop shine" id="o0">Beyond <em>Technical</em> Skills</div>
   <div class="tl pop" id="o1">The accountant of the future needs more than technical skills.</div>
   <div class="meta pop" id="o2"><span>Adversario</span><span>Campo</span><span>Dumigpe</span><span>Larioque</span><span>Orbase</span><span>Silencio</span></div>
-  <div class="next pop" id="o3">DATA COLLECTION · 1ST SEMESTER, A.Y. 2026–2027 · RESULTS TO FOLLOW</div>
+  <div class="next pop" id="o3">BS ACCOUNTANCY · PAMANTASAN NG LUNGSOD NG VALENZUELA</div>
 </section>
 
 <div id="wipe"></div>
@@ -439,19 +439,19 @@ function layoutWheel(){
 const FOCUS=[
   ['hook',0,'AI','h0'],['hook',0,'automation','h1'],['hook',0,'blockchain','h2'],['hook',1,'analyst','h5'],
   ['gap',0,'bring','gMark'],['gap',1,'theory','g1'],['gap',1,'hands-on','g2'],['gap',2,'how','g3'],
-  ['theory',0,'Kolb','th0'],['theory',0,'Siemens','th1'],['theory',0,'Bandura','th2'],
-  ['ipo',0,'Input','ip0'],['ipo',0,'Process','ip1'],['ipo',0,'Output','ip2'],
+  ['theory',0,'Kolb','th0'],['theory',1,'Siemens','th1'],['theory',2,'Bandura','th2'],
+  ['ipo',0,'Input','ip0'],['ipo',1,'Process','ip1'],['ipo',2,'Output','ip2'],
   ['comp',1,'intellectual','c0'],['comp',1,'technical','c1'],['comp',1,'personal','c2'],['comp',1,'interpersonal','c3'],['comp',1,'organizational','c4'],
-  ['hypo',0,'relationship','hy1'],['hypo',0,'null','hy3'],
+  ['hypo',0,'null','hy3'],['hypo',0,'technology','hy0'],['hypo',0,'relationship','hy1'],['hypo',0,'these','hy2'],
   ['design',0,'survey','d0'],['design',0,'interviews','d1'],
-  ['sample',0,'eighty','sn'],['sample',1,'passed','sc0'],['sample',1,'2023','sc1'],['sample',1,'work','sc2'],
+  ['sample',0,'88','sn'],['sample',1,'passed','sc0'],['sample',1,'2023','sc1'],['sample',1,'work','sc2'],
   ['survey',0,'Likert','lk4'],['survey',0,'ten','sv1'],
   ['analysis',0,'weighted','a0'],['analysis',0,'correlation','a1'],['analysis',0,'thematic','a2'],
   ['ethics',0,'Privacy','eChipLast'],
   ['impact',0,'CPAs','im0'],['impact',0,'students','im1'],['impact',0,'educators','im2'],['impact',0,'PLV','im3'],
 ].map(([sc,k,w,id])=>({sc,id,t:when(sc,k,w)+.05}));
 // design's third step has no spoken cue of its own: click it right after "interviews"
-FOCUS.push({sc:'design',id:'d2',t:when('design',0,'interviews')+.9});
+FOCUS.push({sc:'design',id:'d2',t:when('design',0,'why')+.1});
 FOCUS.sort((a,b)=>a.t-b.t);
 document.querySelector('#eChips span:last-child').id='eChipLast';
 
@@ -499,6 +499,7 @@ function interactive(t,cur){
   // pointer + focus
   const evs=FOCUS.filter(e=>e.sc===cur.id);
   document.querySelectorAll('.focus').forEach(e=>{ e.classList.remove('focus'); e.style.scale=''; });
+  FOCUS.forEach(e=>{ const el=$(e.id); if(el) el.style.filter=''; });
   const P=$('ptr');
   if(!evs.length){ P.style.opacity=0; return; }
   let k=-1; evs.forEach((e,i)=>{ if(t>=e.t-.55) k=i; });
@@ -519,7 +520,10 @@ function interactive(t,cur){
   const since=last? t-last.t : 9;
   P.style.transform=`translate(${pos.x}px,${pos.y}px) scale(${since<.12?.82:1})`;
   const R=$('rip'); R.style.opacity= since<.45 ? 1-since/.45 : 0; R.style.transform=`scale(${.4+since*3})`;
-  if(last){ const el=$(last.id); el.classList.add('focus'); el.style.scale=1+.035*eout(seg(t,last.t,last.t+.2)); }
+  if(last){ const el=$(last.id); el.classList.add('focus'); el.style.scale=1+.035*eout(seg(t,last.t,last.t+.2));
+    // spotlight: other items in the scene dim while one is in focus
+    const dim=.55*seg(t,last.t,last.t+.25)*(1-seg(t,cur.end-.6,cur.end-.3));
+    evs.forEach(e=>{ if(e.id!==last.id) $(e.id).style.filter=`saturate(${1-dim*.6}) opacity(${1-dim*.6})`; }); }
 }
 
 function render(t){
@@ -534,7 +538,7 @@ function render(t){
   const intro=['hook','title','gap','theory','ipo','comp','hypo'], meth=['design','sample','survey','analysis','ethics'];
   const ph = intro.includes(cur.id)?0 : meth.includes(cur.id)?1 : 2;
   $('tkI').className = ph===0?'on':'done'; $('tkM').className = ph===1?'on':(ph>1?'done':'');
-  $('tkS').className = ph===2?'on':''; $('tkR').className='soon';
+  $('tkS').className = ph===2?'on':'';
   const chromeOn = cur.id!=='outro' && cur.id!=='title';
   $('track').style.opacity = chromeOn?1:0; $('brand').style.opacity = cur.id==='outro'?0:1;
   $('bar').style.width=(100*t/TL.total)+'%';
@@ -560,12 +564,12 @@ function render(t){
     pop('g3',t,when('gap',2,'how')-.2,'scale');
   }
   s=SC.theory; if(t>=s.start-.1&&t<s.end+.1){
-    const k=[when('theory',0,'Kolb'),when('theory',0,'Siemens'),when('theory',0,'Bandura')];
+    const k=[when('theory',0,'Kolb'),when('theory',1,'Siemens'),when('theory',2,'Bandura')];
     k.forEach((a,i)=>{ pop('th'+i,t,a-.15); $('th'+i).classList.toggle('on', t>=a && (i===2 || t<k[i+1])); });
   }
   s=SC.ipo; if(t>=s.start-.1&&t<s.end+.1){
-    pop('ip0',t,when('ipo',0,'Input')); pop('ipa0',t,when('ipo',0,'Process')-.15,'left'); pop('ip1',t,when('ipo',0,'Process'));
-    pop('ipa1',t,when('ipo',0,'Output')-.15,'left'); pop('ip2',t,when('ipo',0,'Output'));
+    pop('ip0',t,when('ipo',0,'Input')); pop('ipa0',t,when('ipo',1,'Process')-.15,'left'); pop('ip1',t,when('ipo',1,'Process'));
+    pop('ipa1',t,when('ipo',2,'Output')-.15,'left'); pop('ip2',t,when('ipo',2,'Output'));
   }
   s=SC.comp; if(t>=s.start-.1&&t<s.end+.1){
     if(!layoutWheel.done){ layoutWheel(); layoutWheel.done=true; }
@@ -577,17 +581,17 @@ function render(t){
       const sp=$('sp'+i); if(sp) sp.setAttribute('stroke', t>=a? '#f2b705':'#b9c7ea'); });
   }
   s=SC.hypo; if(t>=s.start-.1&&t<s.end+.1){
-    pop('hy0',t,s.start+.1,'left'); pop('hy2',t,s.start+.25); pop('hy1',t,when('hypo',0,'relationship'),'scale');
-    pop('hy3',t,when('hypo',0,'null')-.1); pop('hy4',t,when('hypo',0,'data')-.1,'scale',.3);
+    pop('hy0',t,s.start+.1,'left'); pop('hy2',t,s.start+.25); pop('hy1',t,s.start+.4,'scale');
+    pop('hy3',t,when('hypo',0,'null')-.1); pop('hy4',t,when('hypo',0,'these')+.6,'scale',.3);
   }
   s=SC.design; if(t>=s.start-.1&&t<s.end+.1){
-    pop('d0',t,when('design',0,'survey')-.2); pop('da0',t,when('design',0,'then')-.2,'left'); pop('d1',t,when('design',0,'interviews')-.1);
-    pop('da1',t,when('design',0,'interviews')+.15,'left'); pop('d2',t,when('design',0,'interviews')+.3);
+    pop('d0',t,when('design',0,'survey')-.2); pop('da0',t,when('design',0,'interviews')-.3,'left'); pop('d1',t,when('design',0,'interviews')-.1);
+    pop('da1',t,when('design',0,'why')-.3,'left'); pop('d2',t,when('design',0,'why')-.1);
   }
   s=SC.sample; if(t>=s.start-.1&&t<s.end+.1){
     const a=s.start+.2, cnt=Math.round(112*eout(seg(t,a,a+1.6)));
     $('sN').firstChild.textContent=cnt;
-    const hs=when('sample',0,'eighty'), hp=seg(t,hs-.6,hs+.8);
+    const hs=when('sample',0,'88'), hp=seg(t,hs-.6,hs+.8);
     for(let i=0;i<112;i++){ const d=$('sd'+i); d.style.opacity=i<cnt?1:.15;
       d.className = (pickOrder[i]!==undefined && pickOrder[i] < 88*hp) ? 's':''; }
     pop('sn',t,hs-.2,'scale'); pop('snl',t,hs);
@@ -602,7 +606,7 @@ function render(t){
   }
   s=SC.analysis; if(t>=s.start-.1&&t<s.end+.1){
     pop('a0',t,when('analysis',0,'weighted')); pop('a1',t,when('analysis',0,'correlation')); pop('a2',t,when('analysis',0,'thematic'));
-    pop('a3',t,when('analysis',0,'insight')-.2,'scale');
+    pop('a3',t,when('analysis',0,'themes')-.2,'scale');
   }
   s=SC.ethics; if(t>=s.start-.1&&t<s.end+.1){
     pop('e0',t,s.start+.1,'scale');
@@ -621,7 +625,12 @@ function render(t){
   // subtitles
   const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.25);
   const C=$('cap'); if(location.search.includes('nocap')) C.style.display='none';
-  C.textContent=ln?ln.text:''; C.style.opacity=ln?Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.1,ln.end+.25)):0;
+  if(ln){ // word-by-word highlight, paced to the voice
+    const p=seg(t,ln.start,ln.end), words=ln.text.split(' '); let acc=0; const tot=ln.text.length;
+    C.innerHTML=words.map(w=>{ const a=acc/tot, b=(acc+w.length)/tot; acc+=w.length+1;
+      const st = p>=b ? 'color:#fff' : p>=a ? 'color:#ffd66b' : 'color:rgba(255,255,255,.55)';
+      return `<span style="${st}">${w}</span>`; }).join(' ');
+  } else C.innerHTML=''; C.style.opacity=ln?Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.1,ln.end+.25)):0;
   $('fade').style.opacity = t<.4 ? 1-seg(t,0,.4) : seg(t,TL.total-.8,TL.total);
 }
 window.render=render;

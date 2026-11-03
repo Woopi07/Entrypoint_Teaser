@@ -8,8 +8,8 @@ WORK="${WORK:-$(mktemp -d)}"
 mkdir -p ../out "$WORK"
 
 python3 build_timeline.py "$WORK/vo" "${TTS_MODEL_DIR:-/opt/tts}"   # voice + timeline.js + .srt
-python3 audio.py "$WORK/vo/timeline.json" "$WORK/mix.wav"
-node render.mjs 1920 1080 "$WORK/frames"
+EVENTS_OUT="$WORK/clicks.json" node render.mjs 1920 1080 "$WORK/frames"
+CLICKS="$WORK/clicks.json" python3 audio.py "$WORK/vo/timeline.json" "$WORK/mix.wav"
 
 ffmpeg -loglevel error -y -framerate 30 -i "$WORK/frames/f%05d.jpg" -i "$WORK/mix.wav" \
   -c:v libx264 -preset slow -crf 20 -pix_fmt yuv420p -c:a aac -b:a 192k \

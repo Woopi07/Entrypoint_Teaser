@@ -16,21 +16,26 @@ LINES = [
     ('gap', 'Many programs still lean on theory, with limited hands-on use of digital tools.'),
     ('gap', "But past studies haven't shown how this technology actually builds competencies."),
 
-    ('theory', "Our study is anchored on Kolb's Experiential Learning, Siemens' Connectivism, and Bandura's Social Cognitive Theory."),
-    ('ipo', 'An Input, Process, Output model links respondents and core competencies to evidence-based policy recommendations.'),
+    ('theory', "Kolb's Experiential Learning says we learn best by doing."),
+    ('theory', "Siemens' Connectivism says knowledge grows through digital networks."),
+    ('theory', "And Bandura's Social Cognitive Theory says we learn by observing others."),
 
-    ('comp', 'We ask newly passed CPAs how technology shaped five competencies from the International Education Standards:'),
+    ('ipo', 'Input: the respondents, and the competencies they need.'),
+    ('ipo', 'Process: how technology-integrated education shaped them.'),
+    ('ipo', 'Output: evidence-based strategies and policy recommendations.'),
+
+    ('comp', 'We focus on five competencies from the International Education Standards:'),
     ('comp', 'intellectual, technical, personal, interpersonal, and organizational skills.'),
-    ('hypo', 'Is there a significant relationship? Our null hypothesis says no. The data will decide.'),
+    ('hypo', 'Our null hypothesis: technology-integrated education has no significant relationship with these competencies.'),
 
-    ('design', 'We use a mixed-methods, nested design: a survey first, then interviews.'),
-    ('sample', "From one hundred twelve newly passed CPAs from PLV, Slovin's formula sets a sample of at least eighty-eight."),
+    ('design', 'We use a mixed-methods, nested design: a survey measures the relationship, and interviews explain why.'),
+    ('sample', "From one hundred twelve newly passed CPAs from PLV, Slovin's formula sets at least eighty-eight respondents."),
     ('sample', 'All passed the board exam from 2023 to 2025, and work in accounting.'),
-    ('survey', 'They answer a validated, four-point Likert survey, and ten join in-depth interviews.'),
-    ('analysis', 'Weighted means, correlation, and thematic analysis turn their answers into insight.'),
+    ('survey', 'They rate each statement on a four-point Likert scale, and ten join in-depth interviews.'),
+    ('analysis', 'Weighted means describe their answers, correlation tests the relationship, and thematic analysis finds common themes.'),
     ('ethics', 'Participation is voluntary, and all data is protected under the Data Privacy Act.'),
 
-    ('impact', 'The findings will help CPAs, students, educators, and PLV shape an education that keeps pace with technology.'),
+    ('impact', 'This study will help CPAs, students, educators, and PLV build an accounting education that keeps pace with technology.'),
     ('outro', 'Because the accountant of the future needs more than technical skills.'),
 ]
 
@@ -43,6 +48,6 @@ AUTHORS = ['Adversario, Althea Faith U.', 'Campo, Gillian Joy G.', 'Dumigpe, Ris
 
 # Subtitle text where it should differ from what the narrator reads aloud
 CAPTIONS = {
-    "From one hundred twelve newly passed CPAs from PLV, Slovin's formula sets a sample of at least eighty-eight.":
-        "From 112 newly passed CPAs from PLV, Slovin's formula sets a sample of at least 88.",
+    "From one hundred twelve newly passed CPAs from PLV, Slovin's formula sets at least eighty-eight respondents.":
+        "From 112 newly passed CPAs from PLV, Slovin's formula sets at least 88 respondents.",
 }

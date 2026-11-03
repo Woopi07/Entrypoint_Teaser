@@ -116,6 +116,15 @@ o = scenes['outro']['start']
 for k, m in enumerate([48, 55, 60, 64, 67, 72]):
     add(piano(m, 4.5, 1), o + k * .06, .06, (k - 2.5) * .2)
 
+# pointer clicks (times exported by render.mjs via EVENTS_OUT)
+import os
+if os.environ.get('CLICKS') and os.path.exists(os.environ['CLICKS']):
+    for tc in json.load(open(os.environ['CLICKS'])):
+        n = int(.04 * SR)
+        tt = np.arange(n) / SR
+        c = (np.sin(2 * np.pi * 1800 * tt) * .5 + np.sin(2 * np.pi * 3600 * tt) * .2) * env(n, .0005, .008)
+        add(c, tc, .5, .15)
+
 fade = np.clip((DUR - np.arange(N) / SR) / 2.5, 0, 1) * np.clip(np.arange(N) / SR / .8, 0, 1)
 mix *= fade[:, None]
 mix /= np.max(np.abs(mix))

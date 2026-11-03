@@ -1,76 +1,92 @@
 1
-00:00:00,800 --> 00:00:04,432
+00:00:00,800 --> 00:00:04,293
 Accounting now runs on AI, automation, and blockchain.
 
 2
-00:00:04,482 --> 00:00:09,300
+00:00:04,343 --> 00:00:08,820
 The accountant is no longer just a record keeper, but an analyst and advisor.
 
 3
-00:00:09,750 --> 00:00:13,567
+00:00:09,120 --> 00:00:12,757
 So, does learning with technology build more than technical skills?
 
 4
-00:00:15,617 --> 00:00:19,698
+00:00:14,157 --> 00:00:18,086
 Employers see a gap between the skills they need and what graduates bring.
 
 5
-00:00:19,748 --> 00:00:24,542
+00:00:18,136 --> 00:00:22,771
 Many programs still lean on theory, with limited hands-on use of digital tools.
 
 6
-00:00:24,592 --> 00:00:29,389
+00:00:22,821 --> 00:00:27,403
 But past studies haven't shown how this technology actually builds competencies.
 
 7
-00:00:29,839 --> 00:00:37,149
-Our study is anchored on Kolb's Experiential Learning, Siemens' Connectivism, and Bandura's Social Cognitive Theory.
+00:00:27,703 --> 00:00:31,032
+Kolb's Experiential Learning says we learn best by doing.
 
 8
-00:00:37,599 --> 00:00:45,035
-An Input, Process, Output model links respondents and core competencies to evidence-based policy recommendations.
+00:00:31,082 --> 00:00:35,153
+Siemens' Connectivism says knowledge grows through digital networks.
 
 9
-00:00:45,485 --> 00:00:52,733
-We ask newly passed CPAs how technology shaped five competencies from the International Education Standards:
+00:00:35,203 --> 00:00:39,500
+And Bandura's Social Cognitive Theory says we learn by observing others.
 
 10
-00:00:52,783 --> 00:00:57,548
-intellectual, technical, personal, interpersonal, and organizational skills.
+00:00:39,800 --> 00:00:42,994
+Input: the respondents, and the competencies they need.
 
 11
-00:00:58,598 --> 00:01:04,099
-Is there a significant relationship? Our null hypothesis says no. The data will decide.
+00:00:43,044 --> 00:00:46,511
+Process: how technology-integrated education shaped them.
 
 12
-00:01:04,549 --> 00:01:08,988
-We use a mixed-methods, nested design: a survey first, then interviews.
+00:00:46,561 --> 00:00:50,222
+Output: evidence-based strategies and policy recommendations.
 
 13
-00:01:10,438 --> 00:01:17,306
-From 112 newly passed CPAs from PLV, Slovin's formula sets a sample of at least 88.
+00:00:50,522 --> 00:00:54,953
+We focus on five competencies from the International Education Standards:
 
 14
-00:01:17,356 --> 00:01:23,662
-All passed the board exam from 2023 to 2025, and work in accounting.
+00:00:55,003 --> 00:00:59,553
+intellectual, technical, personal, interpersonal, and organizational skills.
 
 15
-00:01:24,112 --> 00:01:29,318
-They answer a validated, four-point Likert survey, and ten join in-depth interviews.
+00:01:00,353 --> 00:01:07,427
+Our null hypothesis: technology-integrated education has no significant relationship with these competencies.
 
 16
-00:01:29,768 --> 00:01:34,829
-Weighted means, correlation, and thematic analysis turn their answers into insight.
+00:01:07,727 --> 00:01:13,844
+We use a mixed-methods, nested design: a survey measures the relationship, and interviews explain why.
 
 17
-00:01:35,879 --> 00:01:41,220
-Participation is voluntary, and all data is protected under the Data Privacy Act.
+00:01:14,744 --> 00:01:21,393
+From 112 newly passed CPAs from PLV, Slovin's formula sets at least 88 respondents.
 
 18
-00:01:41,670 --> 00:01:49,231
-The findings will help CPAs, students, educators, and PLV shape an education that keeps pace with technology.
+00:01:21,443 --> 00:01:27,425
+All passed the board exam from 2023 to 2025, and work in accounting.
 
 19
-00:01:49,681 --> 00:01:53,561
+00:01:27,725 --> 00:01:32,730
+They rate each statement on a four-point Likert scale, and ten join in-depth interviews.
+
+20
+00:01:33,030 --> 00:01:40,163
+Weighted means describe their answers, correlation tests the relationship, and thematic analysis finds common themes.
+
+21
+00:01:40,863 --> 00:01:46,031
+Participation is voluntary, and all data is protected under the Data Privacy Act.
+
+22
+00:01:46,331 --> 00:01:53,994
+This study will help CPAs, students, educators, and PLV build an accounting education that keeps pace with technology.
+
+23
+00:01:54,294 --> 00:01:58,024
 Because the accountant of the future needs more than technical skills.
 
