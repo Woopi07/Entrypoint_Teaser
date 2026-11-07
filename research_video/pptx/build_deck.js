@@ -56,7 +56,7 @@ pres.defineSlideMaster({
   background: { color: C.background1 },
   objects: [
     { text: { text: "Pamantasan ng Lungsod ng Valenzuela · BS Accountancy", options: { x: 0.6, y: 6.98, w: 7, h: 0.3, fontSize: 10, color: C.accent6, margin: 0, isTextBox: true } } },
-    { placeholder: { options: { name: "kicker", type: "body", x: 0.6, y: 0.45, w: 12.1, h: 0.35, fontSize: 12, bold: true, color: C.accent1, charSpacing: 3, margin: 0, valign: "middle" }, text: "" } },
+    { placeholder: { options: { name: "kicker", type: "body", x: 0.6, y: 0.45, w: 6.1, h: 0.35, fontSize: 12, bold: true, color: C.accent1, charSpacing: 3, margin: 0, valign: "middle" }, text: "" } },
     { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 0.82, w: 12.1, h: 0.85, fontSize: 32, bold: true, color: C.text2, margin: 0, valign: "middle", align: "left" }, text: "" } },
   ],
   slideNumber: { x: 12.3, y: 6.95, w: 0.6, h: 0.3, color: C.accent6, fontSize: 10, align: "right" },
@@ -86,10 +86,37 @@ async function iconCircle(slide, Icon, x, y, d, bg, fgHex, name) {
 }
 const T = (slide, text, o) => slide.addText(text, { isTextBox: true, margin: 0, fontSize: 14, color: C.text1, valign: "top", objectName: nm(o.name || "Text"), ...o });
 const cite = (slide, text, x = 0.6, y = 6.6, w = 12.1) => T(slide, text, { x, y, w, h: 0.3, fontSize: 10, italic: true, color: C.accent6, name: "Source" });
+// ---------------------------------------------------------------- interactivity: slide map + navigation
+// Slide numbers the clickable links jump to. Checked against the real order at the end of the build.
+const SLIDE = { title: 1, menu: 2, hook: 3, design: 9, profile: 14, quiz: 19, recs: 20, closing: 21, correct: 22, retry: 23 };
+const SECTIONS = [["Introduction", SLIDE.hook], ["Methods", SLIDE.design], ["Results", SLIDE.profile], ["Recommendations", SLIDE.recs]];
+const placed = {};
+const mark = (key) => { placed[key] = pres.slides.length; };
+// a whole-shape link: text drawn on a rounded rectangle that jumps to a slide when clicked in Slide Show
+function button(slide, text, x, y, w, h, target, o = {}) {
+  slide.addText(text, {
+    shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: o.radius ?? h / 2, x, y, w, h, margin: 0, isTextBox: true,
+    align: "center", valign: "middle", fontSize: o.fontSize || 10, bold: true, charSpacing: o.charSpacing ?? 1,
+    color: o.color || C.accent6, fill: { color: o.fill || C.background1 }, line: { color: o.line || LINE, width: o.lineW || 1 },
+    hyperlink: { slide: target, tooltip: o.tooltip || `Go to ${String(text).replace(/[^\w &]/g, "").trim()}` },
+    objectName: nm(o.name || "Nav button"), shadow: o.shadow ? shadow() : undefined,
+  });
+}
+function navBar(slide, current) {
+  const items = [["☰ MENU", SLIDE.menu, 0.85], ...SECTIONS.map(([n, t]) => [n.toUpperCase(), t, n === "Recommendations" ? 1.75 : n === "Introduction" ? 1.3 : 0.98])];
+  let x = 12.73 - items.reduce((a, it) => a + it[2] + 0.08, -0.08);
+  for (const [label, target, w] of items) {
+    const on = label.toLowerCase() === String(current).toLowerCase();
+    button(slide, label, x, 0.44, w, 0.34, target, { fill: on ? C.text2 : C.background1, color: on ? C.background1 : C.accent6, line: on ? HEX.dk2 : LINE, fontSize: 9, tooltip: label === "☰ MENU" ? "Back to the menu" : `Jump to ${label.toLowerCase()}` });
+    x += w + 0.08;
+  }
+}
 function content(section, kicker, title, scene) {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: section });
+  if (scene) mark(scene);
   s.addText(kicker.toUpperCase(), { placeholder: "kicker" });
   s.addText(title, { placeholder: "title" });
+  navBar(s, section);
   if (scene && NOTES[scene]) s.addNotes(NOTES[scene].join("\n\n"));
   return s;
 }
@@ -112,6 +139,33 @@ function arrow(slide, x, y, w = 0.45, h = 0.45) {
       { x: 0.8, y: 5.1, w: 11.73, h: 0.4, fontSize: 14, color: C.accent3, align: "center", name: "Authors" });
     T(s, "BS Accountancy · Pamantasan ng Lungsod ng Valenzuela", { x: 0.8, y: 5.6, w: 11.73, h: 0.35, fontSize: 12, color: C.background2, align: "center", name: "Affiliation" });
     s.addNotes((NOTES.title || []).join("\n\n"));
+    mark("title");
+    button(s, "START  ›", 5.92, 6.25, 1.5, 0.5, SLIDE.menu, { fill: C.accent3, color: C.text2, line: HEX.accent3, fontSize: 14, tooltip: "Open the menu", name: "Nav start" });
+  }
+  {
+    // MENU: every card is a clickable link to its section
+    const s = pres.addSlide({ masterName: "Content", sectionTitle: "Introduction" });
+    mark("menu");
+    s.addText("INTERACTIVE MENU", { placeholder: "kicker" });
+    s.addText("Where would you like to start?", { placeholder: "title" });
+    const cards = [[fa.FaLightbulb, "Introduction", "Background, research gap, theories, framework, and hypothesis", SLIDE.hook, C.accent1, HEX.accent1],
+      [fa.FaFlask, "Methods", "Design, respondents, instruments, analysis, and ethics", SLIDE.design, C.accent2, HEX.accent2],
+      [fa.FaChartColumn, "Results", "Profile, competency scores, exposure, correlation, interviews, and a quick check", SLIDE.profile, C.accent3, "B88A00"],
+      [fa.FaBullseye, "Recommendations", "For students, educators, and PLV administrators", SLIDE.recs, C.text2, HEX.dk2]];
+    for (let i = 0; i < 4; i++) {
+      const [Icon, name, desc, target, col, hex] = cards[i];
+      const x = 0.6 + i * 3.07;
+      const link = { slide: target, tooltip: `Jump to ${name}` };
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.95, w: 2.87, h: 4.35, rectRadius: 0.14, fill: { color: C.background1 }, line: { color: LINE, width: 1 }, shadow: shadow(), hyperlink: link, objectName: nm("Menu card") });
+      s.addShape(pres.shapes.OVAL, { x: x + 0.86, y: 2.3, w: 1.15, h: 1.15, fill: { color: C.background2 }, line: { color: C.background2 }, hyperlink: link, objectName: nm("Menu icon circle") });
+      s.addImage({ data: await iconPng(Icon, hex), x: x + 1.16, y: 2.6, w: 0.55, h: 0.55, altText: name, hyperlink: link, objectName: nm("Menu icon") });
+      T(s, `0${i + 1}`, { x, y: 3.6, w: 2.87, h: 0.35, align: "center", bold: true, fontSize: 12, color: C.accent6, charSpacing: 3, hyperlink: link, name: "Menu number" });
+      T(s, name, { x: x + 0.15, y: 3.95, w: 2.57, h: 0.5, align: "center", bold: true, fontSize: 20, color: C.text2, fontFace: THEME.headFontFace, hyperlink: link, name: "Menu title" });
+      T(s, desc, { x: x + 0.25, y: 4.5, w: 2.37, h: 1.0, align: "center", fontSize: 13, color: C.accent6, hyperlink: link, name: "Menu text" });
+      button(s, "OPEN  ›", x + 0.73, 5.6, 1.4, 0.42, target, { fill: col, color: name === "Results" ? C.text2 : C.background1, line: name === "Results" ? HEX.accent3 : HEX.dk2, fontSize: 11, tooltip: `Jump to ${name}`, name: "Menu open" });
+    }
+    T(s, "Click a card in Slide Show to jump to that part. Every slide has a menu bar at the top right to move around.", { x: 0.6, y: 6.5, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent6, name: "Hint" });
+    s.addNotes("Interactive menu. In Slide Show, click any card to jump to that section. The bar at the top right of every slide jumps between sections or back here.");
   }
   {
     const s = content("Introduction", "Why this study", "Accounting now runs on AI, automation, and blockchain", "hook");
@@ -184,7 +238,7 @@ function arrow(slide, x, y, w = 0.45, h = 0.45) {
     }
   }
   {
-    const s = content("Introduction", "What we measured · International Education Standards", "Five core competencies", "comp");
+    const s = content("Introduction", "What we measured", "Five core competencies from the IES", "comp");
     const cx = 6.67, cy = 4.35;
     const pos = [[5.17, 1.95], [9.35, 3.05], [8.4, 5.6], [1.95, 5.6], [0.95, 3.05]];
     for (const [x, y] of pos) s.addShape(pres.shapes.LINE, { x: Math.min(cx, x + 1.5), y: Math.min(cy, y + 0.45), w: Math.abs(x + 1.5 - cx), h: Math.abs(y + 0.45 - cy), flipH: (x + 1.5 < cx) !== (y + 0.45 < cy) ? true : false, line: { color: C.accent3, width: 1.5, dashType: "dash" }, objectName: nm("Spoke") });
@@ -428,6 +482,26 @@ function arrow(slide, x, y, w = 0.45, h = 0.45) {
     }
   }
 
+  {
+    // QUICK CHECK: clickable answers jump to hidden feedback slides
+    const s = content("Results", "Quick check", "Based on the results, what happens to H₀?", null);
+    mark("quiz");
+    card(s, 0.6, 1.95, 12.13, 1.15, { fill: C.background2, noShadow: true });
+    T(s, [{ text: "Pearson r = .67, p < .001", options: { bold: true, color: C.text2 } }, { text: "    ·    H₀: no significant relationship between technology-integrated accounting education and multidimensional competencies.", options: { color: C.accent6 } }],
+      { x: 0.95, y: 1.95, w: 11.5, h: 1.15, valign: "middle", fontSize: 16, name: "Question context" });
+    const answers = [["A", "H₀ is accepted: there is no relationship", SLIDE.retry], ["B", "H₀ is rejected: there is a significant relationship", SLIDE.correct], ["C", "We can't tell from these results", SLIDE.retry]];
+    for (let i = 0; i < 3; i++) {
+      const y = 3.4 + i * 1.0;
+      const link = { slide: answers[i][2], tooltip: "Choose this answer" };
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.6, y, w: 12.13, h: 0.8, rectRadius: 0.12, fill: { color: C.background1 }, line: { color: LINE, width: 1.5 }, shadow: shadow(), hyperlink: link, objectName: nm("Answer") });
+      s.addShape(pres.shapes.OVAL, { x: 0.85, y: y + 0.13, w: 0.54, h: 0.54, fill: { color: C.accent1 }, line: { color: C.accent1 }, hyperlink: link, objectName: nm("Answer letter") });
+      T(s, answers[i][0], { x: 0.85, y: y + 0.13, w: 0.54, h: 0.54, align: "center", valign: "middle", bold: true, fontSize: 16, color: C.background1, hyperlink: link, name: "Answer letter text" });
+      T(s, answers[i][1], { x: 1.65, y, w: 10.8, h: 0.8, valign: "middle", bold: true, fontSize: 18, hyperlink: link, name: "Answer text" });
+    }
+    T(s, "Click an answer in Slide Show.", { x: 0.6, y: 6.45, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent6, name: "Hint" });
+    s.addNotes("Quick check for the audience. In Slide Show, click the answer they choose: it jumps to a feedback slide. The correct answer is B.");
+  }
+
   // ================================================================ RECOMMENDATIONS
   pres.addSection({ title: "Recommendations" });
   {
@@ -451,7 +525,26 @@ function arrow(slide, x, y, w = 0.45, h = 0.45) {
     T(s, "Adversario  ·  Campo  ·  Dumigpe  ·  Larioque  ·  Orbase  ·  Silencio", { x: 0.8, y: 5.2, w: 11.73, h: 0.4, align: "center", fontSize: 14, color: C.accent3, name: "Authors" });
     T(s, "BS Accountancy · Pamantasan ng Lungsod ng Valenzuela", { x: 0.8, y: 5.7, w: 11.73, h: 0.35, align: "center", fontSize: 12, color: C.background2, name: "Affiliation" });
     s.addNotes((NOTES.outro || []).join("\n\n"));
+    mark("closing");
+    button(s, "☰  BACK TO MENU", 5.67, 6.35, 2.0, 0.45, SLIDE.menu, { fill: C.text2, color: C.background1, line: HEX.accent3, fontSize: 11, tooltip: "Back to the menu", name: "Nav menu" });
   }
+  // hidden feedback slides, reached only by clicking a quiz answer
+  for (const [key, ok] of [["correct", true], ["retry", false]]) {
+    const s = pres.addSlide({ masterName: "Dark title", sectionTitle: "Recommendations" });
+    s.hidden = true; // skipped in normal order; only reachable from a quiz answer
+    mark(key);
+    const col = ok ? C.accent5 : C.accent4;
+    s.addShape(pres.shapes.OVAL, { x: 5.92, y: 1.0, w: 1.5, h: 1.5, fill: { color: col }, line: { color: C.background1, width: 4 }, objectName: "Feedback badge" });
+    s.addImage({ data: await iconPng(ok ? fa.FaCheck : fa.FaRotateLeft, "FFFFFF"), x: 6.27, y: 1.35, w: 0.8, h: 0.8, altText: ok ? "Correct" : "Try again", objectName: "Feedback icon" });
+    T(s, ok ? "Correct! H₀ is rejected." : "Not quite. Try again!", { x: 0.8, y: 2.85, w: 11.73, h: 0.9, align: "center", valign: "middle", bold: true, fontSize: 40, color: C.background1, fontFace: THEME.headFontFace, name: "Feedback title" });
+    T(s, ok ? "The p-value (< .001) is below the .01 level of significance, so the relationship is statistically significant. r = .67 shows a strong, positive association, and r² = .44 means about 44% of the variance is shared. Remember: it is an association, not proof of cause."
+      : "Look at the p-value: p < .001 is far below the .01 level of significance. That means the relationship between technology-integrated accounting education and multidimensional competencies is significant.",
+      { x: 1.8, y: 3.85, w: 9.73, h: 1.5, align: "center", fontSize: 17, color: C.background2, name: "Feedback text" });
+    if (ok) button(s, "CONTINUE  ›", 6.97, 5.75, 2.1, 0.55, SLIDE.recs, { fill: C.accent3, color: C.text2, line: HEX.accent3, fontSize: 13, tooltip: "Continue to the recommendations", name: "Nav continue" });
+    button(s, "‹  BACK TO THE QUESTION", ok ? 4.27 : 5.32, 5.75, 2.7, 0.55, SLIDE.quiz, { fill: C.text2, color: C.background1, line: HEX.lt1, fontSize: 13, tooltip: "Back to the quick check", name: "Nav back" });
+    s.addNotes(ok ? "Feedback for answer B (correct). Click Continue to go on to the recommendations." : "Feedback for answers A and C. Click to go back and try again.");
+  }
+  for (const [k, v] of Object.entries(SLIDE)) if (placed[k] !== v) throw new Error(`slide map is out of date: ${k} is slide ${placed[k]}, expected ${v}`);
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
@@ -465,6 +558,12 @@ function arrow(slide, x, y, w = 0.45, h = 0.45) {
     const tl = '<c:trendline><c:spPr><a:ln w="38100" cap="rnd"><a:solidFill><a:srgbClr val="F2B705"/></a:solidFill></a:ln></c:spPr><c:trendlineType val="linear"/><c:dispRSqr val="0"/><c:dispEq val="0"/></c:trendline>';
     xml = xml.replace("<c:xVal>", tl + "<c:xVal>");
     zip.file(f, xml);
+  }
+  // transitions + entrance animations (pptxgenjs has no options for either)
+  const anim = require("./animate.js");
+  for (const f of Object.keys(zip.files).filter((f) => /^ppt\/slides\/slide\d+\.xml$/.test(f))) {
+    const n = +f.match(/(\d+)\.xml$/)[1];
+    zip.file(f, anim.animateSlide(anim.stripRunLinks(await zip.file(f).async("string")), { sectionStart: SECTIONS.some(([, t]) => t === n) || n === SLIDE.menu, slideNo: n }));
   }
   // repack file entries only: folder entries stop some cloud services from opening the deck
   const clean = new JSZip();
