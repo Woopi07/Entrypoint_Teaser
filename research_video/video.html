@@ -191,6 +191,69 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 #ethics .chips span{background:#fff;border:2px solid var(--line);border-radius:999px;padding:.55em 1.1em;font-weight:700;font-size:calc(1.5*var(--u))}
 #ethics .chips span.k{border-color:var(--teal);color:var(--teal)}
 
+/* ---- results ---- */
+#profile .wrap{display:flex;gap:calc(2.4*var(--u));align-items:stretch}
+#profile .big88{width:calc(24*var(--u));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(2*var(--u));background:var(--navy);color:#fff;border:none}
+#profile .big88 .num{font-family:"Inter Display";font-weight:900;font-size:calc(11*var(--u));line-height:1;color:var(--gold2)}
+#profile .big88 .lbl{text-align:center;font-weight:700;font-size:calc(1.6*var(--u));margin-top:calc(.8*var(--u));line-height:1.35}
+#profile .grid4{display:grid;grid-template-columns:1fr 1fr;gap:calc(1.4*var(--u));width:calc(52*var(--u))}
+#profile .st{padding:calc(1.6*var(--u)) calc(1.8*var(--u))}
+#profile .st b{display:block;font-family:"Inter Display";font-weight:900;font-size:calc(3.8*var(--u));color:var(--navy);line-height:1}
+#profile .st span{display:block;font-weight:700;font-size:calc(1.4*var(--u));margin-top:.35em;color:var(--ink)}
+#profile .st small{display:block;font-size:calc(1.05*var(--u));color:var(--mute);margin-top:.5em}
+.meter,.stack{height:calc(1*var(--u));border-radius:99px;background:#eef1f8;margin-top:calc(1*var(--u));overflow:hidden;display:flex}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#47c2bf);width:0}
+.stack i{display:block;height:100%;transform-origin:left}
+#skills .chart{width:calc(76*var(--u));padding:calc(2*var(--u)) calc(2.6*var(--u))}
+.skr{display:grid;grid-template-columns:calc(25*var(--u)) 1fr calc(5*var(--u)) calc(9*var(--u));align-items:center;gap:calc(1.2*var(--u));padding:calc(.75*var(--u)) calc(.6*var(--u));border-radius:calc(.8*var(--u))}
+.skr .nm{font-weight:800;font-size:calc(1.5*var(--u))}
+.skr .tr{height:calc(2.2*var(--u));background:#eef1f8;border-radius:calc(.6*var(--u));position:relative;overflow:hidden}
+.skr .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:calc(.6*var(--u));background:linear-gradient(90deg,var(--blue),#4f7ae0);width:0}
+.skr.low .tr i{background:linear-gradient(90deg,var(--teal),#47c2bf)}
+.skr .v{font-family:"Inter Display";font-weight:900;font-size:calc(2*var(--u));color:var(--navy);text-align:right}
+.skr .bd{font-size:calc(1.05*var(--u));font-weight:800;letter-spacing:.06em;text-align:center;border-radius:999px;padding:.35em .6em;color:#fff;background:var(--green)}
+.skr.low .bd{background:var(--teal)}
+.axis{display:flex;justify-content:space-between;margin:calc(.6*var(--u)) calc(14.2*var(--u)) 0 calc(26.8*var(--u));font-size:calc(1.05*var(--u));color:var(--mute);font-weight:700}
+#skills .callout{margin-top:calc(1.6*var(--u));padding:calc(1*var(--u)) calc(2*var(--u));font-weight:700;font-size:calc(1.5*var(--u));border:2px solid var(--gold);background:#fffaf0}
+#skills .callout b{color:#c99400;font-size:1.2em}
+#exposure .gauge{width:calc(28*var(--u));padding:calc(2*var(--u));text-align:center}
+#exposure .gauge svg{width:100%;height:auto}
+#exposure .gauge .gv{font-family:"Inter Display";font-weight:900;font-size:calc(5.4*var(--u));color:var(--navy);margin-top:calc(-5.6*var(--u))}
+#exposure .gauge .gl{font-weight:800;color:var(--green);font-size:calc(1.6*var(--u));margin-top:calc(.4*var(--u))}
+#exposure .list{width:calc(46*var(--u));padding:calc(1.6*var(--u)) calc(2.2*var(--u))}
+.exr{padding:calc(.8*var(--u)) calc(.8*var(--u));border-radius:calc(.8*var(--u));border:2px solid transparent}
+.exr .top{display:flex;justify-content:space-between;font-weight:700;font-size:calc(1.4*var(--u))}
+.exr .top b{font-family:"Inter Display";font-size:1.25em;color:var(--navy)}
+.exr .tr{height:calc(1.2*var(--u));background:#eef1f8;border-radius:99px;margin-top:calc(.5*var(--u));overflow:hidden}
+.exr .tr i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blue),#4f7ae0)}
+.exr.low .tr i{background:linear-gradient(90deg,#e58a3a,#f2b705)}
+.exr .tag{display:inline-block;margin-top:.4em;font-size:calc(1*var(--u));font-weight:800;letter-spacing:.08em;color:#c0641a;opacity:0}
+#corr .plot{width:calc(40*var(--u));padding:calc(1.4*var(--u))}
+#corr .plot svg{width:100%;height:auto;display:block}
+#corr .side{display:flex;flex-direction:column;gap:calc(1.1*var(--u));width:calc(40*var(--u))}
+#corr .stats{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:calc(1*var(--u))}
+#corr .sc{padding:calc(1.2*var(--u));text-align:center}
+#corr .sc b{display:block;white-space:nowrap;font-family:"Inter Display";font-weight:900;font-size:calc(2.6*var(--u));color:var(--navy);line-height:1.05}
+#corr .sc span{font-size:calc(1.1*var(--u));color:var(--mute);font-weight:700}
+#corr .h0r{position:relative;padding:calc(1.4*var(--u)) calc(1.8*var(--u));display:flex;gap:calc(1.4*var(--u));align-items:center}
+#corr .h0r .sym{font-family:"Inter Display";font-weight:900;font-size:calc(4*var(--u));color:var(--blue)}
+#corr .h0r p{font-size:calc(1.3*var(--u));line-height:1.4;font-weight:500}
+#corr .rej{position:absolute;right:calc(-1.4*var(--u));top:calc(-2*var(--u));border:4px solid var(--red);color:var(--red);background:#fff;font-weight:900;letter-spacing:.14em;font-size:calc(1.8*var(--u));padding:.3em .8em;border-radius:.4em;transform:rotate(-8deg);opacity:0}
+#corr .note{padding:calc(1*var(--u)) calc(1.6*var(--u));font-size:calc(1.3*var(--u));font-weight:700;color:var(--mute);display:flex;gap:.6em;align-items:center}
+#voices .qs{display:flex;gap:calc(2*var(--u))}
+#voices .q{width:calc(36*var(--u));padding:calc(2*var(--u)) calc(2.4*var(--u));position:relative}
+#voices .q::before{content:"“";position:absolute;left:calc(1*var(--u));top:calc(-2.4*var(--u));font-family:"Inter Display";font-weight:900;font-size:calc(9*var(--u));color:var(--gold)}
+#voices .q p{font-size:calc(1.6*var(--u));line-height:1.45;font-weight:600;font-style:italic}
+#voices .q .who{margin-top:calc(1*var(--u));font-weight:800;color:var(--blue);font-size:calc(1.2*var(--u));letter-spacing:.08em}
+#voices .themes{display:flex;flex-wrap:wrap;gap:calc(.8*var(--u));justify-content:center;max-width:calc(76*var(--u));margin-top:calc(2*var(--u))}
+#voices .themes span{background:#fff;border:2px solid var(--line);border-radius:999px;padding:.45em 1em;font-weight:700;font-size:calc(1.25*var(--u))}
+#recs .rc{width:calc(25*var(--u));padding:0;overflow:hidden}
+#recs .rc h4{color:#fff;font-weight:900;letter-spacing:.06em;font-size:calc(1.7*var(--u));padding:calc(1.2*var(--u)) calc(1.6*var(--u));display:flex;gap:.5em;align-items:center}
+#recs .rc ul{list-style:none;padding:calc(1.2*var(--u)) calc(1.6*var(--u)) calc(1.6*var(--u))}
+#recs .rc li{font-size:calc(1.35*var(--u));line-height:1.35;font-weight:600;padding:.5em 0 .5em 1.4em;position:relative;border-bottom:1px dashed var(--line)}
+#recs .rc li:last-child{border:none}
+#recs .rc li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:900}
+
 /* 13 impact */
 #impact .who{width:calc(19*var(--u));padding:calc(2.4*var(--u)) calc(1.6*var(--u));text-align:center}
 #impact .who .ico{font-size:calc(5*var(--u));margin-bottom:calc(1*var(--u))}
@@ -212,7 +275,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
 <div id="blobs"><i id="b0" style="width:40vw;height:40vw;background:#cfe0ff"></i><i id="b1" style="width:32vw;height:32vw;background:#ffe9b0"></i><i id="b2" style="width:28vw;height:28vw;background:#c9f0ec"></i></div>
 <div id="dots"></div>
 <div id="brand"><div class="seal">PLV</div><div>Pamantasan ng Lungsod ng Valenzuela<small>BS Accountancy</small></div></div>
-<div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div id="tkS">SIGNIFICANCE</div></div>
+<div id="track"><div id="tkI">INTRODUCTION</div><div id="tkM">METHODS</div><div id="tkR">RESULTS</div><div id="tkS">RECOMMENDATIONS</div></div>
 
 <!-- 1 HOOK -->
 <section id="hook">
@@ -347,7 +410,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
     </div></div>
     <div class="pop" id="sv1">
       <div class="people" id="svPeople"></div>
-      <div class="card iv"><h4>10 informants</h4><p>Semi-structured online interviews · at least one from each area of practice</p></div>
+      <div class="card iv"><h4>8 informants</h4><p>Semi-structured online interviews · at least one from each area of practice</p></div>
     </div>
   </div>
 </section>
@@ -357,7 +420,7 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   <div class="eyebrow">Methods · Data analysis</div>
   <div class="row">
     <div class="card tool pop" id="a0"><div class="ico">📊</div><h4>Descriptive statistics</h4><svg class="mini" id="miniBars" viewBox="0 0 120 50"></svg><p>Frequency, percentage, weighted mean, standard deviation</p></div>
-    <div class="card tool pop" id="a1"><div class="ico">📈</div><h4>Correlation analysis</h4><svg class="mini" id="miniCorr" viewBox="0 0 120 50"></svg><p>Strength and direction of the relationship</p></div>
+    <div class="card tool pop" id="a1"><div class="ico">📈</div><h4>Pearson correlation</h4><svg class="mini" id="miniCorr" viewBox="0 0 120 50"></svg><p>Strength and direction of the relationship</p></div>
     <div class="card tool pop" id="a2"><div class="ico">🗂️</div><h4>Thematic analysis</h4><div class="tags" id="miniTags"></div><p>Familiarize, code, build and refine themes</p></div>
   </div>
   <div class="tri pop" id="a3">🔺 Integrated through triangulation</div>
@@ -368,6 +431,82 @@ section{position:absolute;inset:0;display:flex;align-items:center;justify-conten
   <div class="eyebrow">Ethical considerations</div>
   <div class="shield pop" id="e0">🛡️</div>
   <div class="chips" id="eChips"><span>Voluntary participation</span><span>Informed consent</span><span>Right to withdraw</span><span>Anonymity</span><span>Restricted access</span><span class="k">Data Privacy Act of 2012</span></div>
+</section>
+
+<!-- R1 PROFILE -->
+<section id="profile">
+  <div class="eyebrow">Results · Respondents' profile</div>
+  <div class="wrap">
+    <div class="card big88 pop" id="pf0"><div class="num" id="pfN">0</div><div class="lbl">newly passed CPAs<br>answered the survey</div></div>
+    <div class="grid4">
+      <div class="card st pop" id="pf1"><b id="pfE">0%</b><span>currently employed</span><div class="meter"><i id="pfEm"></i></div></div>
+      <div class="card st pop" id="pf2"><b>54.55%</b><span>private / corporate accounting</span><div class="stack" id="pfStack"><i style="width:54.55%;background:var(--blue)"></i><i style="width:42.05%;background:var(--teal)"></i><i style="width:3.4%;background:var(--gold)"></i></div><small>Private 54.55% · Public 42.05% · Government 3.41%</small></div>
+      <div class="card st pop" id="pf3"><b>78.41%</b><span>graduated from 2022 to 2024</span></div>
+      <div class="card st pop" id="pf4"><b>63.63%</b><span>2 years of experience or less</span></div>
+    </div>
+  </div>
+  <div class="cite">Table 1 · Demographic profile of the respondents (n = 88)</div>
+</section>
+
+<!-- R2 SKILLS -->
+<section id="skills">
+  <div class="eyebrow">Results · Perceived development of the five competencies</div>
+  <div class="card chart" id="skChart"></div>
+  <div class="cite">Mean scores on a 4-point scale (1 = Strongly Disagree · 4 = Strongly Agree) · Tables 2.1–2.5</div>
+  <div class="card callout pop" id="skTop">⭐ Highest-rated item: locating accounting information from digital resources · <b>3.35</b></div>
+</section>
+
+<!-- R3 EXPOSURE -->
+<section id="exposure">
+  <div class="eyebrow">Results · Exposure to technology-integrated education</div>
+  <div class="row">
+    <div class="card gauge pop" id="exG">
+      <svg viewBox="0 0 200 110"><path d="M15 100 A85 85 0 0 1 185 100" fill="none" stroke="#eef1f8" stroke-width="18" stroke-linecap="round"/>
+        <path id="exArc" d="M15 100 A85 85 0 0 1 185 100" fill="none" stroke="url(#gg)" stroke-width="18" stroke-linecap="round" stroke-dasharray="267" stroke-dashoffset="267"/>
+        <defs><linearGradient id="gg"><stop offset="0" stop-color="#0f9d9a"/><stop offset="1" stop-color="#1f4fb8"/></linearGradient></defs></svg>
+      <div class="gv" id="exV">0.00</div><div class="gl">Positive perception</div><div class="cite">overall mean, scale of 1–4</div>
+    </div>
+    <div class="card list" id="exList"></div>
+  </div>
+  <div class="cite">Table 3.1</div>
+</section>
+
+<!-- R4 CORRELATION -->
+<section id="corr">
+  <div class="eyebrow">Results · Test of relationship (Pearson r)</div>
+  <div class="row">
+    <div class="card plot pop" id="crPlot"><svg id="crSvg" viewBox="0 0 320 230"></svg></div>
+    <div class="side">
+      <div class="stats">
+        <div class="card sc pop" id="cr0"><b>r = .67</b><span>strong, positive</span></div>
+        <div class="card sc pop" id="cr1"><b>p &lt; .001</b><span>significant</span></div>
+        <div class="card sc pop" id="cr2"><b>r² = .44</b><span>44% shared variance</span></div>
+      </div>
+      <div class="card h0r pop" id="cr3"><div class="sym">H₀</div><p>No significant relationship between technology-integrated accounting education and multidimensional competencies.</p><div class="rej" id="crRej">REJECTED</div></div>
+      <div class="card note pop" id="cr4">⚖️ Association, not causation</div>
+    </div>
+  </div>
+  <div class="cite">Table 3.2 · n = 88</div>
+</section>
+
+<!-- R5 VOICES -->
+<section id="voices">
+  <div class="eyebrow">Results · What the interviews revealed</div>
+  <div class="qs">
+    <div class="card q pop" id="vq0"><p>It also has made information accessible at the palm of your hands, making it easier to search for topics that you may not yet have understood.</p><div class="who">PARTICIPANT 3</div></div>
+    <div class="card q pop" id="vq1"><p>As a student, I mainly used technology to access learning materials, watch online lectures, answer practice questions… It helped me study independently and manage my time more efficiently.</p><div class="who">PARTICIPANT 6</div></div>
+  </div>
+  <div class="themes" id="vThemes"><span>Technology-Assisted Independent Learning &amp; Efficiency</span><span>Applicability of Foundational Knowledge</span><span id="vtI">Internship as a Reinforcement</span><span>Technology-Driven Task Readiness</span><span>Technology-Supported Collaboration</span></div>
+</section>
+
+<!-- R6 RECOMMENDATIONS -->
+<section id="recs">
+  <div class="eyebrow">Recommendations</div>
+  <div class="row">
+    <div class="card rc pop" id="rc0"><h4 style="background:var(--blue)">🎓 Accounting students</h4><ul><li>Explore digital tools beyond the classroom</li><li>Join internships, workshops, and online courses</li><li>Regularly assess and improve your skills</li></ul></div>
+    <div class="card rc pop" id="rc1"><h4 style="background:var(--teal)">🧑‍🏫 Educators</h4><ul><li>Spreadsheet exercises, simulations, and case-based activities</li><li>Training on available technologies</li><li>Practical assessments, not only written exams</li></ul></div>
+    <div class="card rc pop" id="rc2"><h4 style="background:var(--navy)">🏛️ PLV administrators</h4><ul><li>Accounting software and functional computer labs</li><li>Faculty development</li><li>Curriculum reviews with alumni and industry</li></ul></div>
+  </div>
 </section>
 
 <!-- 13 IMPACT -->
@@ -420,7 +559,7 @@ function pop(id,t,a,mode='rise',d=.45){
 
 // static builders
 $('sGrid').innerHTML=Array.from({length:112},(_,i)=>`<i id="sd${i}"></i>`).join('');
-$('svPeople').innerHTML=Array.from({length:10},(_,i)=>`<span id="pp${i}">${['👩','👨','👩‍💼','👨‍💼','🧑'][i%5]}</span>`).join('');
+$('svPeople').innerHTML=Array.from({length:8},(_,i)=>`<span id="pp${i}">${['👩','👨','👩‍💼','👨‍💼','🧑'][i%5]}</span>`).join('');
 // deterministic pick of 88 highlighted dots
 const pick=(()=>{let s=11;const r=()=>(s=(s*16807)%2147483647)/2147483647;const a=[...Array(112).keys()];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a.slice(0,88);})();
 const pickOrder={}; pick.forEach((d,i)=>pickOrder[d]=i);
@@ -434,24 +573,44 @@ function layoutWheel(){
   $('spokes').innerHTML=svg;
 }
 
+// results data (Tables 2.1–2.5, 3.1, 3.2)
+const SKILLS=[['🧠 Intellectual',3.31,'VERY HIGH'],['🧮 Technical & functional',3.26,'VERY HIGH'],['🧭 Personal',3.26,'VERY HIGH'],['🏢 Organizational & business mgmt.',3.26,'VERY HIGH'],['💬 Interpersonal & communication',3.09,'HIGH']];
+$('skChart').innerHTML=SKILLS.map((r,i)=>`<div class="skr${r[2]==='HIGH'?' low':''}" id="skr${i}"><div class="nm">${r[0]}</div><div class="tr"><i id="skb${i}"></i></div><div class="v" id="skv${i}">–</div><div class="bd">${r[2]}</div></div>`).join('');
+const EXPO=[['Different digital tools for accounting',3.06],['Online learning & organizational platforms',3.06],['Collaborative tools',2.94,1],['Accounting software, in a practical manner',2.93,1]];
+$('exList').innerHTML=EXPO.map((r,i)=>`<div class="exr${r[2]?' low':''}" id="exr${i}"><div class="top"><span>${r[0]}</span><b>${r[1].toFixed(2)}</b></div><div class="tr"><i id="exb${i}"></i></div>${r[2]?'<div class="tag">▲ NEEDS STRENGTHENING</div>':''}</div>`).join('');
+// scatter: 88 points with r ≈ .67 (illustrative of Table 3.2, not the raw data)
+(function(){ let s=21; const r=()=>(s=(s*16807)%2147483647)/2147483647; const g=()=>{let a=0;for(let i=0;i<6;i++)a+=r();return a-3;};
+  let h='<g stroke="#d9dfee" stroke-width="1">'; for(let i=0;i<=4;i++){h+=`<line x1="40" y1="${20+i*45}" x2="310" y2="${20+i*45}"/>`;} h+='</g>';
+  h+='<text x="175" y="226" text-anchor="middle" font-size="11" font-weight="700" fill="#5b6787" font-family="Inter">Technology-integrated accounting education →</text>';
+  h+='<text x="12" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#5b6787" font-family="Inter" transform="rotate(-90 12 110)">Competencies →</text>';
+  for(let i=0;i<88;i++){ const x=g()*.55, y=.67*x+Math.sqrt(1-.67*.67)*g()*.55; h+=`<circle id="cd${i}" cx="${175+x*75}" cy="${110-y*75}" r="4" fill="#1f4fb8" opacity="0"/>`; }
+  h+='<line id="crLine" x1="55" y1="190" x2="300" y2="30" stroke="#f2b705" stroke-width="5" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300"/>';
+  $('crSvg').innerHTML=h; })();
+
 // ---------------------------------------------------------------- interactive layer
 // Pointer "clicks" each item as the narrator mentions it; the item lifts into focus.
 const FOCUS=[
-  ['hook',0,'AI','h0'],['hook',0,'automation','h1'],['hook',0,'blockchain','h2'],['hook',1,'analyst','h5'],
-  ['gap',0,'bring','gMark'],['gap',1,'theory','g1'],['gap',1,'hands-on','g2'],['gap',2,'how','g3'],
-  ['theory',0,'Kolb','th0'],['theory',1,'Siemens','th1'],['theory',2,'Bandura','th2'],
-  ['ipo',0,'Input','ip0'],['ipo',1,'Process','ip1'],['ipo',2,'Output','ip2'],
-  ['comp',1,'intellectual','c0'],['comp',1,'technical','c1'],['comp',1,'personal','c2'],['comp',1,'interpersonal','c3'],['comp',1,'organizational','c4'],
-  ['hypo',0,'null','hy3'],['hypo',0,'technology','hy0'],['hypo',0,'relationship','hy1'],['hypo',0,'these','hy2'],
+  ['hook',0,'AI','h0'],['hook',0,'automation','h1'],['hook',0,'blockchain','h2'],['hook',0,'analysts','h5'],
+  ['gap',0,'bring','gMark'],['gap',1,'theory','g1'],['gap',1,'hands-on','g2'],['gap',1,'how','g3'],
+  ['theory',0,'Kolb','th0'],['theory',0,'Siemens','th1'],['theory',0,'Bandura','th2'],
+  ['ipo',0,'Input','ip0'],['ipo',0,'Process','ip1'],['ipo',0,'Output','ip2'],
+  ['comp',0,'intellectual','c0'],['comp',0,'technical','c1'],['comp',0,'personal','c2'],['comp',0,'interpersonal','c3'],['comp',0,'organizational','c4'],
+  ['hypo',0,'null','hy3'],['hypo',0,'relationship','hy1'],
   ['design',0,'survey','d0'],['design',0,'interviews','d1'],
-  ['sample',0,'88','sn'],['sample',1,'passed','sc0'],['sample',1,'2023','sc1'],['sample',1,'work','sc2'],
-  ['survey',0,'Likert','lk4'],['survey',0,'ten','sv1'],
+  ['sample',0,'88','sn'],
+  ['survey',0,'Likert','lk4'],['survey',0,'eight','sv1'],
   ['analysis',0,'weighted','a0'],['analysis',0,'correlation','a1'],['analysis',0,'thematic','a2'],
-  ['ethics',0,'Privacy','eChipLast'],
-  ['impact',0,'CPAs','im0'],['impact',0,'students','im1'],['impact',0,'educators','im2'],['impact',0,'PLV','im3'],
+  ['ethics',0,'law','eChipLast'],
+  ['profile',0,'88','pf0'],['profile',1,'employed','pf1'],['profile',1,'private','pf2'],['profile',1,'experience','pf4'],
+  ['skills',1,'Intellectual','skr0'],['skills',1,'digital','skTop'],['skills',2,'Technical','skr1'],['skills',2,'personal','skr2'],['skills',2,'organizational','skr3'],['skills',2,'interpersonal','skr4'],
+  ['exposure',0,'positive','exG'],['exposure',1,'software','exr3'],['exposure',1,'collaborative','exr2'],
+  ['corr',0,'r =','cr0'],['corr',0,'p <','cr1'],['corr',1,'null','cr3'],['corr',1,'44%','cr2'],['corr',2,'association','cr4'],
+  ['voices',0,'faster','vq0'],['voices',0,'independent','vq1'],['voices',1,'internships','vtI'],
+  ['recs',0,'students','rc0'],['recs',1,'educators','rc1'],['recs',2,'PLV','rc2'],
 ].map(([sc,k,w,id])=>({sc,id,t:when(sc,k,w)+.05}));
 // design's third step has no spoken cue of its own: click it right after "interviews"
 FOCUS.push({sc:'design',id:'d2',t:when('design',0,'why')+.1});
+[0,1,2].forEach(i=>FOCUS.push({sc:'sample',id:'sc'+i,t:when('sample',0,'88')+1.0+i*.45}));
 FOCUS.sort((a,b)=>a.t-b.t);
 document.querySelector('#eChips span:last-child').id='eChipLast';
 
@@ -480,7 +639,7 @@ function interactive(t,cur){
   document.querySelectorAll('.flow').forEach(f=>[...f.children].forEach((d,i)=>{ const p=((t*.9+i/3)%1);
     d.style.left=lerp(-60,90,p)+'%'; d.style.opacity=Math.sin(p*Math.PI)*.9; }));
   // research-gap question types out
-  const g3s=when('gap',2,'how')-.2, full='How does technology in the curriculum build competencies?';
+  const g3s=when('gap',1,'how')-.2, full='How does technology in the curriculum build competencies?';
   $('g3t').textContent=full.slice(0,Math.round(full.length*seg(t,g3s+.2,g3s+1.6)));
   // title underline + shines
   $('tUl').style.width=lerp(0,30,eout(seg(t,SC.title.start+.9,SC.title.start+1.6)))+'%';
@@ -535,10 +694,10 @@ function render(t){
     e.style.transform=`scale(${1+.02*seg(t,s.start,s.end)})`; });
 
   // chapter track
-  const intro=['hook','title','gap','theory','ipo','comp','hypo'], meth=['design','sample','survey','analysis','ethics'];
-  const ph = intro.includes(cur.id)?0 : meth.includes(cur.id)?1 : 2;
+  const intro=['hook','title','gap','theory','ipo','comp','hypo'], meth=['design','sample','survey','analysis','ethics'], resl=['profile','skills','exposure','corr','voices'];
+  const ph = intro.includes(cur.id)?0 : meth.includes(cur.id)?1 : resl.includes(cur.id)?2 : 3;
   $('tkI').className = ph===0?'on':'done'; $('tkM').className = ph===1?'on':(ph>1?'done':'');
-  $('tkS').className = ph===2?'on':'';
+  $('tkR').className = ph===2?'on':(ph>2?'done':''); $('tkS').className = ph===3?'on':'';
   const chromeOn = cur.id!=='outro' && cur.id!=='title';
   $('track').style.opacity = chromeOn?1:0; $('brand').style.opacity = cur.id==='outro'?0:1;
   $('bar').style.width=(100*t/TL.total)+'%';
@@ -547,8 +706,8 @@ function render(t){
   let s;
   s=SC.hook; if(t<s.end+.1){
     pop('h0',t,when('hook',0,'AI'),'scale'); pop('h1',t,when('hook',0,'automation'),'scale'); pop('h2',t,when('hook',0,'blockchain'),'scale');
-    pop('h3',t,when('hook',1,'record')-.3); pop('h4',t,when('hook',1,'analyst')-.2,'left'); pop('h5',t,when('hook',1,'analyst'),'scale'); pop('h6',t,when('hook',1,'analyst')+.4);
-    $('hStrike').style.transform=`scaleX(${eout(seg(t,when('hook',1,'but'),when('hook',1,'but')+.35))})`;
+    pop('h3',t,when('hook',0,'record')-.3); pop('h4',t,when('hook',0,'analysts')-.2,'left'); pop('h5',t,when('hook',0,'analysts'),'scale'); pop('h6',t,when('hook',0,'analysts')+.4);
+    $('hStrike').style.transform=`scaleX(${eout(seg(t,when('hook',0,'turning'),when('hook',0,'turning')+.35))})`;
   }
   s=SC.title; if(t>=s.start-.1&&t<s.end+.1){
     pop('t0',t,s.start+.1,'scale');
@@ -561,28 +720,28 @@ function render(t){
     $('gHave').style.width=62*eout(seg(t,when('gap',0,'graduates')-.4,when('gap',0,'graduates')+.5))+'%';
     $('gMark').style.opacity=seg(t,when('gap',0,'bring'),when('gap',0,'bring')+.3);
     pop('g1',t,when('gap',1,'theory')); pop('g2',t,when('gap',1,'hands-on'));
-    pop('g3',t,when('gap',2,'how')-.2,'scale');
+    pop('g3',t,when('gap',1,'how')-.2,'scale');
   }
   s=SC.theory; if(t>=s.start-.1&&t<s.end+.1){
-    const k=[when('theory',0,'Kolb'),when('theory',1,'Siemens'),when('theory',2,'Bandura')];
+    const k=[when('theory',0,'Kolb'),when('theory',0,'Siemens'),when('theory',0,'Bandura')];
     k.forEach((a,i)=>{ pop('th'+i,t,a-.15); $('th'+i).classList.toggle('on', t>=a && (i===2 || t<k[i+1])); });
   }
   s=SC.ipo; if(t>=s.start-.1&&t<s.end+.1){
-    pop('ip0',t,when('ipo',0,'Input')); pop('ipa0',t,when('ipo',1,'Process')-.15,'left'); pop('ip1',t,when('ipo',1,'Process'));
-    pop('ipa1',t,when('ipo',2,'Output')-.15,'left'); pop('ip2',t,when('ipo',2,'Output'));
+    pop('ip0',t,when('ipo',0,'Input')); pop('ipa0',t,when('ipo',0,'Process')-.15,'left'); pop('ip1',t,when('ipo',0,'Process'));
+    pop('ipa1',t,when('ipo',0,'Output')-.15,'left'); pop('ip2',t,when('ipo',0,'Output'));
   }
   s=SC.comp; if(t>=s.start-.1&&t<s.end+.1){
     if(!layoutWheel.done){ layoutWheel(); layoutWheel.done=true; }
     pop('cCore',t,s.start+.1,'center'); pop('cIes',t,when('comp',0,'International'));
     const w=['intellectual','technical','personal','interpersonal','organizational'];
-    w.forEach((x,i)=>{ const a=when('comp',1,x); const shown=t>=a-.1;
+    w.forEach((x,i)=>{ const a=when('comp',0,x); const shown=t>=a-.1;
       pop('c'+i,t,i===0? Math.min(a,when('comp',0,'five')+i*.12) : Math.min(a,when('comp',0,'five')+i*.12),'center');
       $('c'+i).classList.toggle('lit', t>=a && t<a+1.1);
       const sp=$('sp'+i); if(sp) sp.setAttribute('stroke', t>=a? '#f2b705':'#b9c7ea'); });
   }
   s=SC.hypo; if(t>=s.start-.1&&t<s.end+.1){
     pop('hy0',t,s.start+.1,'left'); pop('hy2',t,s.start+.25); pop('hy1',t,s.start+.4,'scale');
-    pop('hy3',t,when('hypo',0,'null')-.1); pop('hy4',t,when('hypo',0,'these')+.6,'scale',.3);
+    pop('hy3',t,when('hypo',0,'null')-.1); pop('hy4',t,when('hypo',0,'relationship')+.5,'scale',.3);
   }
   s=SC.design; if(t>=s.start-.1&&t<s.end+.1){
     pop('d0',t,when('design',0,'survey')-.2); pop('da0',t,when('design',0,'interviews')-.3,'left'); pop('d1',t,when('design',0,'interviews')-.1);
@@ -595,25 +754,64 @@ function render(t){
     for(let i=0;i<112;i++){ const d=$('sd'+i); d.style.opacity=i<cnt?1:.15;
       d.className = (pickOrder[i]!==undefined && pickOrder[i] < 88*hp) ? 's':''; }
     pop('sn',t,hs-.2,'scale'); pop('snl',t,hs);
-    pop('sCrit',t,when('sample',1,'passed')-.3);
-    ['passed','2023','work'].forEach((w,i)=>{ const p=seg(t,when('sample',1,w),when('sample',1,w)+.3); $('sc'+i).style.opacity=.25+.75*p; });
+    const cA=when('sample',0,'88')+.5; pop('sCrit',t,cA);
+    [0,1,2].forEach(i=>{ const p=seg(t,cA+.5+i*.45,cA+.8+i*.45); $('sc'+i).style.opacity=.25+.75*p; });
   }
   s=SC.survey; if(t>=s.start-.1&&t<s.end+.1){
     pop('sv0',t,s.start+.1);
     const lk=when('survey',0,'Likert'); [4,3,2,1].forEach((v,i)=>{ $('lk'+v).className = (t>=lk+i*.12 && t<lk+i*.12+.5) || (v===4 && t>=lk+.9) ? 'on':''; });
-    pop('sv1',t,when('survey',0,'ten')-.3);
-    for(let i=0;i<10;i++){ const p=back(seg(t,when('survey',0,'ten')+i*.07,when('survey',0,'ten')+i*.07+.3)); const e=$('pp'+i); e.style.opacity=clamp(p*1.5); e.style.display='inline-block'; e.style.transform=`scale(${p})`; }
+    pop('sv1',t,when('survey',0,'eight')-.3);
+    for(let i=0;i<8;i++){ const p=back(seg(t,when('survey',0,'eight')+i*.07,when('survey',0,'eight')+i*.07+.3)); const e=$('pp'+i); e.style.opacity=clamp(p*1.5); e.style.display='inline-block'; e.style.transform=`scale(${p})`; }
   }
   s=SC.analysis; if(t>=s.start-.1&&t<s.end+.1){
     pop('a0',t,when('analysis',0,'weighted')); pop('a1',t,when('analysis',0,'correlation')); pop('a2',t,when('analysis',0,'thematic'));
-    pop('a3',t,when('analysis',0,'themes')-.2,'scale');
+    pop('a3',t,when('analysis',0,'thematic')+.6,'scale');
   }
   s=SC.ethics; if(t>=s.start-.1&&t<s.end+.1){
     pop('e0',t,s.start+.1,'scale');
-    const ch=[...$('eChips').children], a=when('ethics',0,'voluntary')-.1, b=when('ethics',0,'Privacy');
+    const ch=[...$('eChips').children], a=when('ethics',0,'voluntary')-.1, b=when('ethics',0,'law');
     ch.forEach((c,i)=>{ const at = i===ch.length-1 ? b-.3 : a+i*((b-a-.5)/(ch.length-1)); const p=back(seg(t,at,at+.35)); c.style.opacity=clamp(p*1.5); c.style.display='inline-block'; c.style.transform=`scale(${lerp(.8,1,p)})`; });
   }
-  s=SC.impact; if(t>=s.start-.1&&t<s.end+.1){
+  // ===== RESULTS =====
+  s=SC.profile; if(s&&t>=s.start-.1&&t<s.end+.1){
+    const a=when('profile',0,'88'); pop('pf0',t,a-.3,'scale');
+    $('pfN').textContent=Math.round(88*eout(seg(t,a-.2,a+1.0)));
+    const e=when('profile',1,'employed'); pop('pf1',t,e-.3);
+    const ep=eout(seg(t,e,e+.8)); $('pfE').textContent=(97.73*ep).toFixed(2)+'%'; $('pfEm').style.width=(97.73*ep)+'%';
+    const pr=when('profile',1,'private'); pop('pf2',t,pr-.3);
+    [...$('pfStack').children].forEach((c,i)=>c.style.transform=`scaleX(${eout(seg(t,pr+i*.2,pr+.5+i*.2))})`);
+    const ex=when('profile',1,'experience'); pop('pf3',t,ex-.6); pop('pf4',t,ex-.2);
+  }
+  s=SC.skills; if(s&&t>=s.start-.1&&t<s.end+.1){
+    const g=when('skills',0,'scored');
+    SKILLS.forEach((r,i)=>{ const p=eout(seg(t,g+i*.15,g+.9+i*.15)), v=1+(r[1]-1)*p;
+      $('skb'+i).style.width=((v-1)/3*100)+'%'; $('skv'+i).textContent=p>0?v.toFixed(2):'–'; $('skr'+i).style.opacity=.35+.65*clamp(p*3); });
+    pop('skTop',t,when('skills',1,'digital')-.2);
+  }
+  s=SC.exposure; if(s&&t>=s.start-.1&&t<s.end+.1){
+    pop('exG',t,s.start+.1,'scale');
+    const g=when('exposure',0,'positive')-.4, gp=eout(seg(t,g,g+1.2));
+    $('exArc').setAttribute('stroke-dashoffset',267*(1-(2/3)*gp)); $('exV').textContent=(1+2*gp).toFixed(2);
+    EXPO.forEach((r,i)=>{ const p=eout(seg(t,s.start+.3+i*.15,s.start+1.1+i*.15)); $('exb'+i).style.width=((1+(r[1]-1)*p-1)/3*100)+'%'; });
+    const lw=when('exposure',1,'software'); document.querySelectorAll('#exList .exr.low .tag').forEach(tg=>tg.style.opacity=seg(t,lw,lw+.4));
+  }
+  s=SC.corr; if(s&&t>=s.start-.1&&t<s.end+.1){
+    pop('crPlot',t,s.start+.1);
+    for(let i=0;i<88;i++) $('cd'+i).setAttribute('opacity',seg(t,s.start+.3+i*.012,s.start+.5+i*.012)*.8);
+    const st=when('corr',0,'strong'); $('crLine').setAttribute('stroke-dashoffset',300*(1-eout(seg(t,st,st+1))));
+    pop('cr0',t,when('corr',0,'r =')-.2,'scale'); pop('cr1',t,when('corr',0,'p <')-.2,'scale');
+    pop('cr3',t,when('corr',1,'null')-.3);
+    const rj=when('corr',1,'rejected'), rp=seg(t,rj-.1,rj+.2); $('crRej').style.opacity=rp; $('crRej').style.transform=`rotate(-8deg) scale(${lerp(2.2,1,eout(rp))})`;
+    pop('cr2',t,when('corr',1,'44%')-.2,'scale'); pop('cr4',t,when('corr',2,'association')-.2);
+  }
+  s=SC.voices; if(s&&t>=s.start-.1&&t<s.end+.1){
+    pop('vq0',t,s.start+.15); pop('vq1',t,when('voices',0,'faster')-.2);
+    [...$('vThemes').children].forEach((c,i)=>{ const a=when('voices',1,'internships')-.6+i*.12, p=back(seg(t,a,a+.35)); c.style.opacity=clamp(p*1.5); c.style.display='inline-block'; c.style.transform=`scale(${lerp(.8,1,p)})`; });
+  }
+  s=SC.recs; if(s&&t>=s.start-.1&&t<s.end+.1){
+    pop('rc0',t,when('recs',0,'students')-.3); pop('rc1',t,when('recs',1,'educators')-.3); pop('rc2',t,when('recs',2,'PLV')-.3);
+  }
+  s=SC.impact; if(s&&t>=s.start-.1&&t<s.end+.1){
     ['CPAs','students','educators','PLV'].forEach((w,i)=>pop('im'+i,t,when('impact',0,w)-.15));
   }
   s=SC.outro; if(t>=s.start-.1){

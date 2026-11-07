@@ -19,12 +19,13 @@ from kokoro_onnx import Kokoro
 
 from script import CAPTIONS, LINES
 
-VOICE, SPEED = 'af_heart', 1.15
+VOICE, SPEED = 'af_heart', 1.2
 LEAD_IN = 0.8        # silence before the first line
 GAP = 0.3           # pause between lines in the same scene
-SCENE_GAP = 0.55      # pause when the scene changes
+SCENE_GAP = 0.45      # pause when the scene changes
+TARGET = 150.0     # exact video length in seconds (None = narration + TAIL)
 TAIL = 2.3           # hold on the end card after the last line
-HOLD = {'title': 1.1, 'comp': 0.5, 'design': 0.6, 'analysis': 0.4}   # extra time after a scene's last line
+HOLD = {'title': 0.8, 'comp': 0.3, 'design': 0.4, 'analysis': 0.3, 'corr': 0.4}   # extra time after a scene's last line
 
 
 def trim(x, sr, thresh=.008):
@@ -69,6 +70,10 @@ def main():
         t += dur
         prev = scene
     total = round(t + TAIL, 2)
+    if TARGET:  # pad the end card so the video runs exactly TARGET seconds
+        if t + 1.2 > TARGET:
+            sys.exit(f'narration ends at {t:.2f}s: too long for a {TARGET}s video')
+        total = TARGET
     scenes[0]['start'] = 0
     for a, b in zip(scenes, scenes[1:] + [{'start': total}]):
         a['end'] = b['start']

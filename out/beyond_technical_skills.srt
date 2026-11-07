@@ -1,92 +1,116 @@
 1
-00:00:00,800 --> 00:00:04,293
-Accounting now runs on AI, automation, and blockchain.
+00:00:00,800 --> 00:00:07,118
+Accounting now runs on AI, automation, and blockchain, turning record keepers into analysts and advisors.
 
 2
-00:00:04,343 --> 00:00:08,820
-The accountant is no longer just a record keeper, but an analyst and advisor.
-
-3
-00:00:09,120 --> 00:00:12,757
+00:00:07,318 --> 00:00:10,905
 So, does learning with technology build more than technical skills?
 
-4
-00:00:14,157 --> 00:00:18,086
+3
+00:00:11,905 --> 00:00:15,672
 Employers see a gap between the skills they need and what graduates bring.
 
+4
+00:00:15,722 --> 00:00:22,346
+Programs lean on theory with little hands-on practice, and past studies haven't shown how technology builds competencies.
+
 5
-00:00:18,136 --> 00:00:22,771
-Many programs still lean on theory, with limited hands-on use of digital tools.
+00:00:22,546 --> 00:00:28,009
+Kolb says we learn by doing, Siemens through digital networks, and Bandura by observing others.
 
 6
-00:00:22,821 --> 00:00:27,403
-But past studies haven't shown how this technology actually builds competencies.
+00:00:28,209 --> 00:00:33,384
+An Input, Process, Output model links respondents and competencies to recommendations.
 
 7
-00:00:27,703 --> 00:00:31,032
-Kolb's Experiential Learning says we learn best by doing.
+00:00:33,584 --> 00:00:39,617
+We measured five competencies: intellectual, technical, personal, interpersonal, and organizational.
 
 8
-00:00:31,082 --> 00:00:35,153
-Siemens' Connectivism says knowledge grows through digital networks.
+00:00:40,117 --> 00:00:43,478
+Our null hypothesis: there is no significant relationship.
 
 9
-00:00:35,203 --> 00:00:39,500
-And Bandura's Social Cognitive Theory says we learn by observing others.
+00:00:43,678 --> 00:00:48,807
+In a mixed-methods design, a survey measured the relationship, and interviews explained why.
 
 10
-00:00:39,800 --> 00:00:42,994
-Input: the respondents, and the competencies they need.
+00:00:49,407 --> 00:00:55,246
+From 112 newly passed CPAs from PLV, Slovin's formula set a sample of 88.
 
 11
-00:00:43,044 --> 00:00:46,511
-Process: how technology-integrated education shaped them.
+00:00:55,446 --> 00:01:00,393
+They rated each statement on a four-point Likert scale, and eight joined in-depth interviews.
 
 12
-00:00:46,561 --> 00:00:50,222
-Output: evidence-based strategies and policy recommendations.
+00:01:00,593 --> 00:01:04,525
+We used weighted means, Pearson correlation, and thematic analysis.
 
 13
-00:00:50,522 --> 00:00:54,953
-We focus on five competencies from the International Education Standards:
+00:01:05,025 --> 00:01:08,849
+Participation was voluntary, and data stays protected by law.
 
 14
-00:00:55,003 --> 00:00:59,553
-intellectual, technical, personal, interpersonal, and organizational skills.
+00:01:09,049 --> 00:01:13,260
+So, what did we find? 88 newly passed CPAs answered the survey.
 
 15
-00:01:00,353 --> 00:01:07,427
-Our null hypothesis: technology-integrated education has no significant relationship with these competencies.
+00:01:13,310 --> 00:01:18,917
+Almost all are employed, most in private or corporate accounting, with two years of experience or less.
 
 16
-00:01:07,727 --> 00:01:13,844
-We use a mixed-methods, nested design: a survey measures the relationship, and interviews explain why.
+00:01:19,117 --> 00:01:22,497
+All five competencies scored high, on a scale of 1 to 4.
 
 17
-00:01:14,744 --> 00:01:21,393
-From 112 newly passed CPAs from PLV, Slovin's formula sets at least 88 respondents.
+00:01:22,547 --> 00:01:28,919
+Intellectual skills ranked highest, at 3.31, led by finding information from digital resources.
 
 18
-00:01:21,443 --> 00:01:27,425
-All passed the board exam from 2023 to 2025, and work in accounting.
+00:01:28,969 --> 00:01:35,346
+Technical, personal, and organizational scored 3.26; interpersonal, 3.09 (lowest).
 
 19
-00:01:27,725 --> 00:01:32,730
-They rate each statement on a four-point Likert scale, and ten join in-depth interviews.
+00:01:35,546 --> 00:01:40,472
+Exposure to technology was rated positive overall, at 3.00,
 
 20
-00:01:33,030 --> 00:01:40,163
-Weighted means describe their answers, correlation tests the relationship, and thematic analysis finds common themes.
+00:01:40,522 --> 00:01:44,631
+but hands-on accounting software and collaborative tools scored the lowest.
 
 21
-00:01:40,863 --> 00:01:46,031
-Participation is voluntary, and all data is protected under the Data Privacy Act.
+00:01:44,831 --> 00:01:52,434
+Pearson correlation found a strong, significant relationship: r = .67, p < .001.
 
 22
-00:01:46,331 --> 00:01:53,994
-This study will help CPAs, students, educators, and PLV build an accounting education that keeps pace with technology.
+00:01:52,484 --> 00:01:57,401
+So the null hypothesis is rejected. About 44% of the variance is shared (r² = .44),
 
 23
-00:01:54,294 --> 00:01:58,024
+00:01:57,451 --> 00:02:00,246
+though this shows an association, not proof of cause.
+
+24
+00:02:00,846 --> 00:02:05,614
+The interviews explained why: technology made studying faster and more independent,
+
+25
+00:02:05,664 --> 00:02:09,467
+and internships showed how classroom tools work in real accounting jobs.
+
+26
+00:02:09,667 --> 00:02:13,325
+We recommend that students explore digital tools beyond the classroom,
+
+27
+00:02:13,375 --> 00:02:17,416
+educators use spreadsheets, simulations, and case-based activities,
+
+28
+00:02:17,466 --> 00:02:22,169
+and PLV invest in accounting software, computer labs, and faculty training.
+
+29
+00:02:22,369 --> 00:02:25,993
 Because the accountant of the future needs more than technical skills.
 
