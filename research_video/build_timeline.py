@@ -19,13 +19,18 @@ from kokoro_onnx import Kokoro
 
 from script import CAPTIONS, LINES
 
-VOICE, SPEED = 'af_heart', 1.2
+VOICE, SPEED = 'af_heart', 1.0
 LEAD_IN = 0.8        # silence before the first line
-GAP = 0.3           # pause between lines in the same scene
-SCENE_GAP = 0.45      # pause when the scene changes
-TARGET = 150.0     # exact video length in seconds (None = narration + TAIL)
-TAIL = 2.3           # hold on the end card after the last line
-HOLD = {'title': 0.8, 'comp': 0.3, 'design': 0.4, 'analysis': 0.3, 'corr': 0.4}   # extra time after a scene's last line
+GAP = 0.5           # pause between lines in the same scene
+SCENE_GAP = 1.0      # pause when the scene changes
+# Introduction and methods carry new ideas, so they get a calmer pace than the results:
+# (speed, gap between lines, gap before the next scene)
+PACE_INTRO = (0.92, 0.6, 1.3)
+PACE_RESULTS = (1.03, 0.4, 0.7)
+RESULTS_FROM = 'profile'   # first scene paced as results
+TARGET = 180.0     # exact video length in seconds (None = narration + TAIL)
+TAIL = 3.5           # hold on the end card after the last line
+HOLD = {'title': 1.5, 'comp': 0.8, 'skills': 0.5, 'corr': 0.6, 'recs': 0.3}   # extra time to read a busy scene after its last line
 
 
 def trim(x, sr, thresh=.008):
@@ -53,14 +58,17 @@ def main():
     lines, scenes = [], []
     t = LEAD_IN
     prev = None
+    in_results = False
     for i, (scene, text) in enumerate(LINES):
+        in_results = in_results or scene == RESULTS_FROM
+        pace = PACE_RESULTS if in_results else PACE_INTRO
         if prev is not None and scene != prev:
-            t += SCENE_GAP + HOLD.get(prev, 0)
+            t += pace[2] + HOLD.get(prev, 0)
         elif prev is not None:
-            t += GAP
+            t += pace[1]
         if scene != prev:
             scenes.append({'id': scene, 'start': round(t - (0 if prev is None else .45), 3)})
-        samples, sr = k.create(text, voice=VOICE, speed=SPEED, lang='en-us')
+        samples, sr = k.create(text, voice=VOICE, speed=pace[0], lang='en-us')
         samples = trim(samples, sr)
         path = os.path.join(out, f'vo_{i:02d}.wav')
         sf.write(path, samples, sr)
