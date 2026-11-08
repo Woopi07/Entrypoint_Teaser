@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASTRA Walkthrough</title>
+<!--
+  1-minute ASTRA system walkthrough. Every frame is a pure function of time: render(t).
+  Screens are real captures of https://astrawebsite-nu.vercel.app/ (assets/).
+  Timings come from timeline.js (build_timeline.py), so visuals, captions and voice stay in sync.
+-->
+<style>
+:root{--bg:#0b1030;--bg2:#121a46;--ink:#eef1ff;--mute:#9aa6d8;--yellow:#ffd23f;--purple:#7b8cff;--coral:#ff8a6b;--mint:#3fd6a8;--line:#24306e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#05081c}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;
+  background:var(--bg);font-family:Inter,"DejaVu Sans",sans-serif;color:var(--ink)}
+.disp{font-family:"Inter Display",Inter,sans-serif}
+.mono{font-family:"DejaVu Sans Mono",monospace}
+#grid{position:absolute;inset:-80px;background-image:linear-gradient(rgba(123,140,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(123,140,255,.09) 1px,transparent 1px);background-size:48px 48px}
+#glow{position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(123,140,255,.25),transparent 45%),radial-gradient(circle at 75% 70%,rgba(255,210,63,.13),transparent 40%)}
+#syms span{position:absolute;font:700 34px "DejaVu Sans Mono",monospace;opacity:.35}
+
+/* intro / outro */
+.full{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden}
+#intro .q{display:flex;gap:30px;align-items:baseline}
+#intro .w{font-family:"Inter Display";font-weight:900;font-size:150px;letter-spacing:-4px;display:inline-block}
+#intro .w.y{color:var(--yellow)}
+#intro .sub{margin-top:30px;font:700 30px "DejaVu Sans Mono",monospace;color:var(--mute)}
+#intro .sub b{color:var(--mint)}
+#logo{width:190px;height:190px;margin-bottom:26px}
+#outro .name{font-family:"Inter Display";font-weight:900;font-size:150px;letter-spacing:6px}
+#outro .tag{font-size:40px;font-weight:700;margin-top:6px}
+#outro .tag em{font-style:normal;color:var(--yellow)}
+#outro .btn{margin-top:46px;background:var(--yellow);color:#0a0f2e;font-weight:900;font-size:40px;padding:18px 44px;border-radius:18px;box-shadow:0 10px 0 #b38f10}
+#outro .url{margin-top:30px;font:700 34px "DejaVu Sans Mono",monospace;color:var(--mint)}
+#outLogo{width:150px;height:150px;margin-bottom:10px}
+
+/* screens */
+#screen{position:absolute;inset:0;opacity:0;visibility:hidden;perspective:1800px}
+#tilt{position:absolute;inset:0;transform-origin:50% 50%}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#cam img{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 160px rgba(5,8,28,.65)}
+
+/* overlays */
+#chip{position:absolute;left:44px;top:40px;display:flex;align-items:center;gap:14px;background:rgba(10,15,46,.92);border:2px solid var(--yellow);
+  border-radius:14px;padding:12px 20px;font:700 28px "DejaVu Sans Mono",monospace;color:var(--ink);box-shadow:0 8px 0 rgba(0,0,0,.35);opacity:0}
+#chip i{font-style:normal;background:var(--yellow);color:#0a0f2e;border-radius:8px;padding:2px 10px}
+#label{position:absolute;right:44px;top:40px;background:var(--purple);color:#0a0f2e;font:900 26px Inter;letter-spacing:2px;border-radius:12px;padding:12px 20px;opacity:0;box-shadow:0 8px 0 #3446c4}
+#ptr{position:absolute;left:0;top:0;width:56px;height:56px;opacity:0;z-index:5}
+#ptr svg{width:100%;height:100%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45))}
+#rip{position:absolute;left:-34px;top:-34px;width:68px;height:68px;border-radius:50%;border:5px solid var(--yellow);opacity:0}
+.pop{position:absolute;padding:12px 22px;border-radius:999px;font:900 32px Inter;white-space:nowrap;opacity:0;z-index:6;box-shadow:0 8px 0 rgba(0,0,0,.35);transform:translate(-50%,-50%)}
+.conf{position:absolute;width:16px;height:24px;border-radius:3px;z-index:6}
+#cap{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;max-width:1500px;bottom:56px;z-index:8;text-align:center;
+  background:rgba(8,12,38,.9);border:2px solid rgba(123,140,255,.45);border-radius:20px;padding:16px 30px;font-weight:800;font-size:44px;line-height:1.25;opacity:0}
+#bar{position:absolute;left:0;bottom:0;height:10px;background:linear-gradient(90deg,var(--yellow),var(--coral),var(--purple),var(--mint));z-index:9}
+#wipe{position:absolute;inset:0;z-index:7;pointer-events:none}
+#wipe i{position:absolute;top:-30%;height:160%;width:34%;transform:skewX(-14deg)}
+#fade{position:absolute;inset:0;background:#000;opacity:0;z-index:10}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div><div id="glow"></div><div id="syms"></div>
+
+  <section class="full" id="intro">
+    <img id="logo" src="assets/astra-mark.svg" alt="">
+    <div class="q"><span class="w disp" id="iw0">What</span><span class="w disp" id="iw1">is</span><span class="w disp y" id="iw2">ASTRA?</span></div>
+    <div class="sub" id="isub">=WHAT_IS(<b>"ASTRA"</b>)</div>
+  </section>
+
+  <section id="screen"><div id="tilt"><div id="cam"></div><div id="flash"></div></div><div id="vignette"></div></section>
+
+  <section class="full" id="outro">
+    <img id="outLogo" src="assets/astra-mark.svg" alt="">
+    <div class="name disp" id="oName">ASTRA</div>
+    <div class="tag" id="oTag">Build <em>beyond</em> your technical skills.</div>
+    <div class="btn" id="oBtn">Start the quest →</div>
+    <div class="url" id="oUrl">astrawebsite-nu.vercel.app</div>
+  </section>
+
+  <div id="chip"><i>ƒx</i><span id="chipT"></span></div>
+  <div id="label"></div>
+  <div id="pops"></div>
+  <div id="ptr"><div id="rip"></div><svg viewBox="0 0 24 24"><path d="M3 2 L3 20 L8 15 L11.5 22 L14.5 20.6 L11 13.8 L18 13.8Z" fill="#fff" stroke="#0a0f2e" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+  <div id="wipe"></div>
+  <div id="cap"></div>
+  <div id="bar"></div>
+  <div id="fade"></div>
+</div>
+
+<script src="timeline.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL, SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+const W=1920,H=1080;
+// time a word is spoken (proportional to its position in the line)
+function when(id,word,k=0){ const l=TL.lines.filter(l=>l.scene===id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); if(i<0) throw new Error('cue "'+word+'" not in '+id);
+  return l.start+(l.end-l.start)*i/l.text.length; }
+
+// fit the stage on any window (renderer uses exactly 1920x1080)
+function fitStage(){ const s=Math.min(innerWidth/W,innerHeight/H); $('stage').style.transform=`scale(${s})`; }
+addEventListener('resize',fitStage); fitStage();
+
+// ---------------------------------------------------------------- scene definitions
+// rect = [x,y,w,h] in screenshot pixels; clicks/pops at screenshot pixels too
+const C={y:'#ffd23f',p:'#7b8cff',c:'#ff8a6b',m:'#3fd6a8'};
+const SCENES=[
+ {id:'what', tag:'=HUB("Digital Accounting")', label:'WELCOME',
+  shots:[['00_loader',()=>SC.what.start],['01_home',()=>when('what','digital')]],
+  cam:[[()=>SC.what.start,[440,190,1040,585]],[()=>when('what','digital'),[0,0,1920,1080]],[()=>when('what','future'),[380,90,1180,664]]],
+  clicks:[], pops:[[()=>when('what','future')+.3,'Future CPA ★',1180,640,C.y]]},
+ {id:'overview', tag:'=XP("explore")', label:'HOME',
+  shots:[['01_home',()=>SC.overview.start],['02_overview',()=>when('overview','flip')-.5],['03_flipped',()=>when('overview','flip')+.35]],
+  cam:[[()=>SC.overview.start,[380,90,1180,664]],[()=>when('overview','XP')+.2,[1000,40,620,350]],[()=>when('overview','flip')-.5,[380,40,1180,664]],[()=>when('overview','inside'),[380,60,820,460]]],
+  clicks:[[()=>when('overview','XP')+.35,1330,32],[()=>when('overview','flip')+.25,548,420]],
+  pops:[[()=>when('overview','XP')+.5,'+XP',1330,120,C.m],[()=>when('overview','flip')+.45,'Flip ↻',560,560,C.y]]},
+ {id:'warmup', tag:'=WARMUP("balance")', label:'MINI GAMES',
+  shots:[['04_balance',()=>SC.warmup.start],['05_balanced',()=>when('warmup','balance')+.55],['06_think',()=>when('warmup','think')+.55]],
+  cam:[[()=>SC.warmup.start,[400,90,1140,640]],[()=>when('warmup','balance')+.2,[400,140,600,560]],[()=>when('warmup','think')-.3,[930,140,600,560]]],
+  clicks:[[()=>when('warmup','balance')+.4,683,576],[()=>when('warmup','think')+.4,1354,461]],
+  pops:[[()=>when('warmup','balance')+.65,'Balanced! +20 XP',683,450,C.m],[()=>when('warmup','think')+.65,'Correct ✓',1354,560,C.m]],
+  conf:[()=>when('warmup','balance')+.6]},
+ {id:'rush', tag:'=RUSH(30)', label:'SPEED ROUND',
+  shots:[['07_rush',()=>SC.rush.start]],
+  cam:[[()=>SC.rush.start,[420,560,1100,470]],[()=>SC.rush.end,[560,640,820,400]]],
+  clicks:[[()=>when('rush','beat')+.1,700,936],[()=>when('rush','Debit')+.1,1218,936],[()=>when('rush','Rush')+.1,700,936]],
+  pops:[[()=>when('rush','beat')+.3,'+1',760,800,C.y],[()=>when('rush','Debit')+.3,'+1',1180,800,C.y],[()=>when('rush','Rush')+.3,'Streak ×3!',960,760,C.c]]},
+ {id:'quest', tag:'=HABITS("pay off", 5)', label:'HABIT HUB',
+  shots:[['10_students',()=>SC.quest.start],['11_quest1',()=>when('quest','crack')],['12_quest_ok',()=>when('quest','unlock')-.3]],
+  cam:[[()=>SC.quest.start,[400,60,1140,640]],[()=>when('quest','crack'),[400,120,1140,640]],[()=>when('quest','unlock')-.3,[700,330,900,506]],[()=>when('quest','rank'),[700,500,1000,563]]],
+  clicks:[[()=>when('quest','Hub')+.25,547,662],[()=>when('quest','unlock')-.5,620,726]],
+  pops:[[()=>when('quest','unlock')+.1,'Habit unlocked!',1331,470,C.y],[()=>when('quest','rank')+.1,'Rank up! Bookkeeper',956,960,C.m]],
+  conf:[()=>when('quest','unlock'),()=>when('quest','rank')+.1]},
+ {id:'side', tag:'=SIDE_QUESTS(3)', label:'SIDE QUESTS',
+  shots:[['13_sidequests',()=>SC.side.start],['14_sq_play',()=>when('side','competencies')+.2]],
+  cam:[[()=>SC.side.start,[400,470,1140,641]],[()=>when('side','competencies')+.2,[400,270,1140,641]],[()=>SC.side.end,[440,560,900,506]]],
+  clicks:[[()=>when('side','competencies'),711,841]],
+  pops:[[()=>when('side','ten'),'10 activities · +10 XP each',960,980,C.p]]},
+ {id:'resources', tag:'=TUTORIALS("QuickBooks","Xero")', label:'FOR STUDENTS',
+  shots:[['20_hub',()=>SC.resources.start],['21_hub_sheet',()=>when('resources','spreadsheet')+.2]],
+  cam:[[()=>SC.resources.start,[400,330,1140,641]],[()=>when('resources','tutorials'),[440,420,900,506]],[()=>when('resources','spreadsheet'),[400,300,1140,641]]],
+  clicks:[[()=>when('resources','spreadsheet'),605,916]], pops:[[()=>when('resources','templates'),'All in one place',1200,640,C.y]]},
+ {id:'edu', tag:'=APPROACHES("teach", 7)', label:'EDUCATORS',
+  shots:[['32_edu_steps',()=>SC.edu.start],['33_edu_plan',()=>when('edu','seven')-.2]],
+  cam:[[()=>SC.edu.start,[560,170,800,740]],[()=>when('edu','seven')-.2,[400,260,1140,641]]],
+  clicks:[[()=>SC.edu.start+.35,956,475],[()=>when('edu','teaching'),956,562],[()=>when('edu','plan')+.1,878,743]],
+  pops:[[()=>when('edu','plan')+.3,'Added to my plan ✓',1100,760,C.m]]},
+ {id:'adm', tag:'=POLICIES("PLV", 6)', label:'PLV ADMINS',
+  shots:[['43_adm_open',()=>SC.adm.start],['44_adm_done',()=>when('adm','track')+.1],['45_road',()=>when('adm','live')-.3]],
+  cam:[[()=>SC.adm.start,[560,250,800,600]],[()=>when('adm','live')-.3,[400,40,1140,641]]],
+  clicks:[[()=>when('adm','track'),1011,559]],
+  pops:[[()=>when('adm','track')+.25,'Implemented ✓',1011,480,C.m],[()=>when('adm','readiness'),'Readiness 50%',700,190,C.y]],
+  conf:[()=>when('adm','track')+.2]},
+ {id:'extras', tag:'=BADGES(10)', label:'MAKE IT YOURS',
+  shots:[['50_badges',()=>SC.extras.start],['51_settings',()=>when('extras','soundtrack')-.2]],
+  cam:[[()=>SC.extras.start,[560,80,800,920]],[()=>when('extras','soundtrack')-.2,[560,40,800,960]]],
+  clicks:[[()=>when('extras','soundtrack')+.2,1189,340]], pops:[[()=>when('extras','badges'),'10 badges to collect',960,1000,C.p],[()=>when('extras','soundtrack')+.4,'♫ Music on',1189,260,C.y]]},
+];
+// resolve time functions once
+SCENES.forEach(s=>{ const R=v=>typeof v==='function'?v():v;
+  s.start=SC[s.id].start; s.end=SC[s.id].end;
+  s.shots=s.shots.map(([n,f])=>[n,R(f)]); s.cam=s.cam.map(([f,r])=>[R(f),r]);
+  s.clicks=(s.clicks||[]).map(([f,x,y])=>[R(f),x,y]); s.pops=(s.pops||[]).map(([f,txt,x,y,c])=>[R(f),txt,x,y,c]);
+  s.conf=(s.conf||[]).map(R); });
+const ALL_CLICKS=SCENES.flatMap(s=>s.clicks.map(c=>c[0]));
+
+// images
+const IMGS={}; new Set(SCENES.flatMap(s=>s.shots.map(x=>x[0]))).forEach(n=>{ const im=new Image(); im.src='assets/'+n+'.png'; $('cam').appendChild(im); IMGS[n]=im; });
+// pops + confetti pools
+const MAXPOP=3; for(let i=0;i<MAXPOP;i++){ const d=document.createElement('div'); d.className='pop'; d.id='pop'+i; $('pops').appendChild(d); }
+let seed=5; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const CONF=[...Array(60)].map((_,i)=>({a:rnd()*Math.PI*2,v:500+rnd()*700,s:rnd(),c:['#ffd23f','#7b8cff','#ff8a6b','#3fd6a8','#fff'][i%5]}));
+CONF.forEach((c,i)=>{ const d=document.createElement('i'); d.className='conf'; d.id='cf'+i; d.style.background=c.c; $('pops').appendChild(d); });
+// floating symbols
+const SYMS=[...Array(16)].map((_,i)=>({ch:'+−×÷₱=%'[i%7],x:rnd()*1920,y:rnd()*1080,sp:20+rnd()*40,ph:rnd()*6,col:['#ffd23f','#7b8cff','#ff8a6b','#3fd6a8'][i%4]}));
+$('syms').innerHTML=SYMS.map((s,i)=>`<span id="sy${i}" style="color:${s.col}">${s.ch}</span>`).join('');
+// wipe stripes
+$('wipe').innerHTML=['#ffd23f','#7b8cff','#ff8a6b','#3fd6a8'].map((c,i)=>`<i id="wp${i}" style="background:${c}"></i>`).join('');
+
+// ---------------------------------------------------------------- camera
+function fit(r){ const s=Math.min(W/r[2],H/r[3]); let x=W/2-(r[0]+r[2]/2)*s, y=H/2-(r[1]+r[3]/2)*s;
+  x=clamp(x,W-W*s,0); y=clamp(y,H-H*s,0); return {s,x,y}; }
+function camAt(t,keys){
+  if(t<=keys[0][0]) return fit(keys[0][1]);
+  for(let i=1;i<keys.length;i++) if(t<keys[i][0]){
+    const a=fit(keys[i-1][1]), b=fit(keys[i][1]); const k=eio(seg(t,keys[i][0]-.65,keys[i][0]));
+    if(k<=0) return a;
+    const s=Math.exp(lerp(Math.log(a.s),Math.log(b.s),k));
+    const ca={x:(W/2-a.x)/a.s,y:(H/2-a.y)/a.s}, cb={x:(W/2-b.x)/b.s,y:(H/2-b.y)/b.s};
+    return {s,x:W/2-lerp(ca.x,cb.x,k)*s,y:H/2-lerp(ca.y,cb.y,k)*s};
+  }
+  return fit(keys[keys.length-1][1]);
+}
+const vis=(id,o)=>{ const e=$(id); e.style.opacity=o; e.style.visibility=o>0?'visible':'hidden'; };
+
+// ---------------------------------------------------------------- render(t)
+function render(t){
+  // background life
+  $('grid').style.transform=`translate(${(t*18)%48}px,${(t*10)%48}px)`;
+  SYMS.forEach((s,i)=>{ const e=$('sy'+i); e.style.transform=`translate(${s.x}px,${(s.y-t*s.sp+1300)%1300-100}px) rotate(${Math.sin(t+s.ph)*20}deg)`; });
+
+  // ---- intro
+  const iEnd=SC.intro.end;
+  if(t<iEnd+.1){ vis('intro',t<iEnd-.15?1:1-seg(t,iEnd-.15,iEnd));
+    const lp=back(seg(t,.05,.6)); $('logo').style.transform=`scale(${lerp(.2,1,lp)}) rotate(${lerp(-200,0,eout(seg(t,.05,.7)))}deg)`; $('logo').style.opacity=seg(t,.05,.3);
+    [when('intro','what'),when('intro',' is')+.05,when('intro','ASTRA')].forEach((a,i)=>{ const p=back(seg(t,a-.05,a+.3)); const e=$('iw'+i);
+      e.style.opacity=clamp(p*2); e.style.transform=`translateY(${lerp(80,0,p)}px) scale(${lerp(.5,1,p)}) rotate(${lerp(i===2?-8:6,0,p)}deg)`; });
+    const w2=$('iw2'); const pulse=t>1.4?1+.04*Math.sin((t-1.4)*9)*Math.exp(-(t-1.4)*1.5):1; w2.style.transform+=` scale(${pulse})`;
+    $('isub').style.opacity=seg(t,1.3,1.7);
+  } else vis('intro',0);
+
+  // ---- screens
+  const sc=SCENES.find(s=>t>=s.start&&t<s.end);
+  if(sc){
+    vis('screen',1);
+    const c=camAt(t,sc.cam);
+    $('cam').style.transform=`translate(${c.x}px,${c.y}px) scale(${c.s})`;
+    // entrance: card swings in
+    const ep=eout(seg(t,sc.start,sc.start+.7));
+    $('tilt').style.transform=`rotateY(${lerp(18,0,ep)}deg) rotateX(${lerp(-6,0,ep)}deg) scale(${lerp(.86,1,ep)})`;
+    // shots: crossfade between states with a little flash
+    let cur=sc.shots[0][0], prev=null, sw=0;
+    sc.shots.forEach(([n,a])=>{ if(t>=a){ prev=cur; cur=n; sw=a; } });
+    for(const n in IMGS) IMGS[n].style.opacity=0;
+    const xf=seg(t,sw,sw+.22);
+    if(prev && prev!==cur && xf<1){ IMGS[prev].style.opacity=1; IMGS[cur].style.opacity=xf; } else IMGS[cur].style.opacity=1;
+    $('flash').style.opacity= (prev&&prev!==cur&&t-sw<.12) ? .25*(1-(t-sw)/.12) : 0;
+    // chip + label
+    const cp=back(seg(t,sc.start+.25,sc.start+.6)), co=1-seg(t,sc.end-.3,sc.end);
+    $('chip').style.opacity=clamp(cp)*co; $('chip').style.transform=`translateY(${lerp(-40,0,cp)}px)`; $('chipT').textContent=sc.tag;
+    $('label').style.opacity=clamp(cp)*co; $('label').style.transform=`translateX(${lerp(60,0,cp)}px) rotate(2deg)`; $('label').textContent=sc.label;
+    // pointer: glides to each click
+    const P=$('ptr'), clicks=sc.clicks;
+    if(clicks.length){
+      const scr=(x,y)=>({x:x*c.s+c.x,y:y*c.s+c.y});
+      let pos, k=clicks.findIndex(ck=>t<ck[0]);
+      if(k===-1) k=clicks.length;
+      const target = clicks[Math.min(k,clicks.length-1)];
+      const from = k>0 ? clicks[k-1] : [sc.start, target[1]+260, target[2]+220];
+      const m=eio(seg(t,Math.max(from[0],target[0]-.7),target[0]));
+      const A=scr(from[1],from[2]), B=scr(target[1],target[2]);
+      pos = k>=clicks.length ? A : {x:lerp(A.x,B.x,m),y:lerp(A.y,B.y,m)};
+      const last=clicks.filter(ck=>t>=ck[0]).pop(), since=last?t-last[0]:9;
+      P.style.opacity=seg(t,sc.start+.4,sc.start+.7)*co;
+      P.style.transform=`translate(${pos.x}px,${pos.y}px) scale(${since<.12?.8:1})`;
+      $('rip').style.opacity=since<.5?1-since/.5:0; $('rip').style.transform=`scale(${.3+since*3.2})`;
+    } else P.style.opacity=0;
+    // pops (+XP, Correct!)
+    const active=sc.pops.filter(p=>t>=p[0]&&t<p[0]+1.6).slice(-MAXPOP);
+    for(let i=0;i<MAXPOP;i++){ const d=$('pop'+i), p=active[i];
+      if(!p){ d.style.opacity=0; continue; }
+      const age=t-p[0], b=back(seg(age,0,.35)); const sx=p[2]*c.s+c.x, sy=p[3]*c.s+c.y;
+      d.textContent=p[1]; d.style.background=p[4]; d.style.color='#0a0f2e';
+      d.style.left=clamp(sx,220,1700)+'px'; d.style.top=clamp(sy-age*40,120,900)+'px';
+      d.style.opacity=clamp(b*2)*(1-seg(age,1.3,1.6)); d.style.transform=`translate(-50%,-50%) scale(${b}) rotate(${Math.sin(age*8)*3*(1-seg(age,0,.6))}deg)`; }
+    // confetti
+    const cf=sc.conf.filter(a=>t>=a&&t<a+1.6).pop();
+    CONF.forEach((q,i)=>{ const d=$('cf'+i); if(cf===undefined){ d.style.opacity=0; return; }
+      const age=t-cf; d.style.opacity=1-seg(age,1.1,1.6);
+      d.style.transform=`translate(${960+Math.cos(q.a)*q.v*age}px,${470+Math.sin(q.a)*q.v*age*.6+700*age*age}px) rotate(${age*(300+q.s*600)}deg)`; });
+  } else {
+    vis('screen',0); $('chip').style.opacity=0; $('label').style.opacity=0; $('ptr').style.opacity=0;
+    for(let i=0;i<MAXPOP;i++) $('pop'+i).style.opacity=0; CONF.forEach((q,i)=>$('cf'+i).style.opacity=0);
+  }
+
+  // ---- outro
+  const o=SC.outro.start;
+  if(t>=o-.05){ vis('outro',1);
+    const lp=back(seg(t,o,o+.5)); $('outLogo').style.transform=`scale(${lp}) rotate(${lerp(180,0,eout(seg(t,o,o+.6)))}deg)`;
+    ['oName','oTag','oBtn','oUrl'].forEach((id,i)=>{ const a=[when('outro','ASTRA'),when('outro','Build'),when('outro','Start'),when('outro','today')+.2][i];
+      const p=back(seg(t,a-.1,a+.3)); $(id).style.opacity=clamp(p*2); $(id).style.transform=`translateY(${lerp(50,0,p)}px) scale(${lerp(.7,1,p)})`; });
+    const bs=t>when('outro','Start')+.4?1+.04*Math.sin(t*7):null; if(bs) $('oBtn').style.transform=`scale(${bs})`;
+    // confetti on the outro too
+    const age=t-when('outro','Start');
+    CONF.forEach((q,i)=>{ const d=$('cf'+i); if(age<0||age>2.2) return; d.style.opacity=1-seg(age,1.6,2.2);
+      d.style.transform=`translate(${960+Math.cos(q.a)*q.v*age}px,${540+Math.sin(q.a)*q.v*age*.6+700*age*age}px) rotate(${age*(300+q.s*600)}deg)`; });
+  } else vis('outro',0);
+
+  // ---- wipe between scenes (4 colored stripes)
+  let wp=null; TL.scenes.forEach((s,i)=>{ if(i>0&&t>=s.start-.35&&t<s.start+.35) wp=seg(t,s.start-.35,s.start+.35); });
+  for(let i=0;i<4;i++){ const e=$('wp'+i); if(wp===null){ e.style.left='-60%'; continue; }
+    const p=eio(clamp(wp*1.25-i*.08)); e.style.left=(lerp(-60,130,p)+i*-4)+'%'; e.style.width=(34-i*4)+'%'; }
+
+  // ---- captions: word-by-word highlight
+  const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.3), C=$('cap');
+  if(ln && !location.search.includes('nocap')){
+    const p=seg(t,ln.start,ln.end); let acc=0; const tot=ln.text.length;
+    C.innerHTML=ln.text.split(' ').map(w=>{ const a=acc/tot,b=(acc+w.length)/tot; acc+=w.length+1;
+      return `<span style="color:${p>=b?'#fff':p>=a?'#ffd23f':'rgba(238,241,255,.45)'}">${w}</span>`; }).join(' ');
+    C.style.opacity=Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.15,ln.end+.3));
+  } else C.style.opacity=0;
+  $('bar').style.width=(100*t/TL.total)+'%';
+  $('fade').style.opacity= t<.25 ? 1-seg(t,0,.25) : seg(t,TL.total-.6,TL.total);
+}
+window.render=render;
+window.CLICKS=ALL_CLICKS;
+window.POPS=SCENES.flatMap(s=>s.pops.map(p=>p[0]));
+window.CONFS=SCENES.flatMap(s=>s.conf).concat([when('outro','Start')]);
+window.SWAPS=SCENES.flatMap(s=>s.shots.slice(1).map(x=>x[1]));
+window.WORDS=[when('intro','what'),when('intro',' is')+.05,when('intro','ASTRA')];
+window.XP=SCENES.flatMap(s=>s.pops.filter(p=>/XP|\+1/.test(p[1])).map(p=>p[0]));
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script>
+</body>
+</html>

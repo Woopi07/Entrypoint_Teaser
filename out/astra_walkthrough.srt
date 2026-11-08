@@ -1,0 +1,48 @@
+1
+00:00:00,500 --> 00:00:01,667
+What is ASTRA?
+
+2
+00:00:03,217 --> 00:00:09,397
+It's a digital accounting education hub that helps future CPAs grow beyond technical skills.
+
+3
+00:00:10,147 --> 00:00:14,334
+Earn XP as you explore, and flip the cards to see what is inside.
+
+4
+00:00:14,684 --> 00:00:19,015
+Warm up with quick games: balance the entry, and think like an accountant.
+
+5
+00:00:19,965 --> 00:00:22,552
+Then beat the clock in Debit or Credit Rush!
+
+6
+00:00:22,902 --> 00:00:27,826
+In the Habit Hub, crack the Bayanihan Bakeshop case to unlock habits and rank up.
+
+7
+00:00:28,876 --> 00:00:32,771
+Side quests test your competencies, ten activities at a time.
+
+8
+00:00:33,121 --> 00:00:38,429
+Students get tutorials, spreadsheet exercises, videos, and templates in one place.
+
+9
+00:00:38,779 --> 00:00:42,847
+Educators build a teaching plan from seven suggested approaches,
+
+10
+00:00:43,197 --> 00:00:47,687
+and PLV admins track six policies on a live readiness roadmap.
+
+11
+00:00:48,537 --> 00:00:51,613
+Collect badges, pick your soundtrack, and make it yours.
+
+12
+00:00:51,963 --> 00:00:56,022
+ASTRA. Build beyond your technical skills. Start your quest today!
+
