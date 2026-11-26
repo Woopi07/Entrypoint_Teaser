@@ -18,7 +18,7 @@ body{background:var(--cream);overflow:hidden}
 #icon{position:relative;width:800px;height:800px;overflow:hidden;background:var(--sage)}
 #icon .ring{position:absolute;inset:60px;border-radius:50%;background:var(--cream)}
 #icon .leafs{position:absolute;left:0;top:0;width:800px;height:800px}
-#icon .w{position:absolute;left:0;right:0;top:250px;text-align:center;font-family:Fredoka;font-weight:600;font-size:420px;line-height:1;color:var(--deep)}
+#icon .w{position:absolute;left:0;right:0;top:143px;text-align:center;font-family:Fredoka;font-weight:600;font-size:560px;line-height:1;color:var(--deep)}
 
 /* ---------- banner 2560x1440 (safe area 1546x423, centered) ---------- */
 #banner{position:relative;width:2560px;height:1440px;overflow:hidden;background:var(--cream)}
@@ -37,12 +37,14 @@ body{background:var(--cream);overflow:hidden}
 <div id="icon" hidden>
   <div class="ring"></div>
   <svg class="leafs" viewBox="0 0 800 800">
-    <!-- sprout growing out of the w -->
+    <!-- sprout growing out of the top center of the w -->
+    <g transform="translate(0 82)">
     <path d="M400 268 C400 220 400 200 400 170" stroke="#1f3d2b" stroke-width="22" stroke-linecap="round" fill="none"/>
     <path d="M400 190 C330 190 290 150 282 92 C350 92 396 128 400 190Z" fill="#8db596" stroke="#1f3d2b" stroke-width="16" stroke-linejoin="round"/>
     <path d="M400 168 C470 168 512 126 520 66 C450 66 404 104 400 168Z" fill="#8db596" stroke="#1f3d2b" stroke-width="16" stroke-linejoin="round"/>
-    <circle cx="590" cy="190" r="34" fill="#ffc94d"/>
-    <circle cx="210" cy="610" r="18" fill="#ff9f75"/>
+    </g>
+    <circle cx="600" cy="240" r="34" fill="#ffc94d"/>
+    <circle cx="170" cy="560" r="18" fill="#ff9f75"/>
   </svg>
   <div class="w">w</div>
 </div>
@@ -86,7 +88,7 @@ if(show==='banner'){
   const ic=document.getElementById('icon'), svg=document.getElementById('bLogo');
   svg.innerHTML=`<defs><clipPath id="c"><circle cx="400" cy="400" r="400"/></clipPath></defs>
     <g clip-path="url(#c)"><rect width="800" height="800" fill="#8db596"/><circle cx="400" cy="400" r="340" fill="#fff6ec"/>${ic.querySelector('svg').innerHTML}
-    <text x="400" y="590" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="420" fill="#1f3d2b">w</text></g>`;
+    <text x="400" y="630" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="560" fill="#1f3d2b">w</text></g>`;
   // size the sun-dot on the i to the font
   const d=document.querySelector('#banner .dot'); d.style.width=d.style.height='46px'; d.style.top='30px';
   if(q.includes('guide')) document.getElementById('guide').style.display='block';
