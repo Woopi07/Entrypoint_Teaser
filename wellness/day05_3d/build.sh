@@ -9,5 +9,5 @@ python3 build_timeline.py "$WORK/vo" "${TTS_MODEL_DIR:-/opt/tts}"
 EVENTS_OUT="$WORK/events.json" node render.mjs "$WORK/frames"
 CLICKS="$WORK/events.json" python3 audio.py "$WORK/vo/timeline.json" "$WORK/mix.wav"
 ffmpeg -loglevel error -y -framerate 30 -i "$WORK/frames/f%05d.jpg" -i "$WORK/mix.wav" \
-  -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -shortest ../../out/wellness_day05_3d.mp4
-ls -lh ../../out/wellness_day05_3d.*
+  -c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -shortest ../../out/wellness_day04_screen_3d.mp4
+ls -lh ../../out/wellness_day04_screen_3d.*

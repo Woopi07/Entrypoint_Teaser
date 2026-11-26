@@ -67,7 +67,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 <body>
 <canvas id="c" width="1080" height="1920"></canvas>
 <div id="ui">
-  <div id="tag">DAY <b>5</b>/30</div>
+  <div id="tag">DAY <b>4</b>/30</div>
   <div id="meter"><span>📱 SCREEN TIME</span><div class="bar"><i id="mfill"></i></div></div>
   <div id="label"></div>
   <svg id="icon" viewBox="0 0 100 100"></svg>
@@ -77,7 +77,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="rule"><div class="r"><b>20</b><span>minutes</span></div><div class="x">→</div><div class="r"><b>20</b><span>seconds</span></div><div class="x">→</div><div class="r"><b>20</b><span>feet away</span></div></div>
   <div id="end"><img class="logo" src="logo.png" alt="woopi"><div class="s">Follow for more health &amp; wellness</div>
     <div id="checks"><div id="ck0">🔕</div><div id="ck1">📵</div><div id="ck2">👀</div><div id="ck3">🛏️</div></div></div>
-  <div id="title"><div class="k">DAY <b>5</b>/30</div><div class="h">4 Phone &amp; Screen<br><em>Habits</em></div></div>
+  <div id="title"><div class="k">DAY <b>4</b>/30</div><div class="h">4 Phone &amp; Screen<br><em>Habits</em></div></div>
   <div id="cap"></div>
   <div id="fade"></div>
 </div>
@@ -171,13 +171,7 @@ function person(){
   mesh(new THREE.CylinderGeometry(.31,.31,.07,24),M(0x2b2b2b),0,1.0,0,body).scale.set(1,1,.72);
   const head=new THREE.Group(); head.position.set(0,2.02,0); body.add(head);
   mesh(new THREE.SphereGeometry(.34,28,20),M(0xfff1e6),0,0,0,head).scale.set(1,1.04,.98);
-  // curly hair: a cloud of black blobs over the top, back and sides, plus messy bangs
-  const curl=M(0x141414,{roughness:.9}); let hs=17; const hr=()=>(hs=(hs*16807)%2147483647)/2147483647;
-  for(let i=0;i<46;i++){ const th=hr()*Math.PI*2, ph=hr()*1.25; const r=.33+hr()*.05;
-    const x=Math.sin(ph)*Math.cos(th)*r, y=.06+Math.cos(ph)*r*.95, z=Math.sin(ph)*Math.sin(th)*r;
-    if(z>.18&&y<.2) continue; mesh(new THREE.SphereGeometry(.1+hr()*.05,14,10),curl,x*1.12,y,z*1.05-.02,head); }
-  [[-.16,.24,.24,.11],[0,.28,.26,.12],[.15,.25,.24,.1],[-.27,.1,.18,.09],[.27,.1,.18,.09],[-.08,.2,.28,.07],[.1,.21,.28,.07],[-.33,-.06,.06,.08],[.33,-.06,.06,.08]]
-    .forEach(([x,y,z,r])=>mesh(new THREE.SphereGeometry(r,14,10),curl,x,y,z,head));
+  const hair=mesh(new THREE.SphereGeometry(.36,28,20,0,Math.PI*2,0,Math.PI*.55),hairM,0,.04,-.02,head); hair.rotation.x=-.25;
   // eyes, brows, nose line, flat mouth
   [-.1,.1].forEach(x=>{ mesh(new THREE.CapsuleGeometry(.025,.035,4,8),dark,x,.0,.315,head); const br=mesh(new THREE.BoxGeometry(.08,.016,.02),dark,x,.1,.31,head); br.rotation.z=x<0?-.08:.08; });
   mesh(new THREE.BoxGeometry(.012,.07,.02),dark,0,-.07,.335,head);
