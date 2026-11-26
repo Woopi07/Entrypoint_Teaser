@@ -362,7 +362,7 @@ function render(t){
   if(t>=SC.outro.start){ const wv=seg(t,SC.outro.start+.3,SC.outro.start+.8); P.armR.rotation.z=-lerp(.12,2.6,wv)-Math.sin(t*8)*.25*wv; }
   // walking bob between scenes
   // camera
-  const out=OUT(t);
+  const out=OUT(t); glow2.visible=out; sun2.visible=out; skyDome.visible=out;
   if(out){ P.g.position.x+=OX; [clock,bolt,sneaker,cloud].forEach(o=>o.position.x+=OX); cloud.position.y=5.2; cloud.position.z=-10; cloud.scale.multiplyScalar(1.6);
     sunLight.position.set(OX+7,13,6); sunLight.target.position.set(OX,0,-.5); sunLight.intensity=3.4; fill.position.set(OX+4,7,8); hemi.intensity=1.35; paintSky(1);
     const sr2=eout(seg(t,SC.clock.start,SC.clock.start+2.8)); sun2.position.y=t<SC.sleep.start?lerp(2,8,sr2):9; glow2.position.copy(sun2.position); }
