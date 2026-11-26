@@ -29,3 +29,20 @@ new = r'''  mesh(new THREE.SphereGeometry(.34,28,20),M(0xfff1e6),0,0,0,head).sca
 s = s[:a] + new + s[b:]
 s = s.replace("const skin=M(0xffd6b5)", "const skin=M(0xfff1e6)")
 open(p, 'w').write(s); print('restyled', p)
+
+# --- masculine body: broad shoulders, V-shaped torso, narrow hips, neck, short sleeves
+p = sys.argv[1]; s = open(p).read()
+old_t = "  mesh(new THREE.CapsuleGeometry(.36,.62,8,16),shirt,0,1.36,0,body).scale.set(1,1,.78);"
+old_h = "  const hips=mesh(new THREE.CapsuleGeometry(.33,.12,8,16),pants,0,.92,0,body); hips.scale.set(1,1,.8);"
+if old_t in s:
+    s = s.replace(old_t, r'''  { const tg=new THREE.CylinderGeometry(.46,.32,.78,24,1); const tor=mesh(tg,shirt,0,1.36,0,body); tor.scale.set(1,1,.62);
+    const sh=mesh(new THREE.CapsuleGeometry(.17,.62,8,16),shirt,0,1.7,0,body); sh.rotation.z=Math.PI/2; sh.scale.set(1,1,.8);
+    mesh(new THREE.CylinderGeometry(.11,.12,.2,16),M(0xfff1e6),0,1.86,0,body);
+    const coll=mesh(new THREE.TorusGeometry(.12,.025,8,20),shirt,0,1.79,0,body); coll.rotation.x=Math.PI/2; }''')
+    s = s.replace(old_h, "  const hips=mesh(new THREE.CapsuleGeometry(.29,.1,8,16),pants,0,.92,0,body); hips.scale.set(1.02,1,.72);\n  mesh(new THREE.CylinderGeometry(.31,.31,.07,24),M(0x2b2b2b),0,1.0,0,body).scale.set(1,1,.72);")
+    # arms: shoulders wider, sleeve + forearm; legs slightly slimmer
+    s = s.replace("const armL=limb(.1,.62,shirt,body,-.47,1.66,0), armR=limb(.1,.62,shirt,body,.47,1.66,0);",
+                  "const armL=limb(.1,.62,M(0xfff1e6),body,-.55,1.7,0), armR=limb(.1,.62,M(0xfff1e6),body,.55,1.7,0);\n  [armL,armR].forEach(a=>mesh(new THREE.CapsuleGeometry(.125,.18,6,12),shirt,0,-.14,0,a));")
+    s = s.replace("const legL=limb(.13,.6,pants,body,-.17,.85,0), legR=limb(.13,.6,pants,body,.17,.85,0);",
+                  "const legL=limb(.125,.6,pants,body,-.15,.85,0), legR=limb(.125,.6,pants,body,.15,.85,0);")
+    open(p, 'w').write(s); print('body restyled', p)
