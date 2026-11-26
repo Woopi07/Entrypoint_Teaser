@@ -20,18 +20,27 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #end{position:absolute;left:0;right:0;top:330px;text-align:center;opacity:0}
 #end .w{font:900 180px "Inter Display";color:#fff6ec;letter-spacing:-4px;-webkit-text-stroke:6px #1f3d2b;text-shadow:0 12px 0 rgba(31,61,43,.35)}
 #end .s{font:800 54px Inter;color:#1f3d2b;background:#fff6ec;display:inline-block;border-radius:999px;padding:14px 36px;margin-top:20px}
-#checks{display:flex;gap:30px;justify-content:center;margin-top:36px}
-#checks div{width:150px;height:150px;border-radius:40px;background:#fff6ec;display:grid;place-items:center;font-size:76px;box-shadow:0 10px 0 rgba(0,0,0,.2)}
+#checks{display:flex;gap:18px;justify-content:center;margin-top:36px}
+#checks div{width:130px;height:130px;border-radius:34px;background:#fff6ec;display:grid;place-items:center;font-size:66px;box-shadow:0 10px 0 rgba(0,0,0,.2)}
 #fade{position:absolute;inset:0;background:#000;opacity:0}
+#row{position:absolute;left:0;right:0;top:440px;display:flex;justify-content:center;gap:22px}
+#row div{width:150px;height:150px;border-radius:40px;background:#fff6ec;display:grid;place-items:center;font-size:78px;box-shadow:0 10px 0 rgba(0,0,0,.2);opacity:0}
+#poll{position:absolute;left:120px;right:120px;top:190px;background:#fff6ec;border-radius:44px;padding:44px 44px 30px;box-shadow:0 16px 0 rgba(0,0,0,.18);opacity:0}
+#poll h3{font:900 52px "Inter Display";color:#1f3d2b;text-align:center;margin-bottom:26px}
+#poll .op{font:800 38px Inter;color:#1f3d2b;background:#fff;border-radius:22px;padding:13px 26px;margin-bottom:12px;border:5px solid transparent}
+#poll .op.pick{border-color:#ff9f75}
+#cmt{display:block;width:fit-content;margin:22px auto 0;background:#1f3d2b;color:#fff6ec;font:800 42px Inter;border-radius:999px;padding:18px 40px}
 </style></head>
 <body>
 <canvas id="c" width="1080" height="1920"></canvas>
 <div id="ui">
-  <div id="tag">DAY <b>1</b>/30 · woopi</div>
+  <div id="tag">DAY <b>1</b>/30</div>
   <div id="label"></div>
   <svg id="icon" viewBox="0 0 100 100"></svg>
-  <div id="end"><div class="w">woopi</div><div class="s">small habits, better days</div>
-    <div id="checks"><div id="ck0">💧</div><div id="ck1">☀️</div><div id="ck2">📵</div></div></div>
+  <div id="row"><div>💧</div><div>☀️</div><div>📵</div><div>🤸</div><div>📝</div></div>
+  <div id="poll"><h3>Which one do you already do? 👇</h3><div class="op" id="po0">💧 Water</div><div class="op" id="po1">☀️ Daylight</div><div class="op" id="po2">📵 No phone first</div><div class="op" id="po3">🤸 Move</div><div class="op" id="po4">📝 Top 3 goals</div><span id="cmt">💬 Tell me in the comments</span></div>
+  <div id="end"><div class="w">woopi</div><div class="s">Follow for more health &amp; wellness</div>
+    <div id="checks"><div id="ck0">💧</div><div id="ck1">☀️</div><div id="ck2">📵</div><div id="ck3">🤸</div><div id="ck4">📝</div></div></div>
   <div id="cap"></div>
   <div id="fade"></div>
 </div>
@@ -183,18 +192,38 @@ const noSign=new THREE.Group(); noSign.position.set(-1.1,1.55,-3.2); scene.add(n
 const red=M(0xff4d4d,{roughness:.4,emissive:0x661111,emissiveIntensity:.4});
 mesh(new THREE.TorusGeometry(.75,.11,14,48),red,0,0,0,noSign); mesh(new THREE.BoxGeometry(1.45,.2,.2),red,0,0,0,noSign).rotation.z=Math.PI/4;
 
+// notepad for "top 3 goals"
+const padCv=document.createElement('canvas'); padCv.width=320; padCv.height=420; const pdx=padCv.getContext('2d'); const padTex=new THREE.CanvasTexture(padCv); padTex.colorSpace=THREE.SRGBColorSpace;
+function paintPad(k){ pdx.fillStyle='#fffdf6'; pdx.fillRect(0,0,320,420); pdx.fillStyle='#ff9f75'; pdx.fillRect(0,0,320,46);
+  pdx.fillStyle='#1f3d2b'; pdx.font='900 34px Inter'; pdx.fillText('TODAY',26,96);
+  [0,1,2].forEach(i=>{ const y=150+i*90; pdx.strokeStyle='#1f3d2b'; pdx.lineWidth=6; pdx.strokeRect(26,y,46,46);
+    const p=clamp(k*3-i); if(p>0){ pdx.strokeStyle='#2fa65a'; pdx.lineWidth=10; pdx.beginPath(); pdx.moveTo(32,y+22); pdx.lineTo(46,y+38); if(p>.5) pdx.lineTo(46+ (p-.5)*2*22,y+38-(p-.5)*2*34); pdx.stroke(); }
+    pdx.fillStyle='rgba(31,61,43,.75)'; pdx.fillRect(96,y+14,lerp(0,180,clamp(k*3-i+.6)),18); });
+  padTex.needsUpdate=true; }
+const pad=new THREE.Group(); pad.position.set(1.5,2.1,-.4); scene.add(pad);
+mesh(new THREE.BoxGeometry(1.1,1.45,.06),M(0xffffff),0,0,0,pad);
+const padFace=mesh(new THREE.PlaneGeometry(1.06,1.4),new THREE.MeshStandardMaterial({map:padTex,roughness:.8}),0,0,.035,pad); padFace.castShadow=false;
+[-.3,0,.3].forEach(x=>mesh(new THREE.TorusGeometry(.06,.015,8,16),M(0x888888,{metalness:.5}),x,.74,0,pad));
 // ---------------------------------------------------------------- camera keys per scene: [time, pos, target]
 const STAND=[.2,0,-.5];
 const CAM=[
  [0,[-.8,4.6,2.6],[-2.7,1.0,-2.2]],
  [SC.hook.start+1.6,[-.4,3.8,3.0],[-2.6,1.3,-2.0]],
  [SC.hook.end-.3,[.6,3.2,4.6],[-1.0,1.3,-1.2]],
+ [SC.intro.start+.8,[.9,3.0,4.6],[.1,1.3,-.6]],
+ [SC.intro.end-.2,[-2.0,2.8,3.8],[.2,1.3,-.6]],
  [SC.water.start+.4,[1.2,2.6,4.6],[-.3,1.6,-.8]],
  [SC.water.end-.2,[.9,2.4,4.0],[-.3,1.7,-.8]],
  [SC.sun.start+.5,[-1.4,2.3,3.6],[1.4,2.0,-3.6]],
  [SC.sun.end-.2,[-1.0,2.0,3.0],[1.6,2.3,-3.8]],
- [SC.phone.start+.4,[3.3,2.6,2.0],[-.6,1.0,-2.6]],
- [SC.phone.end-.2,[3.0,2.4,1.6],[-.6,1.1,-2.6]],
+ [SC.phone.start+.4,[3.6,2.7,2.6],[-.4,1.1,-2.2]],
+ [SC.phone.end-.2,[3.3,2.5,2.2],[-.4,1.1,-2.2]],
+ [SC.move.start+.4,[-1.4,2.4,4.6],[.2,1.3,-.5]],
+ [SC.move.end-.2,[-.8,2.2,4.0],[.2,1.3,-.5]],
+ [SC.plan.start+.4,[1.8,2.4,4.4],[.9,1.6,-.5]],
+ [SC.plan.end-.2,[1.5,2.3,3.8],[.9,1.7,-.5]],
+ [SC.poll.start+.4,[.5,2.6,5.0],[.2,2.5,-.5]],
+ [SC.poll.end-.2,[.5,2.5,4.6],[.2,2.5,-.5]],
  [SC.outro.start+.5,[.8,3.2,6.6],[-.4,1.5,-1.6]],
  [TL.total,[.8,3.8,8],[-.4,1.7,-1.6]],
 ];
@@ -210,7 +239,8 @@ const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.t
 
 // ---------------------------------------------------------------- labels + icons (reference-style pop-ups)
 const LABELS=[[when('hook','ten'),SC.hook.end-.2,'10 MINUTES',null],[when('water','water'),SC.water.end-.1,'WATER','drop'],
-  [when('sun','sunlight'),SC.sun.end-.1,'SUNLIGHT','sun'],[when('phone','phone'),SC.phone.end-.1,'NO PHONE','check']];
+  [when('sun','daylight'),SC.sun.end-.1,'DAYLIGHT','sun'],[when('phone','phone'),SC.phone.end-.1,'NO PHONE','check'],
+  [when('intro','five'),SC.intro.end-.1,'5 HABITS',null],[when('move','Move'),SC.move.end-.1,'MOVE',null],[when('plan','top'),SC.plan.end-.1,'TOP 3 GOALS',null]];
 const ICONS={clock:'<circle cx="50" cy="50" r="42" fill="#fff" stroke="#333" stroke-width="5"/><line x1="50" y1="50" x2="50" y2="20" stroke="#333" stroke-width="6" stroke-linecap="round" id="hand"/><circle cx="50" cy="50" r="5" fill="#333"/>',
   drop:'<path d="M50 8 C68 36 82 52 82 66 a32 32 0 0 1 -64 0 C18 52 32 36 50 8Z" fill="#5fb6e8" stroke="#fff" stroke-width="5"/>',
   sun:'<circle cx="50" cy="50" r="22" fill="#ffc94d"/><g stroke="#ffc94d" stroke-width="7" stroke-linecap="round"><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l9 9M71 71l9 9M80 20l-9 9M29 71l-9 9"/></g>',
@@ -219,7 +249,7 @@ window.POPS=LABELS.map(l=>l[0]); window.CLICKS=[]; window.CONFS=[SC.outro.start+
 
 // ---------------------------------------------------------------- render(t)
 function render(t){
-  const open=eio(seg(t,SC.sun.start+.2,when('sun','sunlight')+.3));
+  const open=eio(seg(t,SC.sun.start+.2,when('sun','daylight')+.3));
   const warm=Math.max(seg(t,SC.sun.start,SC.sun.start+2),t>=SC.sun.end?1:0);
   paintSky(warm);
   curL.position.x=lerp(WX0+.6,WX0-.45,open); curR.position.x=lerp(WX1-.6,WX1+.45,open); curL.scale.x=curR.scale.x=lerp(1,.55,open);
@@ -261,18 +291,31 @@ function render(t){
     handGlass.rotation.x=lerp(0,1.2,lift); P.g.rotation.y=-.35; }
   // sun: turns to the window and stretches as the curtains open
   if(t>=SC.sun.start&&t<SC.sun.end){ P.g.rotation.y=lerp(-.35,2.75,eio(seg(t,SC.sun.start,SC.sun.start+.8)));
-    const st=eio(seg(t,when('sun','sunlight')-.2,when('sun','sunlight')+.5)); P.armL.rotation.z=lerp(.12,2.8,st); P.armR.rotation.z=-lerp(.12,2.8,st);
+    const st=eio(seg(t,when('sun','daylight')-.2,when('sun','daylight')+.5)); P.armL.rotation.z=lerp(.12,2.8,st); P.armR.rotation.z=-lerp(.12,2.8,st);
     P.head.rotation.x=lerp(0,-.25,st); B.position.y=Math.sin((t-SC.sun.start)*6)*.03*st; }
   // phone: buzzes on the nightstand; they look, then turn away; a red no-sign pops above it
-  const pb=t>=SC.phone.start-.1&&t<SC.outro.start+.2; noSign.visible=pb;
-  if(pb){ const nk=back(seg(t,when('phone','touch')-.1,when('phone','touch')+.35)); noSign.scale.setScalar(Math.max(.001,nk*.42)); noSign.rotation.y=Math.sin(t*2)*.3; }
-  const buzz=t>=SC.phone.start-.1&&t<when('phone','touch')+.3; phone.rotation.y=buzz?Math.sin(t*60)*.1:0; phone.position.y=.64+(buzz?Math.abs(Math.sin(t*30))*.02:0);
-  if(t>=SC.phone.start&&t<SC.phone.end){ const look=eio(seg(t,SC.phone.start,SC.phone.start+.5)), away=eio(seg(t,when('phone','touch'),when('phone','touch')+.6));
+  const pb=t>=SC.phone.start-.1&&t<SC.phone.end+.15; noSign.visible=pb;
+  if(pb){ const nk=back(seg(t,when('phone','grab')-.1,when('phone','grab')+.35)); noSign.scale.setScalar(Math.max(.001,nk*.42*(1-seg(t,SC.phone.end-.2,SC.phone.end+.15)))); noSign.rotation.y=Math.sin(t*2)*.3; }
+  const buzz=t>=SC.phone.start-.1&&t<when('phone','grab')+.3; phone.rotation.y=buzz?Math.sin(t*60)*.1:0; phone.position.y=.64+(buzz?Math.abs(Math.sin(t*30))*.02:0);
+  if(t>=SC.phone.start&&t<SC.phone.end){ const look=eio(seg(t,SC.phone.start,SC.phone.start+.5)), away=eio(seg(t,when('phone','grab'),when('phone','grab')+.6));
     P.g.rotation.y=lerp(lerp(2.75,3.6,look),5.6,away); P.head.rotation.x=lerp(.2*look,-.1,away);
     P.armL.rotation.z=lerp(.12,1.0,away); P.armR.rotation.z=-lerp(.12,1.0,away); }
+  // intro: on the rug, a little happy bounce and nod
+  if(t>=SC.intro.start&&t<SC.intro.end){ B.position.y=Math.abs(Math.sin((t-SC.intro.start)*4))*.05; P.head.rotation.z=Math.sin(t*3)*.08;
+    const wv=seg(t,when('intro','five')-.3,when('intro','five')); P.armR.rotation.z=-lerp(.12,2.4,wv)-Math.sin(t*8)*.2*wv; }
+  // move: jumping jacks
+  if(t>=SC.move.start&&t<SC.move.end){ const turn=eio(seg(t,SC.move.start-.2,SC.move.start+.4)); P.g.rotation.y=lerp(5.6,2*Math.PI,turn);
+    const j=(Math.sin((t-SC.move.start)*6.5-1.57)+1)/2*seg(t,SC.move.start+.3,SC.move.start+.6);
+    P.armL.rotation.z=lerp(.12,2.8,j); P.armR.rotation.z=-lerp(.12,2.8,j); P.legL.rotation.z=-.35*j; P.legR.rotation.z=.35*j; B.position.y=.18*j; P.g.position.y=.12*Math.sin(j*Math.PI); }
+  // plan: looks at the notepad, taps it
+  pad.visible=t>=SC.plan.start-.1&&t<SC.plan.end+.3;
+  if(pad.visible){ pad.scale.setScalar(Math.max(.001,back(seg(t,SC.plan.start,SC.plan.start+.5))*(1-seg(t,SC.plan.end-.1,SC.plan.end+.3)))); pad.position.y=2.1+Math.sin(t*2)*.05; pad.rotation.y=-.25+Math.sin(t*1.5)*.08;
+    paintPad(seg(t,when('plan','top'),SC.plan.end-.2)); }
+  if(t>=SC.plan.start&&t<SC.plan.end){ P.g.rotation.y=.55; P.head.rotation.y=.25; const tp=seg(t,when('plan','top')-.3,when('plan','top')); P.armR.rotation.x=-1.2*tp; P.armR.rotation.z=-.12-.3*tp; }
+  // poll: thinking pose (hand to chin)
+  if(t>=SC.poll.start&&t<SC.poll.end){ P.armR.rotation.x=-2.3; P.armR.rotation.z=-.55; P.head.rotation.z=.12; P.head.rotation.x=-.08; }
   // outro: faces the camera and waves
-  if(t>=SC.outro.start){ const turn=eio(seg(t,SC.outro.start-.2,SC.outro.start+.4)); P.g.rotation.y=lerp(5.6,2*Math.PI,turn);
-    const wv=seg(t,SC.outro.start+.3,SC.outro.start+.8); P.armR.rotation.z=-lerp(.12,2.6,wv)-Math.sin(t*8)*.25*wv; }
+  if(t>=SC.outro.start){ P.g.rotation.y=0; const wv=seg(t,SC.outro.start+.3,SC.outro.start+.8); P.armR.rotation.z=-lerp(.12,2.6,wv)-Math.sin(t*8)*.25*wv; }
   // walking bob between scenes
   // camera
   const [cp,ct]=camAt(t); camera.position.set(...cp); camera.lookAt(...ct); camera.updateMatrixWorld();
@@ -287,7 +330,12 @@ function render(t){
     const tk=I.querySelector('#tick'); if(tk) tk.setAttribute('stroke-dashoffset',80*(1-eout(seg(t,lab[0]+.3,lab[0]+.7)))); }
   else { L.style.opacity=0; I.style.opacity=0; }
   const E=$('end'); const ep=back(seg(t,SC.outro.start+.4,SC.outro.start+.9)); E.style.opacity=t>=SC.outro.start?clamp(ep*1.5):0; E.style.transform=`scale(${lerp(.7,1,ep)})`;
-  [0,1,2].forEach(i=>{ const a=SC.outro.start+1.2+i*.2, q=back(seg(t,a,a+.3)); $('ck'+i).style.transform=`scale(${q})`; });
+  [0,1,2,3,4].forEach(i=>{ const a=SC.outro.start+1.2+i*.15, q=back(seg(t,a,a+.3)); $('ck'+i).style.transform=`scale(${q})`; });
+  [...$('row').children].forEach((d,i)=>{ const a=when('intro','five')+.1+i*.15, q=back(seg(t,a,a+.3)), o=t<SC.intro.end?1-seg(t,SC.intro.end-.3,SC.intro.end):0; d.style.opacity=t>=a?o:0; d.style.transform=`scale(${q}) translateY(${Math.sin(t*4+i)*6}px)`; });
+  const pp=back(seg(t,SC.poll.start,SC.poll.start+.4)), po=t>=SC.poll.start&&t<SC.poll.end?1-seg(t,SC.poll.end-.3,SC.poll.end):0;
+  $('poll').style.opacity=clamp(pp*1.5)*po; $('poll').style.transform=`scale(${lerp(.8,1,pp)})`;
+  [0,1,2,3,4].forEach(i=>{ const a=SC.poll.start+.3+i*.1; const e=$('po'+i); e.style.opacity=seg(t,a,a+.2); e.className='op'+(i===0&&t>=when('poll','already')+.3?' pick':''); });
+  const cq=back(seg(t,when('poll','comments')-.2,when('poll','comments')+.2)); $('cmt').style.opacity=clamp(cq*1.5); $('cmt').style.transform=`scale(${cq})`;
   $('tag').style.opacity=t<SC.outro.start?1:1-seg(t,SC.outro.start,SC.outro.start+.4);
   const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), C=$('cap');
   if(ch){ C.textContent=ch.text; C.style.opacity=1; } else C.style.opacity=0;

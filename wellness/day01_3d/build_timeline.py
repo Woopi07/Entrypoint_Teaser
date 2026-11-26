@@ -30,7 +30,7 @@ PACE_RESULTS = PACE_INTRO
 RESULTS_FROM = 'profile'   # first scene paced as results
 TARGET = None     # exact video length in seconds (None = narration + TAIL)
 TAIL = 2.2           # hold on the end card after the last line
-HOLD = {'hook': 0.8, 'water': 0.6, 'sun': 0.6, 'phone': 0.5}   # extra time after a scene's last line
+HOLD = {'hook': 0.8, 'intro': 0.4, 'water': 0.5, 'sun': 0.5, 'phone': 0.4, 'move': 0.5, 'plan': 0.6, 'poll': 1.2}   # extra time after a scene's last line
 
 
 def trim(x, sr, thresh=.008):
