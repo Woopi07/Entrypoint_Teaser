@@ -1,0 +1,95 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>woopi branding</title>
+<!-- woopi channel art. ?icon renders the 800x800 profile icon, ?banner the 2560x1440 YouTube banner. -->
+<style>
+@font-face{font-family:Fredoka;font-weight:600;src:url(fonts/fredoka.woff2)}
+@font-face{font-family:Nunito;font-weight:700;src:url(fonts/nunito.woff2)}
+:root{--cream:#fff6ec;--sage:#8db596;--deep:#1f3d2b;--peach:#ff9f75;--sun:#ffc94d;--sky:#8cc9e8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(90px)}
+.word{font-family:Fredoka;font-weight:600;color:var(--deep);letter-spacing:-.02em;line-height:1}
+.word .i{position:relative;display:inline-block}
+/* the dot of the i is a little sun */
+.word .dot{position:absolute;left:50%;transform:translateX(-50%);border-radius:50%;background:var(--sun)}
+.word .o2{color:var(--peach)}
+
+/* ---------- icon 800x800 ---------- */
+#icon{position:relative;width:800px;height:800px;overflow:hidden;background:var(--sage)}
+#icon .ring{position:absolute;inset:60px;border-radius:50%;background:var(--cream)}
+#icon .leafs{position:absolute;left:0;top:0;width:800px;height:800px}
+#icon .w{position:absolute;left:0;right:0;top:250px;text-align:center;font-family:Fredoka;font-weight:600;font-size:420px;line-height:1;color:var(--deep)}
+
+/* ---------- banner 2560x1440 (safe area 1546x423, centered) ---------- */
+#banner{position:relative;width:2560px;height:1440px;overflow:hidden;background:var(--cream)}
+#banner .safe{position:absolute;left:507px;top:508px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:70px}
+#banner .logo{width:330px;height:330px;flex:none}
+#banner .txt{display:flex;flex-direction:column;justify-content:center}
+#banner .word{font-size:220px}
+#banner .tag{font-family:Nunito;font-weight:700;font-size:54px;color:var(--deep);margin-top:14px}
+#banner .tag em{font-style:normal;color:var(--peach)}
+#banner .chips{display:flex;gap:18px;margin-top:26px}
+#banner .chips span{font-family:Nunito;font-weight:700;font-size:34px;background:#fff;color:var(--deep);border-radius:999px;padding:10px 26px;box-shadow:0 6px 0 rgba(31,61,43,.08)}
+#banner .deco{position:absolute;inset:0}
+#guide{position:absolute;left:507px;top:508px;width:1546px;height:423px;border:6px dashed #e5484d;display:none}
+</style></head>
+<body>
+<div id="icon" hidden>
+  <div class="ring"></div>
+  <svg class="leafs" viewBox="0 0 800 800">
+    <!-- sprout growing out of the w -->
+    <path d="M400 268 C400 220 400 200 400 170" stroke="#1f3d2b" stroke-width="22" stroke-linecap="round" fill="none"/>
+    <path d="M400 190 C330 190 290 150 282 92 C350 92 396 128 400 190Z" fill="#8db596" stroke="#1f3d2b" stroke-width="16" stroke-linejoin="round"/>
+    <path d="M400 168 C470 168 512 126 520 66 C450 66 404 104 400 168Z" fill="#8db596" stroke="#1f3d2b" stroke-width="16" stroke-linejoin="round"/>
+    <circle cx="590" cy="190" r="34" fill="#ffc94d"/>
+    <circle cx="210" cy="610" r="18" fill="#ff9f75"/>
+  </svg>
+  <div class="w">w</div>
+</div>
+
+<div id="banner" hidden>
+  <i class="blob" style="left:250px;top:200px;width:900px;height:900px;background:#ffd9b8;opacity:.8"></i>
+  <i class="blob" style="left:1500px;top:450px;width:900px;height:900px;background:#cfe8d5;opacity:.9"></i>
+  <i class="blob" style="left:1000px;top:-200px;width:700px;height:700px;background:#ffe9a8;opacity:.7"></i>
+  <svg class="deco" viewBox="0 0 2560 1440">
+    <!-- small wellness doodles around the safe area -->
+    <g fill="none" stroke="#1f3d2b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".85">
+      <!-- water drop -->
+      <path d="M560 400 C600 450 620 480 620 505 a60 60 0 0 1 -120 0 C500 480 520 450 560 400Z" fill="#8cc9e8"/>
+      <!-- sun -->
+      <circle cx="2050" cy="420" r="46" fill="#ffc94d"/>
+      <path d="M2050 345v-26M2050 521v-26M1975 420h-26M2151 420h-26M1997 367l-18-18M2121 491l-18-18M2103 367l18-18M1979 491l18-18"/>
+      <!-- heart -->
+      <path d="M2120 1000 c-40 -40 -100 -10 -80 40 c14 34 80 74 80 74 s66 -40 80 -74 c20 -50 -40 -80 -80 -40Z" fill="#ff9f75"/>
+      <!-- leaf -->
+      <path d="M470 1010 C470 930 540 880 640 880 C640 980 580 1040 490 1040Z" fill="#8db596"/><path d="M480 1035 L590 925"/>
+      <!-- sparkles -->
+      <path d="M1290 340v40M1270 360h40M1700 1060v34M1683 1077h34M840 1080v34M823 1097h34"/>
+    </g>
+  </svg>
+  <div class="safe">
+    <svg class="logo" viewBox="0 0 800 800" id="bLogo"></svg>
+    <div class="txt">
+      <div class="word">w<span class="o1">o</span><span class="o2">o</span>p<span class="i">ı<i class="dot"></i></span></div>
+      <div class="tag">Small habits. <em>Better days.</em></div>
+      <div class="chips"><span>💧 Health</span><span>🌿 Wellness</span><span>☀️ New tips daily</span></div>
+    </div>
+  </div>
+  <div id="guide"></div>
+</div>
+<script>
+const q=location.search;
+const show=q.includes('banner')?'banner':'icon';
+document.getElementById(show).hidden=false;
+// the banner's logo is the icon itself, drawn as a circle
+if(show==='banner'){
+  const ic=document.getElementById('icon'), svg=document.getElementById('bLogo');
+  svg.innerHTML=`<defs><clipPath id="c"><circle cx="400" cy="400" r="400"/></clipPath></defs>
+    <g clip-path="url(#c)"><rect width="800" height="800" fill="#8db596"/><circle cx="400" cy="400" r="340" fill="#fff6ec"/>${ic.querySelector('svg').innerHTML}
+    <text x="400" y="590" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="420" fill="#1f3d2b">w</text></g>`;
+  // size the sun-dot on the i to the font
+  const d=document.querySelector('#banner .dot'); d.style.width=d.style.height='46px'; d.style.top='30px';
+  if(q.includes('guide')) document.getElementById('guide').style.display='block';
+}
+</script>
+</body></html>
