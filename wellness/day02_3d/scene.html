@@ -22,6 +22,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #end .s{font:800 54px Inter;color:#1f3d2b;background:#fff6ec;display:inline-block;border-radius:999px;padding:14px 36px;margin-top:20px}
 #checks{display:flex;gap:18px;justify-content:center;margin-top:36px}
 #checks div{width:130px;height:130px;border-radius:34px;background:#fff6ec;display:grid;place-items:center;font-size:66px;box-shadow:0 10px 0 rgba(0,0,0,.2)}
+#title{position:absolute;left:70px;right:70px;top:230px;text-align:center;background:rgba(255,246,236,.94);border-radius:48px;padding:40px 30px 44px;
+  box-shadow:0 14px 0 rgba(31,61,43,.18);opacity:0}
+#title .k{display:inline-block;background:#1f3d2b;color:#fff6ec;font:900 34px "Inter Display";letter-spacing:2px;border-radius:999px;padding:8px 24px;margin-bottom:18px}
+#title .k b{color:#ffc94d}
+#title .h{font:900 104px/1.02 "Inter Display";color:#1f3d2b;letter-spacing:-2px}
+#title .h em{font-style:normal;color:#ff9f75}
 #fade{position:absolute;inset:0;background:#000;opacity:0}
 #row{position:absolute;left:0;right:0;top:440px;display:flex;justify-content:center;gap:22px}
 #row div{width:190px;height:200px;border-radius:44px;background:#fff6ec;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:90px;box-shadow:0 10px 0 rgba(0,0,0,.2);opacity:0}
@@ -50,6 +56,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="poll"><h3>How many glasses today? 🥛</h3><div id="glasses"></div><div id="gcount">0 glasses</div><span id="cmt">💬 Tell me in the comments</span></div>
   <div id="end"><div class="w">woopi</div><div class="s">Follow for more health &amp; wellness</div>
     <div id="checks"><div id="ck0">🥛</div><div id="ck1">🧴</div><div id="ck2">🍉</div><div id="ck3">🍽️</div></div></div>
+  <div id="title"><div class="k">DAY <b>2</b>/30</div><div class="h">4 Easy Ways to<br><em>Stay Hydrated</em></div></div>
   <div id="cap"></div>
   <div id="fade"></div>
 </div>
@@ -265,7 +272,7 @@ const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.t
     acc+=part.join(' ').length+1; CHUNKS.push({text:part.join(' ').replace(/[.,]$/,''),start:l.start+(l.end-l.start)*a,end:l.start+(l.end-l.start)*Math.min(1,acc/tot)}); i+=n; } });
 
 // ---------------------------------------------------------------- labels + icons (reference-style pop-ups)
-const LABELS=[[when('hook','dehydrated'),SC.hook.end-.1,'DEHYDRATED?','battery'],[when('glass','glass'),SC.glass.end-.1,'FIRST THING','drop'],
+const LABELS=[[when('glass','glass'),SC.glass.end-.1,'FIRST THING','drop'],
   [when('bottle','bottle'),SC.bottle.end-.1,'KEEP IT VISIBLE',null],[when('food','water-rich'),SC.food.end-.1,'WATER-RICH FOODS',null],[when('meal','every'),SC.meal.end-.1,'EVERY MEAL','check']];
 const ICONS={battery:'<rect x="14" y="30" width="64" height="40" rx="8" fill="#fff" stroke="#333" stroke-width="6"/><rect x="80" y="42" width="8" height="16" rx="3" fill="#333"/><rect x="22" y="38" width="12" height="24" rx="3" fill="#ff4d4d" id="batt"/>',clock:'<circle cx="50" cy="50" r="42" fill="#fff" stroke="#333" stroke-width="5"/><line x1="50" y1="50" x2="50" y2="20" stroke="#333" stroke-width="6" stroke-linecap="round" id="hand"/><circle cx="50" cy="50" r="5" fill="#333"/>',
   drop:'<path d="M50 8 C68 36 82 52 82 66 a32 32 0 0 1 -64 0 C18 52 32 36 50 8Z" fill="#5fb6e8" stroke="#fff" stroke-width="5"/>',
@@ -332,7 +339,7 @@ function render(t){
   // hydration meter: rises with every tip
   const lv=[[0,.12],[SC.glass.start+1.2,.4],[SC.bottle.start+1,.6],[SC.food.start+1.4,.8],[SC.meal.start+1.2,1]];
   let lvl=.12; for(let i=1;i<lv.length;i++) lvl=lerp(lvl,lv[i][1],eout(seg(t,lv[i][0],lv[i][0]+.8)));
-  const mo=t<SC.poll.start?1-seg(t,SC.poll.start-.4,SC.poll.start):0; $('meter').style.opacity=Math.min(seg(t,.4,.8),mo); $('mfill').style.width=(lvl*100)+'%';
+  const mo=t<SC.poll.start?1-seg(t,SC.poll.start-.4,SC.poll.start):0; $('meter').style.opacity=Math.min(seg(t,SC.hook.end+.2,SC.hook.end+.6),mo); $('mfill').style.width=(lvl*100)+'%';
   const bt=$('icon').querySelector('#batt'); if(bt) bt.setAttribute('fill',Math.floor(t*3)%2?'#ff4d4d':'#ff9f9f');
   const pp=back(seg(t,SC.poll.start,SC.poll.start+.4)), po=t>=SC.poll.start&&t<SC.poll.end?1-seg(t,SC.poll.end-.3,SC.poll.end):0;
   $('poll').style.opacity=clamp(pp*1.5)*po; $('poll').style.transform=`scale(${lerp(.8,1,pp)})`;
@@ -343,6 +350,8 @@ function render(t){
   $('tag').style.opacity=t<SC.outro.start?1:1-seg(t,SC.outro.start,SC.outro.start+.4);
   const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), C=$('cap');
   if(ch){ C.textContent=ch.text; C.style.opacity=1; } else C.style.opacity=0;
+  { const T=$('title'), a=.15, b=SC.hook.end+.25, p=back(seg(t,a,a+.5)), o=1-seg(t,b-.35,b);
+    T.style.opacity=t<b?clamp(p*1.5)*o:0; T.style.transform=`translateY(${lerp(-60,0,p)}px) scale(${lerp(.85,1,p)})`; $('tag').style.visibility=t<b?'hidden':'visible'; }
   $('fade').style.opacity=t<.25?1-seg(t,0,.25):seg(t,TL.total-.5,TL.total);
 }
 $('glasses').innerHTML=Array.from({length:8},()=>'<svg viewBox="0 0 100 120"><path d="M18 8 H82 L74 116 H26Z" fill="#fff" stroke="#1f3d2b" stroke-width="6" stroke-linejoin="round"/><rect class="f" x="20" y="114" width="60" height="0" fill="#5fb6e8" clip-path="inset(0 round 0)"/><path d="M18 8 H82 L74 116 H26Z" fill="none" stroke="#1f3d2b" stroke-width="6" stroke-linejoin="round"/></svg>').join('');
