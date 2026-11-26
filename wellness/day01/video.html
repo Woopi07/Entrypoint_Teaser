@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Wellness Day 1</title>
+<!--
+  Health & Wellness series, Day 1 of 30: "The morning routine that changes your day".
+  Vertical 1080x1920. Every frame is a pure function of time: render(t).
+  Timings come from timeline.js (build_timeline.py) so visuals, captions and voice stay in sync.
+-->
+<style>
+:root{--cream:#fff6ec;--cream2:#ffe9d6;--sage:#8db596;--deep:#1f3d2b;--peach:#ff9f75;--sun:#ffc94d;--sky:#8cc9e8;--ink:#1f3d2b}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;transform-origin:0 0;background:var(--cream);font-family:Inter,"DejaVu Sans",sans-serif;color:var(--ink)}
+.disp{font-family:"Inter Display",Inter,sans-serif}
+#bg{position:absolute;inset:0}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55}
+/* header */
+#hdr{position:absolute;left:60px;right:60px;top:70px;z-index:5}
+#day{display:inline-block;background:var(--deep);color:var(--cream);font:900 40px "Inter Display";letter-spacing:2px;padding:14px 30px;border-radius:999px}
+#day b{color:var(--sun)}
+#niche{float:right;margin-top:14px;font:800 30px Inter;letter-spacing:4px;color:var(--sage);text-transform:uppercase}
+#prog{display:grid;grid-template-columns:repeat(30,1fr);gap:6px;margin-top:26px}
+#prog i{height:12px;border-radius:6px;background:rgba(31,61,43,.12)}
+#prog i.on{background:var(--peach)}
+/* scenes */
+.sc{position:absolute;left:0;right:0;top:260px;height:1080px;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden}
+.big{font:900 120px/1.02 "Inter Display";text-align:center;letter-spacing:-2px}
+.big em{font-style:normal;color:var(--peach)}
+.sub{font:700 44px/1.3 Inter;text-align:center;margin-top:24px;color:rgba(31,61,43,.75)}
+.card{background:#fff;border-radius:48px;box-shadow:0 30px 70px rgba(31,61,43,.14),0 6px 0 rgba(31,61,43,.08)}
+.num{position:absolute;left:-30px;top:-34px;width:130px;height:130px;border-radius:50%;background:var(--deep);color:var(--sun);display:grid;place-items:center;font:900 64px "Inter Display";box-shadow:0 10px 0 rgba(0,0,0,.15)}
+.hab{position:relative;width:760px;height:660px;display:flex;align-items:center;justify-content:center}
+.hab svg{width:520px;height:520px}
+.htitle{font:900 84px/1.05 "Inter Display";text-align:center;margin-top:54px;letter-spacing:-1px}
+.htitle em{font-style:normal;color:var(--peach)}
+/* checklist */
+#list{position:absolute;left:60px;right:60px;top:1420px;display:flex;justify-content:space-between;z-index:4;opacity:0}
+#list .it{width:180px;text-align:center}
+#list .bx{width:96px;height:96px;margin:0 auto;border-radius:28px;border:6px solid rgba(31,61,43,.2);background:#fff;display:grid;place-items:center;font:900 54px Inter;color:#fff;transition:none}
+#list .bx.on{background:var(--sage);border-color:var(--sage)}
+#list .lb{font:800 26px Inter;margin-top:12px;color:rgba(31,61,43,.6)}
+#list .it.cur .lb{color:var(--deep)}
+#list .it.cur .bx{border-color:var(--peach)}
+/* poll */
+#pollCard{width:900px;padding:50px 50px 40px}
+#pollCard h3{font:900 62px "Inter Display";margin-bottom:30px;text-align:center}
+.opt{position:relative;height:96px;border-radius:26px;background:var(--cream);margin-bottom:20px;overflow:hidden;display:flex;align-items:center;padding:0 30px;font:800 40px Inter}
+.opt .fill{position:absolute;left:0;top:0;bottom:0;background:var(--sage);opacity:.35;width:0}
+.opt span{position:relative}
+.opt b{position:relative;margin-left:auto;font:900 40px Inter;opacity:0}
+.opt.pick{outline:6px solid var(--peach)}
+#cmt{margin-top:40px;background:var(--deep);color:#fff;font:800 42px Inter;border-radius:999px;padding:22px 44px;opacity:0}
+/* outro */
+#week{display:grid;grid-template-columns:repeat(7,110px);gap:16px;margin-top:40px}
+#week div{height:130px;border-radius:26px;background:#fff;box-shadow:0 8px 0 rgba(31,61,43,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;font:800 28px Inter;color:rgba(31,61,43,.5)}
+#week div b{font:900 50px Inter;color:var(--sage);height:56px}
+#btns{display:flex;gap:30px;margin-top:60px}
+.btn{font:900 50px Inter;border-radius:999px;padding:26px 56px;box-shadow:0 10px 0 rgba(0,0,0,.15)}
+#save{background:#fff;color:var(--deep);border:5px solid var(--deep)}
+#follow{background:var(--peach);color:#fff}
+/* caption + pointer + fx */
+#cap{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;max-width:960px;top:1640px;z-index:8;text-align:center;
+  font:900 58px/1.2 Inter;color:var(--deep);background:#fff;border-radius:28px;padding:20px 34px;box-shadow:0 12px 0 rgba(31,61,43,.12);opacity:0}
+#ptr{position:absolute;left:0;top:0;width:110px;height:110px;z-index:9;opacity:0}
+#ptr svg{width:100%;height:100%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.3))}
+#rip{position:absolute;left:-30px;top:-30px;width:90px;height:90px;border-radius:50%;border:8px solid var(--peach);opacity:0}
+.pop{position:absolute;z-index:9;font:900 52px Inter;color:#fff;background:var(--sage);border-radius:999px;padding:16px 34px;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;box-shadow:0 10px 0 rgba(0,0,0,.12)}
+.spark{position:absolute;width:22px;height:22px;border-radius:50%;z-index:9}
+#bar{position:absolute;left:0;bottom:0;height:14px;background:var(--peach);z-index:9}
+#fade{position:absolute;inset:0;background:#000;opacity:0;z-index:20}
+</style></head>
+<body><div id="stage">
+<div id="bg"><i class="blob" id="b0" style="width:700px;height:700px;background:#ffd9b8"></i><i class="blob" id="b1" style="width:600px;height:600px;background:#cfe8d5"></i><i class="blob" id="b2" style="width:500px;height:500px;background:#ffe9a8"></i></div>
+<div id="hdr"><span id="day">DAY <b>1</b>/30</span><span id="niche">Health &amp; Wellness</span><div id="prog"></div></div>
+
+<section class="sc" id="hook">
+  <svg id="clock" viewBox="0 0 400 400" width="560" height="560">
+    <circle cx="200" cy="200" r="170" fill="#fff" stroke="#1f3d2b" stroke-width="16"/>
+    <circle id="ring" cx="200" cy="200" r="150" fill="none" stroke="#ff9f75" stroke-width="26" stroke-linecap="round" stroke-dasharray="942.5" transform="rotate(-90 200 200)"/>
+    <text id="clockT" x="200" y="222" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="96" fill="#1f3d2b">10:00</text>
+    <text x="200" y="270" text-anchor="middle" font-family="Inter" font-weight="800" font-size="26" fill="#8db596">MINUTES</text>
+  </svg>
+  <div class="big" id="hookT">The first <em>10 minutes</em><br>after you wake up</div>
+</section>
+
+<section class="sc" id="intro">
+  <svg viewBox="0 0 600 340" width="900" height="510"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9b8"/><stop offset="1" stop-color="#fff6ec"/></linearGradient></defs>
+    <rect width="600" height="340" rx="40" fill="url(#sky)"/><circle id="isun" cx="300" cy="300" r="80" fill="#ffc94d"/>
+    <g id="irays" stroke="#ffc94d" stroke-width="10" stroke-linecap="round"></g>
+    <path d="M0 270 Q150 230 300 265 T600 255 V340 H0Z" fill="#8db596"/><path d="M0 300 Q200 270 380 300 T600 290 V340 H0Z" fill="#6f9c7b"/></svg>
+  <div class="big" style="font-size:104px;margin-top:40px">5 <em>simple</em> habits</div>
+  <div class="sub" id="dots"></div>
+</section>
+
+<section class="sc" id="water"><div class="card hab"><div class="num">1</div>
+  <svg viewBox="0 0 400 400"><defs><clipPath id="glass"><path d="M110 60 H290 L265 360 H135Z"/></clipPath></defs>
+    <rect id="wfill" x="100" y="360" width="200" height="0" fill="#8cc9e8" clip-path="url(#glass)"/>
+    <path id="wwave" d="" fill="#b9e0f3" clip-path="url(#glass)"/>
+    <path d="M110 60 H290 L265 360 H135Z" fill="none" stroke="#1f3d2b" stroke-width="14" stroke-linejoin="round"/>
+    <g id="drops" fill="#8cc9e8"></g></svg></div>
+  <div class="htitle">Drink a glass<br>of <em>water</em></div></section>
+
+<section class="sc" id="sun"><div class="card hab"><div class="num">2</div>
+  <svg viewBox="0 0 400 400"><rect x="40" y="40" width="320" height="320" rx="24" fill="#cfe8f5" stroke="#1f3d2b" stroke-width="14"/>
+    <circle id="ssun" cx="200" cy="300" r="64" fill="#ffc94d"/><g id="srays" stroke="#ffc94d" stroke-width="10" stroke-linecap="round"></g>
+    <rect id="curL" x="47" y="47" width="153" height="306" fill="#ff9f75"/><rect id="curR" x="200" y="47" width="153" height="306" fill="#ff9f75"/>
+    <line x1="30" y1="40" x2="370" y2="40" stroke="#1f3d2b" stroke-width="16" stroke-linecap="round"/></svg></div>
+  <div class="htitle">Get some <em>daylight</em></div></section>
+
+<section class="sc" id="phone"><div class="card hab"><div class="num">3</div>
+  <svg viewBox="0 0 400 400"><g id="ph"><rect x="120" y="50" width="160" height="300" rx="30" fill="#1f3d2b"/><rect x="134" y="80" width="132" height="230" rx="12" fill="#8cc9e8"/>
+    <g id="notifs"><rect x="146" y="96" width="108" height="34" rx="10" fill="#fff"/><rect x="146" y="140" width="108" height="34" rx="10" fill="#fff"/><rect x="146" y="184" width="108" height="34" rx="10" fill="#fff"/></g></g>
+    <circle id="noC" cx="200" cy="200" r="150" fill="none" stroke="#ff6b5b" stroke-width="22" stroke-dasharray="942" stroke-dashoffset="942"/>
+    <line id="noL" x1="94" y1="306" x2="306" y2="94" stroke="#ff6b5b" stroke-width="22" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300"/></svg></div>
+  <div class="htitle"><em>Don't</em> grab your<br>phone yet</div></section>
+
+<section class="sc" id="move"><div class="card hab"><div class="num">4</div>
+  <svg viewBox="0 0 400 400"><g stroke="#1f3d2b" stroke-width="18" stroke-linecap="round" fill="none">
+    <circle cx="200" cy="96" r="38" fill="#ffd9b8"/><line x1="200" y1="134" x2="200" y2="250"/>
+    <line id="armL" x1="200" y1="160" x2="130" y2="230"/><line id="armR" x1="200" y1="160" x2="270" y2="230"/>
+    <line x1="200" y1="250" x2="150" y2="350"/><line x1="200" y1="250" x2="250" y2="350"/></g>
+    <g id="motion" stroke="#ff9f75" stroke-width="8" stroke-linecap="round"></g></svg></div>
+  <div class="htitle"><em>Move</em> your body</div></section>
+
+<section class="sc" id="plan"><div class="card hab"><div class="num">5</div>
+  <svg viewBox="0 0 400 400"><rect x="80" y="40" width="240" height="320" rx="24" fill="#fff6ec" stroke="#1f3d2b" stroke-width="14"/>
+    <g id="pl"></g></svg></div>
+  <div class="htitle">Pick your <em>top 3</em><br>goals</div></section>
+
+<section class="sc" id="poll"><div class="card" id="pollCard"><h3>Which one do you already do? 👇</h3><div id="opts"></div></div><div id="cmt">💬 Tell me in the comments</div></section>
+
+<section class="sc" id="outro"><div class="big" style="font-size:100px">Try it for<br><em>7 days</em></div><div id="week"></div>
+  <div id="btns"><div class="btn" id="save">🔖 Save</div><div class="btn" id="follow">+ Follow</div></div>
+  <div class="sub" id="next" style="opacity:0">Day 2 drops tomorrow</div></section>
+
+<div id="list"></div>
+<div id="cap"></div>
+<div id="fx"></div>
+<div id="ptr"><div id="rip"></div><svg viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V10h.5v-.5a1.5 1.5 0 0 1 3 0V15c0 3.3-2.2 6-5.5 6H12c-2 0-3.3-.8-4.4-2.4L5 14.8a1.4 1.4 0 0 1 2.2-1.7L9 15z" fill="#fff" stroke="#1f3d2b" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
+<div id="bar"></div><div id="fade"></div>
+</div>
+<script src="timeline.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eout=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c=1.8,d=c+1;return 1+d*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL, SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+function when(id,word,k=0){ const l=TL.lines.filter(l=>l.scene===id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); if(i<0) throw new Error('cue "'+word+'" not in '+id);
+  return l.start+(l.end-l.start)*i/l.text.length; }
+function fit(){ const s=Math.min(innerWidth/1080,innerHeight/1920); $('stage').style.transform=`scale(${s})`; } addEventListener('resize',fit); fit();
+
+// static builds
+$('prog').innerHTML=Array.from({length:30},(_,i)=>`<i class="${i===0?'on':''}"></i>`).join('');
+const HAB=[['water','💧','Water'],['sun','☀️','Daylight'],['phone','📵','No phone'],['move','🤸','Move'],['plan','📝','Top 3']];
+$('list').innerHTML=HAB.map((h,i)=>`<div class="it" id="it${i}"><div class="bx" id="bx${i}">✓</div><div class="lb">${h[1]} ${h[2]}</div></div>`).join('');
+$('dots').innerHTML=HAB.map(h=>`<span style="font-size:70px;margin:0 10px;display:inline-block" class="hd">${h[1]}</span>`).join('');
+const POLL=[['💧 Water',38],['☀️ Daylight',21],['📵 No phone first',9],['🤸 Move',17],['📝 Top 3 goals',15]];
+$('opts').innerHTML=POLL.map((o,i)=>`<div class="opt" id="op${i}"><div class="fill" id="of${i}"></div><span>${o[0]}</span><b id="ob${i}">0%</b></div>`).join('');
+$('week').innerHTML=['M','T','W','T','F','S','S'].map((d,i)=>`<div><b id="wk${i}"></b>${d}</div>`).join('');
+$('irays').innerHTML=Array.from({length:9},(_,i)=>{ const a=Math.PI*(i/8); return `<line x1="${300-Math.cos(a)*110}" y1="${300-Math.sin(a)*110}" x2="${300-Math.cos(a)*150}" y2="${300-Math.sin(a)*150}"/>`; }).join('');
+$('srays').innerHTML=Array.from({length:8},(_,i)=>{ const a=Math.PI*2*i/8; return `<line x1="${200+Math.cos(a)*84}" y1="${200+Math.sin(a)*84}" x2="${200+Math.cos(a)*112}" y2="${200+Math.sin(a)*112}"/>`; }).join('');
+$('pl').innerHTML=[0,1,2].map(i=>`<rect x="110" y="${90+i*90}" width="50" height="50" rx="10" fill="#fff" stroke="#1f3d2b" stroke-width="8"/>
+  <path id="pc${i}" d="M118 ${115+i*90} l14 14 l26 -30" fill="none" stroke="#8db596" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="60" stroke-dashoffset="60"/>
+  <rect id="pt${i}" x="180" y="${105+i*90}" width="0" height="20" rx="10" fill="#1f3d2b"/>`).join('');
+$('drops').innerHTML=[0,1,2].map(i=>`<path id="dr${i}" d="M0 -18 Q12 0 0 12 Q-12 0 0 -18Z"/>`).join('');
+const MAXPOP=2; for(let i=0;i<MAXPOP;i++){ const d=document.createElement('div'); d.className='pop'; d.id='pop'+i; $('fx').appendChild(d); }
+let sd=7; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+const SP=[...Array(26)].map((_,i)=>({a:rnd()*Math.PI*2,v:250+rnd()*450,c:['#ff9f75','#8db596','#ffc94d','#8cc9e8'][i%4]}));
+SP.forEach((q,i)=>{ const d=document.createElement('i'); d.className='spark'; d.id='sp'+i; d.style.background=q.c; $('fx').appendChild(d); });
+
+// interaction events (pointer taps, pop-ups, sparkle bursts) — times in seconds
+const W=k=>when(...k);
+const HABIDS=['water','sun','phone','move','plan'];
+const TICK=HABIDS.map(id=>SC[id].end-.55);       // checklist box ticks near the end of each habit
+const TAPS=[ // [time, x, y]
+  ...HABIDS.map((id,i)=>[TICK[i]-.05, 150+i*195, 1468]),
+  [when('poll','already')+.3, 900, 430],
+  [when('outro','Save')+.05, 360, 860],[when('outro','follow')+.05, 690, 860],
+];
+const POPS=[[when('water','Drink')+.4,'+ Hydrated 💧',540,520],[when('sun','daylight')+.3,'Hello sun ☀️',540,520],[when('phone','calm')-.2,'Mind: calm 🧘',540,520],
+  [when('move','stretch'),'+ Energy ⚡',540,520],[when('plan','top')+.4,'Focus mode 🎯',540,520],[when('outro','Save')+.25,'Saved! 🔖',330,740],[when('outro','follow')+.6,'See you tomorrow 👋',540,1100]];
+const BURSTS=[...TICK,when('poll','already')+.4,when('outro','week')+.9];
+window.CLICKS=TAPS.map(x=>x[0]); window.POPS=POPS.map(p=>p[0]); window.CONFS=BURSTS;
+window.SWAPS=TL.scenes.slice(1).map(s=>s.start); window.WORDS=[]; window.XP=TICK;
+
+const vis=(id,o)=>{ const e=$(id); e.style.opacity=o; e.style.visibility=o>0?'visible':'hidden'; };
+function scene(id,t,enter='up'){ const s=SC[id]; if(t<s.start-.05||t>=s.end){ vis(id,0); return null; }
+  const p=back(seg(t,s.start,s.start+.45)), o=Math.min(clamp(p*1.5),1-seg(t,s.end-.25,s.end));
+  vis(id,o); $(id).style.transform = enter==='zoom'?`scale(${lerp(.7,1,p)})`:`translateY(${lerp(160,0,p)}px) scale(${lerp(.92,1,p)})`;
+  return {age:t-s.start, s}; }
+
+function render(t){
+  // background blobs drift
+  [[200,300],[800,1300],[700,500]].forEach(([x,y],i)=>{ const b=$('b'+i); b.style.left=(x+Math.sin(t*.5+i*2)*90-300)+'px'; b.style.top=(y+Math.cos(t*.4+i)*90-300)+'px'; });
+
+  // hook: countdown clock
+  let r=scene('hook',t,'zoom');
+  if(r){ const k=seg(t,.3,SC.hook.end-.2); const secs=Math.round(600*(1-k*0.15)); $('clockT').textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}`;
+    $('ring').setAttribute('stroke-dashoffset',942.5*k*0.15); $('clock').style.transform=`rotate(${Math.sin(t*40)*4*Math.exp(-(t%1.2)*3)}deg)`;
+    const hp=back(seg(t,when('hook','first')-.1,when('hook','first')+.4)); $('hookT').style.opacity=clamp(hp*1.5); $('hookT').style.transform=`scale(${lerp(.8,1,hp)})`; }
+
+  // intro: sunrise + 5 habit icons pop in
+  r=scene('intro',t);
+  if(r){ const k=eout(seg(t,SC.intro.start,SC.intro.start+2.5)); $('isun').setAttribute('cy',lerp(330,170,k)); $('irays').setAttribute('transform',`translate(0 ${lerp(160,-130,k)})`); $('irays').style.opacity=seg(t,SC.intro.start+1,SC.intro.start+2);
+    document.querySelectorAll('.hd').forEach((e,i)=>{ const p=back(seg(t,when('intro','five')+i*.15,when('intro','five')+i*.15+.35)); e.style.opacity=clamp(p*1.5); e.style.transform=`scale(${p}) translateY(${Math.sin(t*4+i)*6}px)`; }); }
+
+  // 1 water: glass fills, drops fall
+  r=scene('water',t);
+  if(r){ const f=eio(seg(t,when('water','Drink'),when('water','Drink')+1.6)); const h=280*f; $('wfill').setAttribute('y',360-h); $('wfill').setAttribute('height',h);
+    const y=360-h; let d=`M100 ${y}`; for(let x=100;x<=300;x+=10) d+=` L${x} ${y+Math.sin(x/18+t*6)*6}`; $('wwave').setAttribute('d',d+` L300 ${y+14} L100 ${y+14}Z`);
+    [0,1,2].forEach(i=>{ const p=((t*1.2+i/3)%1); $('dr'+i).setAttribute('transform',`translate(${170+i*30} ${lerp(-10,y,p)})`); $('dr'+i).style.opacity=f<.98?1-p*.3:0; }); }
+
+  // 2 sun: curtains open, sun rises, rays spin
+  r=scene('sun',t);
+  if(r){ const o=eio(seg(t,when('sun','daylight')-.2,when('sun','daylight')+.8)); $('curL').setAttribute('width',lerp(153,30,o)); $('curR').setAttribute('x',lerp(200,323,o)); $('curR').setAttribute('width',lerp(153,30,o));
+    const u=eout(seg(t,when('sun','daylight'),when('sun','outside'))); $('ssun').setAttribute('cy',lerp(300,190,u)); $('srays').setAttribute('transform',`translate(0 ${lerp(100,-10,u)}) rotate(${t*30} 200 200)`); $('srays').style.opacity=u; }
+
+  // 3 phone: buzzes, then crossed out
+  r=scene('phone',t);
+  if(r){ const no=seg(t,when('phone','grab'),when('phone','grab')+.6); $('ph').setAttribute('transform',`translate(${Math.sin(t*60)*6*(1-no)} 0)`);
+    $('noC').setAttribute('stroke-dashoffset',942*(1-eout(no))); $('noL').setAttribute('stroke-dashoffset',300*(1-eout(seg(t,when('phone','grab')+.4,when('phone','grab')+.8))));
+    $('notifs').style.opacity=1-seg(t,when('phone','calm')-.3,when('phone','calm')+.2); }
+
+  // 4 move: arms sweep up and down, motion lines
+  r=scene('move',t);
+  if(r){ const a=(Math.sin((t-SC.move.start)*3.2-1.57)+1)/2; const ang=lerp(.75,-.95,a);
+    $('armL').setAttribute('x2',200-Math.cos(ang)*99); $('armL').setAttribute('y2',160+Math.sin(ang)*99); $('armR').setAttribute('x2',200+Math.cos(ang)*99); $('armR').setAttribute('y2',160+Math.sin(ang)*99);
+    $('motion').innerHTML=a>.7?'<line x1="70" y1="60" x2="100" y2="40"/><line x1="330" y1="60" x2="300" y2="40"/><line x1="60" y1="110" x2="95" y2="100"/><line x1="340" y1="110" x2="305" y2="100"/>':''; }
+
+  // 5 plan: three goals tick off
+  r=scene('plan',t);
+  if(r){ [0,1,2].forEach(i=>{ const a=when('plan','top')+i*.35; $('pt'+i).setAttribute('width',lerp(0,110,eout(seg(t,a-.3,a)))); $('pc'+i).setAttribute('stroke-dashoffset',60*(1-eout(seg(t,a,a+.25)))); }); }
+
+  // checklist strip under the habits
+  const L=$('list'), ls=SC.water.start, le=SC.plan.end;
+  if(t>=ls-.1&&t<le+.6){ L.style.opacity=Math.min(seg(t,ls,ls+.4),1-seg(t,le+.2,le+.6));
+    HABIDS.forEach((id,i)=>{ const on=t>=TICK[i]; $('bx'+i).className='bx'+(on?' on':''); $('bx'+i).style.transform=`scale(${on?back(seg(t,TICK[i],TICK[i]+.3)):1})`;
+      $('it'+i).className='it'+(t>=SC[id].start&&t<SC[id].end?' cur':''); }); }
+  else L.style.opacity=0;
+
+  // poll: bars fill, tap an option, comment prompt
+  r=scene('poll',t);
+  if(r){ const a=when('poll','already')-.2; POLL.forEach((o,i)=>{ const p=eout(seg(t,a+i*.1,a+.9+i*.1)); $('of'+i).style.width=o[1]*p*2.2+'%'; $('ob'+i).style.opacity=seg(t,a+.4,a+.8); $('ob'+i).textContent=Math.round(o[1]*p)+'%'; });
+    $('op0').className='opt'+(t>=TAPS[5][0]?' pick':''); const c=back(seg(t,when('poll','comments')-.2,when('poll','comments')+.2)); $('cmt').style.opacity=clamp(c*1.5); $('cmt').style.transform=`scale(${c})`; }
+
+  // outro: 7-day tracker fills, Save + Follow get tapped
+  r=scene('outro',t);
+  if(r){ for(let i=0;i<7;i++){ const a=when('outro','week')+.2+i*.12; $('wk'+i).textContent=t>=a?'✓':''; $('wk'+i).style.transform=`scale(${t>=a?back(seg(t,a,a+.25)):0})`; }
+    const sv=TAPS[6][0], fo=TAPS[7][0];
+    $('save').style.transform=`scale(${t>=sv&&t<sv+.15?.92:1+.03*Math.sin(t*6)})`; if(t>=sv){ $('save').style.background='#1f3d2b'; $('save').style.color='#fff6ec'; } else { $('save').style.background='#fff'; $('save').style.color='#1f3d2b'; }
+    $('follow').style.transform=`scale(${t>=fo&&t<fo+.15?.92:1+.03*Math.sin(t*6+1)})`; $('follow').textContent=t>=fo?'✓ Following':'+ Follow';
+    $('next').style.opacity=seg(t,fo+1.6,fo+2.0); }
+
+  // pointer: glides between taps within each scene
+  const P=$('ptr'); const cur=TL.scenes.find(s=>t>=s.start&&t<s.end)||TL.scenes[TL.scenes.length-1];
+  const taps=TAPS.filter(x=>x[0]>=cur.start-.2&&x[0]<cur.end+.1);
+  if(taps.length){ let k=taps.findIndex(x=>t<x[0]); if(k<0) k=taps.length;
+    const tg=taps[Math.min(k,taps.length-1)], fr=k>0?taps[k-1]:[cur.start,tg[1]+220,tg[2]-260];
+    const m=eio(seg(t,Math.max(fr[0],tg[0]-.6),tg[0])); const pos=k>=taps.length?{x:fr[1],y:fr[2]}:{x:lerp(fr[1],tg[1],m),y:lerp(fr[2],tg[2],m)};
+    const last=taps.filter(x=>t>=x[0]).pop(), since=last?t-last[0]:9;
+    P.style.opacity=Math.min(seg(t,cur.start+.2,cur.start+.5),1-seg(t,cur.end-.3,cur.end)); P.style.transform=`translate(${pos.x-30}px,${pos.y-10}px) scale(${since<.12?.85:1})`;
+    $('rip').style.opacity=since<.45?1-since/.45:0; $('rip').style.transform=`scale(${.4+since*3})`; }
+  else P.style.opacity=0;
+
+  // pop-up labels
+  const act=POPS.filter(p=>t>=p[0]&&t<p[0]+1.5).slice(-MAXPOP);
+  for(let i=0;i<MAXPOP;i++){ const d=$('pop'+i), p=act[i]; if(!p){ d.style.opacity=0; continue; } const age=t-p[0], b=back(seg(age,0,.3));
+    d.textContent=p[1]; d.style.left=p[2]+'px'; d.style.top=(p[3]-age*50)+'px'; d.style.opacity=clamp(b*2)*(1-seg(age,1.2,1.5)); d.style.transform=`translate(-50%,-50%) scale(${b})`; }
+  // sparkle bursts
+  const bs=BURSTS.filter(a=>t>=a&&t<a+1).pop();
+  SP.forEach((q,i)=>{ const d=$('sp'+i); if(bs===undefined){ d.style.opacity=0; return; } const age=t-bs;
+    const bi=BURSTS.indexOf(bs), ox = bi===5?900:bi===6?540:150+bi*195, oy = bi===5?430:bi===6?700:1468;
+    d.style.opacity=1-seg(age,.6,1); d.style.transform=`translate(${ox+Math.cos(q.a)*q.v*age}px,${oy+Math.sin(q.a)*q.v*age*.7+600*age*age}px) scale(${1-age*.6})`; });
+
+  // captions, word by word
+  const ln=TL.lines.find(l=>t>=l.start-.05&&t<l.end+.3), C=$('cap');
+  if(ln&&!location.search.includes('nocap')){ const p=seg(t,ln.start,ln.end); let acc=0; const tot=ln.text.length;
+    C.innerHTML=ln.text.split(' ').map(w=>{ const a=acc/tot,b=(acc+w.length)/tot; acc+=w.length+1;
+      return `<span style="color:${p>=b?'#1f3d2b':p>=a?'#ff9f75':'rgba(31,61,43,.35)'}">${w}</span>`; }).join(' ');
+    C.style.opacity=Math.min(seg(t,ln.start-.05,ln.start+.1),1-seg(t,ln.end+.15,ln.end+.3)); }
+  else C.style.opacity=0;
+  $('bar').style.width=(100*t/TL.total)+'%';
+  $('fade').style.opacity=t<.2?1-seg(t,0,.2):seg(t,TL.total-.5,TL.total);
+}
+window.render=render;
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script></body></html>
