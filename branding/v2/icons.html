@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>woopi icons v2</title>
+<!-- ?grass = icon for banner option A, ?blue = icon for banner option B. 800x800, safe for circle crops. -->
+<style>
+@font-face{font-family:Gluten;font-weight:700;src:url(../fonts/gluten.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:800px;height:800px;overflow:hidden}
+.ic{position:relative;width:800px;height:800px;overflow:hidden}
+#grass{background:url(grass_icon_bg.jpg) center/cover}
+#grass .shade{position:absolute;inset:0;background:radial-gradient(circle,rgba(0,0,0,.25),transparent 62%)}
+#grass .w{position:absolute;left:0;right:0;top:150px;text-align:center;font-family:Gluten;font-weight:700;font-size:520px;line-height:1;color:#ecd89c;transform:rotate(-7deg)}
+#grass svg{position:absolute;left:0;top:0;width:800px;height:800px}
+#grass svg *{fill:#ecd89c}
+#blue{background:#1650ae}
+#blue .w{position:absolute;left:0;right:0;top:200px;text-align:center;font-family:"Inter Display",Inter,sans-serif;font-weight:900;font-size:560px;line-height:1;letter-spacing:-.06em;color:#f8eba8}
+#blue svg.o{position:absolute;filter:drop-shadow(0 12px 10px rgba(0,0,0,.35))}
+</style></head><body>
+<div class="ic" id="grass" hidden>
+  <div class="shade"></div>
+  <div class="w">w</div>
+  <svg viewBox="0 0 800 800">
+    <!-- leaf sprig over the w, flower and dots like the banner -->
+    <g transform="translate(270 190) rotate(-6)"><path d="M10 52 C90 40 170 40 250 52" style="fill:none;stroke:#ecd89c;stroke-width:12;stroke-linecap:round"/>
+      <path d="M60 47 q-6 -34 26 -44 q4 32 -26 44Z"/><path d="M110 43 q-4 -36 28 -42 q2 34 -28 42Z"/><path d="M160 43 q0 -36 32 -40 q0 34 -32 40Z"/>
+      <path d="M80 48 q24 22 52 12 q-18 -24 -52 -12Z"/><path d="M135 46 q26 20 54 8 q-20 -22 -54 -8Z"/></g>
+    <g transform="translate(600 250) rotate(15) scale(1.1)"><circle r="16" cy="-21"/><circle r="16" cx="20" cy="-7"/><circle r="16" cx="12" cy="17"/><circle r="16" cx="-12" cy="17"/><circle r="16" cx="-20" cy="-7"/><circle r="9" style="fill:#6c8a24"/></g>
+    <g transform="translate(180 590)"><circle cx="0" cy="0" r="16"/><circle cx="30" cy="-22" r="10"/><circle cx="32" cy="16" r="7"/></g>
+    <path transform="translate(620 560)" d="M0 -40 L10 -10 40 0 10 10 0 40 -10 10 -40 0 -10 -10Z"/>
+  </svg>
+</div>
+<div class="ic" id="blue" hidden>
+  <div class="w">w</div>
+  <svg class="o" viewBox="0 0 200 220" style="width:200px;left:316px;top:178px"><defs>
+    <linearGradient id="lf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8e6a2"/><stop offset="1" stop-color="#3e9b4f"/></linearGradient></defs>
+    <path d="M100 220 C100 170 100 150 100 120" stroke="#2f7a3c" stroke-width="18" stroke-linecap="round" fill="none"/>
+    <path d="M100 140 C40 140 8 100 2 48 C60 48 98 82 100 140Z" fill="url(#lf)"/>
+    <path d="M100 124 C160 124 194 84 198 30 C140 30 102 66 100 124Z" fill="url(#lf)"/>
+    <path d="M30 70 C60 90 80 110 96 136M170 52 C140 72 118 94 104 120" stroke="#e6f7dc" stroke-width="5" fill="none" opacity=".7" stroke-linecap="round"/></svg>
+  <svg class="o" viewBox="0 0 160 200" style="width:110px;left:580px;top:520px"><defs>
+    <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b0"/><stop offset=".5" stop-color="#e9b949"/><stop offset="1" stop-color="#b07d1a"/></linearGradient></defs>
+    <path d="M100 10 l13 30 32 3 -24 21 7 32 -28 -17 -28 17 7 -32 -24 -21 32 -3Z" fill="url(#sg)"/>
+    <path d="M45 110 l10 23 25 2 -19 16 6 25 -22 -13 -22 13 6 -25 -19 -16 25 -2Z" fill="url(#sg)"/></svg>
+  <svg class="o" viewBox="0 0 120 160" style="width:80px;left:130px;top:430px;transform:rotate(-16deg)"><defs>
+    <radialGradient id="dg" cx=".35" cy=".4" r=".8"><stop offset="0" stop-color="#e3f6ff"/><stop offset=".45" stop-color="#7cc7f0"/><stop offset="1" stop-color="#2f83c8"/></radialGradient></defs>
+    <path d="M60 4 C90 50 116 82 116 108 a56 56 0 0 1 -112 0 C4 82 30 50 60 4Z" fill="url(#dg)"/>
+    <ellipse cx="40" cy="96" rx="12" ry="20" fill="#fff" opacity=".7" transform="rotate(20 40 96)"/></svg>
+</div>
+<script>document.getElementById(location.search.includes('blue')?'blue':'grass').hidden=false;</script>
+</body></html>
