@@ -305,7 +305,7 @@ const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.t
     acc+=part.join(' ').length+1; CHUNKS.push({text:part.join(' ').replace(/[.,]$/,''),start:l.start+(l.end-l.start)*a,end:l.start+(l.end-l.start)*Math.min(1,acc/tot)}); i+=n; } });
 
 // ---------------------------------------------------------------- labels + icons (reference-style pop-ups)
-const LABELS=[[when('clock','body'),SC.clock.end-.1,'BODY CLOCK','clock'],[when('energy','awake'),SC.energy.end-.1,'MORE ENERGY','battery'],
+const LABELS=[[when('clock','body'),SC.clock.end-.1,'BODY CLOCK',null],[when('energy','awake'),SC.energy.end-.1,'MORE ENERGY','battery'],
   [when('sleep','asleep'),SC.sleep.end-.1,'BETTER SLEEP',null],[when('time','Five'),SC.time.end-.1,'5–10 MIN','sun'],[when('bonus','walk'),SC.bonus.end-.1,'BONUS: WALK',null],
 ];
 const ICONS={clock:'<circle cx="50" cy="50" r="42" fill="#fff" stroke="#333" stroke-width="5"/><line x1="50" y1="50" x2="50" y2="20" stroke="#333" stroke-width="6" stroke-linecap="round" id="hand"/><circle cx="50" cy="50" r="5" fill="#333"/>',battery:'<rect x="14" y="30" width="64" height="40" rx="8" fill="#fff" stroke="#333" stroke-width="6"/><rect x="80" y="42" width="8" height="16" rx="3" fill="#333"/><rect x="22" y="38" width="12" height="24" rx="3" fill="#ff4d4d" id="batt"/>',clock:'<circle cx="50" cy="50" r="42" fill="#fff" stroke="#333" stroke-width="5"/><line x1="50" y1="50" x2="50" y2="20" stroke="#333" stroke-width="6" stroke-linecap="round" id="hand"/><circle cx="50" cy="50" r="5" fill="#333"/>',
