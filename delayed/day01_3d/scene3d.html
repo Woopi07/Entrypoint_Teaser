@@ -1,0 +1,401 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>DG Day 1 3D (what is delayed gratification)</title>
+<!--
+  Delayed Gratification Day 1 (3D): "What Is Delayed Gratification?"
+  Brand: royal blue #1A50A8, cream #F6EBB5, red pushpin #E53935, gold star #F2C14E; Inter Display 900.
+  render(t) sets every object for time t and draws one frame; render.mjs screenshots frames.
+  Timings come from timeline.js (build_timeline.py).
+-->
+<style>
+:root{--blue:#1a50a8;--navy:#0f2f6b;--cream:#f6ebb5;--red:#e53935;--gold:#f2c14e}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#1a50a8}
+#c{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#ui{position:absolute;inset:0;pointer-events:none;font-family:Inter,"DejaVu Sans",sans-serif}
+#cap{position:absolute;left:0;right:0;top:1390px;text-align:center;font:800 64px Inter;color:#fff;
+  text-shadow:0 0 6px rgba(0,0,0,.9),0 3px 12px rgba(0,0,0,.6);opacity:0}
+#label{position:absolute;left:0;right:0;top:250px;text-align:center;font:900 100px "Inter Display";color:var(--cream);letter-spacing:-2px;
+  text-shadow:0 8px 0 rgba(8,30,80,.45);opacity:0}
+#tag{position:absolute;left:44px;top:60px;background:var(--cream);color:var(--blue);font:900 40px "Inter Display";border-radius:999px;padding:12px 28px;box-shadow:0 8px 0 rgba(8,30,80,.35)}
+#tag b{color:var(--red)}
+#meter{position:absolute;left:44px;top:150px;display:flex;align-items:center;gap:16px;background:var(--cream);border-radius:999px;padding:12px 22px 12px 24px;box-shadow:0 8px 0 rgba(8,30,80,.35);opacity:0}
+#meter span{font:900 30px Inter;color:var(--blue);letter-spacing:1px}
+#meter .bar{width:300px;height:30px;border-radius:999px;background:#d8dff0;overflow:hidden}
+#meter i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ffd978,var(--gold))}
+/* title: cream type straight on the blue, like the banner */
+#title{position:absolute;left:40px;right:40px;top:250px;text-align:center;opacity:0}
+#title .k{display:inline-block;background:var(--cream);color:var(--blue);font:900 38px "Inter Display";letter-spacing:2px;border-radius:999px;padding:10px 28px;margin-bottom:22px;box-shadow:0 8px 0 rgba(8,30,80,.35)}
+#title .k b{color:var(--red)}
+#title .h{font:900 122px/.95 "Inter Display";color:var(--cream);letter-spacing:-4px;text-shadow:0 10px 0 rgba(8,30,80,.45)}
+#title .h small{display:block;font-size:84px;letter-spacing:-2px;margin-bottom:6px}
+#title svg{position:absolute}
+/* hook: the choice */
+#choice{position:absolute;left:70px;right:70px;top:720px;display:flex;gap:30px;justify-content:center}
+#choice .o{flex:1;background:var(--cream);border-radius:40px;padding:22px 0 18px;text-align:center;box-shadow:0 12px 0 rgba(8,30,80,.4);opacity:0;border:7px solid transparent}
+#choice .o i{display:block;font-style:normal;font-size:84px;line-height:1.1}
+#choice .o b{display:block;font:900 56px "Inter Display";color:var(--blue)}
+#choice .o span{font:800 32px Inter;color:#55607a}
+#choice .o.pick{border-color:var(--gold)}
+#vs{position:absolute;left:50%;top:820px;width:110px;height:110px;margin-left:-55px;border-radius:50%;background:var(--red);color:#fff;font:900 44px "Inter Display";display:grid;place-items:center;box-shadow:0 8px 0 rgba(8,30,80,.4);opacity:0}
+/* what: pinned definition note */
+#def{position:absolute;left:90px;right:90px;top:330px;background:var(--cream);border-radius:36px;padding:70px 36px 36px;box-shadow:0 16px 0 rgba(8,30,80,.4);opacity:0}
+#def .pin{position:absolute;left:50%;top:-58px;width:120px;margin-left:-60px}
+#def .dh{font:900 70px/1 "Inter Display";color:var(--blue);letter-spacing:-2px;text-align:center;margin-bottom:30px}
+#def .eq{display:flex;align-items:center;justify-content:center;gap:22px}
+#def .b{width:330px;background:#fff;border-radius:30px;padding:18px 0;text-align:center;border:5px solid #e6dcae}
+#def .b i{display:block;font-style:normal;font-size:76px;line-height:1.15}
+#def .b span{font:900 42px "Inter Display";color:var(--blue)}
+#def .b.big{border-color:var(--gold);background:#fffbea}
+#def .lt{font:900 90px "Inter Display";color:var(--red)}
+/* test: countdown */
+#timer{position:absolute;right:70px;top:420px;background:var(--cream);border-radius:36px;padding:16px 30px;box-shadow:0 12px 0 rgba(8,30,80,.4);font:900 92px "Inter Display";color:var(--blue);letter-spacing:-2px;opacity:0;font-variant-numeric:tabular-nums}
+#timer.done{color:#1f9a4c}
+/* brain: reward graph */
+#graph{position:absolute;left:90px;right:90px;top:400px;background:var(--cream);border-radius:40px;padding:26px 30px 22px;box-shadow:0 14px 0 rgba(8,30,80,.4);opacity:0}
+#graph .gt{font:900 48px "Inter Display";color:var(--blue);text-align:center;margin-bottom:4px}
+#graph svg{width:100%;height:auto}
+#graph .lg{display:flex;justify-content:center;gap:44px;font:900 38px Inter}
+/* skill: level up */
+#lvl{position:absolute;left:170px;right:170px;top:400px;background:var(--cream);border-radius:40px;padding:22px 30px;box-shadow:0 14px 0 rgba(8,30,80,.4);text-align:center;opacity:0}
+#lvl .lt{font:900 40px Inter;color:#55607a;letter-spacing:3px}
+#lvl .n{font:900 84px/1 "Inter Display";color:var(--blue);margin:4px 0 10px}
+#lvl .st{display:flex;justify-content:center;gap:16px}
+#lvl .st svg{width:96px;height:96px}
+/* start: 10-minute ring */
+#ring{position:absolute;left:50%;top:400px;width:360px;height:360px;margin-left:-180px;opacity:0}
+#ring .t{position:absolute;inset:0;display:grid;place-items:center;font:900 92px "Inter Display";color:var(--blue);letter-spacing:-2px;font-variant-numeric:tabular-nums}
+#ring .t small{display:block;font:800 30px Inter;color:#55607a;text-align:center;letter-spacing:2px}
+/* poll */
+#poll{position:absolute;left:110px;right:110px;top:220px;background:var(--cream);border-radius:44px;padding:44px 44px 34px;box-shadow:0 16px 0 rgba(8,30,80,.4);opacity:0}
+#poll h3{font:900 64px/1.05 "Inter Display";color:var(--blue);text-align:center;margin-bottom:28px;letter-spacing:-1px}
+#poll .op{display:flex;align-items:center;gap:20px;font:900 50px "Inter Display";color:var(--blue);background:#fff;border-radius:26px;padding:20px 30px;margin-bottom:18px;border:6px solid transparent}
+#poll .op i{font-style:normal;font-size:60px}
+#poll .op .pc{margin-left:auto;font:900 40px Inter;color:#55607a}
+#poll .op.pick{border-color:var(--gold);background:#fffbea}
+#cmt{display:block;width:fit-content;margin:24px auto 0;background:var(--blue);color:var(--cream);font:800 42px Inter;border-radius:999px;padding:18px 40px}
+/* end */
+#end{position:absolute;left:0;right:0;top:220px;text-align:center;opacity:0}
+#end .logo{width:340px;height:340px;border-radius:70px;border:10px solid var(--cream);box-shadow:0 16px 0 rgba(8,30,80,.45);display:block;margin:0 auto}
+#end .s{font:900 52px "Inter Display";color:var(--blue);background:var(--cream);display:inline-block;border-radius:999px;padding:16px 40px;margin-top:34px;box-shadow:0 10px 0 rgba(8,30,80,.4)}
+#checks{display:flex;gap:18px;justify-content:center;margin-top:36px}
+#checks div{width:130px;height:130px;border-radius:34px;background:var(--cream);display:grid;place-items:center;font-size:66px;box-shadow:0 10px 0 rgba(8,30,80,.4)}
+#fade{position:absolute;inset:0;background:#000;opacity:0}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="pinS" viewBox="0 0 120 120"><line x1="22" y1="104" x2="54" y2="70" stroke="#8d97a8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M44 62 L64 46 L80 62 L64 82Z" fill="#c62828"/><circle cx="76" cy="44" r="26" fill="#e53935"/><circle cx="68" cy="36" r="8" fill="#ff8a80"/></symbol>
+  <symbol id="starS" viewBox="0 0 100 100"><path d="M50 6 L62 37 L95 38 L69 58 L78 91 L50 72 L22 91 L31 58 L5 38 L38 37Z" fill="#f2c14e" stroke="#c99a2a" stroke-width="4" stroke-linejoin="round"/></symbol>
+  <symbol id="starE" viewBox="0 0 100 100"><path d="M50 6 L62 37 L95 38 L69 58 L78 91 L50 72 L22 91 L31 58 L5 38 L38 37Z" fill="#e2dcc0" stroke="#c9c2a2" stroke-width="4" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="ui">
+  <div id="tag">DAY <b>1</b>/30</div>
+  <div id="meter"><span>⏳ PATIENCE</span><div class="bar"><i id="mfill"></i></div></div>
+  <div id="label"></div>
+  <div id="choice"><div class="o" id="ch0"><i>🍡</i><b>1 NOW</b><span>right away</span></div><div class="o" id="ch1"><i>🍡🍡</i><b>2 LATER</b><span>⏳ wait 15 min</span></div></div>
+  <div id="vs">OR</div>
+  <div id="def"><svg class="pin"><use href="#pinS"/></svg><div class="dh">delayed<br>gratification</div>
+    <div class="eq"><div class="b" id="db0"><i>🍡</i><span>small now</span></div><b class="lt" id="dlt">&lt;</b><div class="b big" id="db1"><i>🍡🍡</i><span>BIG later</span></div></div></div>
+  <div id="timer">⏳ 15:00</div>
+  <div id="graph"><div class="gt">How rewards feel over time</div>
+    <svg viewBox="0 0 600 260"><line x1="20" y1="230" x2="590" y2="230" stroke="#c9c2a2" stroke-width="4"/><line x1="20" y1="20" x2="20" y2="230" stroke="#c9c2a2" stroke-width="4"/>
+      <path id="gq" d="M20 220 L110 220 L160 40 L215 205 L590 222" fill="none" stroke="#e53935" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      <path id="gd" d="M20 222 C200 214 380 150 585 34" fill="none" stroke="#f2c14e" stroke-width="12" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      <g id="gstar" opacity="0"><use href="#starS" x="555" y="4" width="60" height="60"/></g></svg>
+    <div class="lg"><span style="color:#e53935">⚡ quick</span><span style="color:#c99a2a">⭐ delayed</span></div></div>
+  <div id="lvl"><div class="lt">PATIENCE</div><div class="n" id="lvn">LEVEL 1</div><div class="st" id="lst"></div></div>
+  <div id="ring"><svg viewBox="0 0 360 360"><circle cx="180" cy="180" r="170" fill="#f6ebb5"/><circle cx="180" cy="180" r="140" fill="none" stroke="#d8dff0" stroke-width="26"/>
+    <circle id="rarc" cx="180" cy="180" r="140" fill="none" stroke="#1a50a8" stroke-width="26" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" transform="rotate(-90 180 180)"/></svg>
+    <div class="t"><div><span id="rtx">10:00</span><small>WAIT</small></div></div></div>
+  <div id="poll"><h3>One now or<br>two later? 🤔</h3><div class="op" id="po0"><i>🍡</i>1 now<span class="pc" id="pc0"></span></div><div class="op" id="po1"><i>🍡🍡</i>2 later<span class="pc" id="pc1"></span></div><span id="cmt">💬 Tell me in the comments</span></div>
+  <div id="end"><img class="logo" src="logo.jpg" alt="dg"><div class="s">Follow for more<br>delayed gratification</div>
+    <div id="checks"><div id="ck0">⏳</div><div id="ck1">🍡</div><div id="ck2">⭐</div><div id="ck3">📌</div></div></div>
+  <div id="title"><div class="k">DAY <b>1</b>/30</div><div class="h"><small>What is</small>delayed<br>gratification?</div>
+    <svg id="tpin" style="left:40px;top:150px;width:110px;height:110px"><use href="#pinS"/></svg>
+    <svg id="tst1" style="right:40px;top:330px;width:70px;height:70px"><use href="#starS"/></svg>
+    <svg id="tst2" style="right:100px;top:395px;width:44px;height:44px"><use href="#starS"/></svg></div>
+  <div id="cap"></div>
+  <div id="fade"></div>
+</div>
+<script src="timeline.js"></script>
+<script type="module">
+import * as THREE from './node_modules/three/build/three.module.js';
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7,d=c+1;return 1+d*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL, SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+function when(id,word,k=0){ const l=TL.lines.filter(l=>l.scene===id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); if(i<0) throw new Error('cue '+word); return l.start+(l.end-l.start)*i/l.text.length; }
+
+// ---------------------------------------------------------------- renderer / blue studio
+const renderer=new THREE.WebGLRenderer({canvas:$('c'),antialias:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(1); renderer.setSize(1080,1920,false);
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene();
+const BLUE=0x1a50a8, CREAM=0xf6ebb5;
+scene.background=new THREE.Color(BLUE); scene.fog=new THREE.Fog(BLUE,9,22);
+const camera=new THREE.PerspectiveCamera(50,1080/1920,.1,200);
+const hemi=new THREE.HemisphereLight(0xffffff,0x2a4f9a,1.5); scene.add(hemi);
+const key=new THREE.DirectionalLight(0xfff4dd,2.6); key.position.set(3,7,6); key.castShadow=true; key.shadow.mapSize.set(2048,2048);
+Object.assign(key.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:1,far:30}); key.shadow.bias=-.0005; key.shadow.radius=5; scene.add(key);
+const rim=new THREE.DirectionalLight(0xbcd2ff,1.2); rim.position.set(-4,5,-5); scene.add(rim);
+const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.8,metalness:0,...o});
+function mesh(geo,mat,x=0,y=0,z=0,parent=scene){ const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.castShadow=true; m.receiveShadow=true; parent.add(m); return m; }
+// shadow-catching floor in the brand blue, a cream stage disc in the middle
+const floor=mesh(new THREE.PlaneGeometry(60,60),M(0x1d57b5,{roughness:1}),0,0,0); floor.rotation.x=-Math.PI/2; floor.castShadow=false;
+const stage=mesh(new THREE.CylinderGeometry(1.9,1.95,.12,64),M(CREAM,{roughness:.9}),0,.06,-.5); stage.castShadow=false;
+mesh(new THREE.TorusGeometry(1.92,.035,8,64),M(0xe0cf86),0,.12,-.5).rotation.x=Math.PI/2;
+
+// ---------------------------------------------------------------- character (same build as the wellness series)
+const skin=M(0xfff1e6), shirt=M(CREAM,{roughness:.9}), pants=M(0x0f2f6b), hairM=M(0x2b1d14), shoe=M(0xffffff), dark=M(0x1b1b1b,{roughness:.4});
+function limb(r,len,mat,parent,x,y,z){ const pivot=new THREE.Group(); pivot.position.set(x,y,z); parent.add(pivot);
+  mesh(new THREE.CapsuleGeometry(r,len,6,12),mat,0,-len/2-r*.4,0,pivot); return pivot; }
+function person(){
+  const g=new THREE.Group(); scene.add(g);
+  const body=new THREE.Group(); g.add(body);
+  { const tor=mesh(new THREE.CylinderGeometry(.46,.32,.78,24,1),shirt,0,1.36,0,body); tor.scale.set(1,1,.62);
+    const sh=mesh(new THREE.CapsuleGeometry(.17,.62,8,16),shirt,0,1.7,0,body); sh.rotation.z=Math.PI/2; sh.scale.set(1,1,.8);
+    mesh(new THREE.CylinderGeometry(.11,.12,.2,16),skin,0,1.86,0,body);
+    const coll=mesh(new THREE.TorusGeometry(.12,.025,8,20),M(0xe53935),0,1.79,0,body); coll.rotation.x=Math.PI/2; }
+  const hips=mesh(new THREE.CapsuleGeometry(.29,.1,8,16),pants,0,.92,0,body); hips.scale.set(1.02,1,.72);
+  mesh(new THREE.CylinderGeometry(.31,.31,.07,24),M(0x2b2b2b),0,1.0,0,body).scale.set(1,1,.72);
+  const head=new THREE.Group(); head.position.set(0,2.02,0); body.add(head);
+  mesh(new THREE.SphereGeometry(.34,28,20),skin,0,0,0,head).scale.set(1,1.04,.98);
+  const hair=mesh(new THREE.SphereGeometry(.36,28,20,0,Math.PI*2,0,Math.PI*.55),hairM,0,.04,-.02,head); hair.rotation.x=-.25;
+  [-.1,.1].forEach(x=>{ mesh(new THREE.CapsuleGeometry(.025,.035,4,8),dark,x,.0,.315,head); const br=mesh(new THREE.BoxGeometry(.08,.016,.02),dark,x,.1,.31,head); br.rotation.z=x<0?-.08:.08; });
+  mesh(new THREE.BoxGeometry(.012,.07,.02),dark,0,-.07,.335,head);
+  const smile=mesh(new THREE.BoxGeometry(.09,.014,.02),dark,0,-.17,.31,head);
+  [-.19,.19].forEach(x=>[-.02,.02].forEach(dx=>{ const l=mesh(new THREE.BoxGeometry(.012,.045,.015),M(0xff8a7a),x+dx,-.08,.275,head); l.rotation.z=.4; }));
+  const fr=M(0x111111,{roughness:.4});
+  [-.11,.11].forEach(x=>{ const sh=new THREE.Shape(); const w=.17,h=.12,r=.03; sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
+    const hole=new THREE.Path(); const iw=w-.04,ih=h-.04; hole.moveTo(-iw/2,-ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole);
+    const gl=mesh(new THREE.ExtrudeGeometry(sh,{depth:.02,bevelEnabled:false}),fr,x,.0,.33,head); gl.castShadow=false; });
+  mesh(new THREE.BoxGeometry(.05,.018,.02),fr,0,.03,.34,head);
+  [-.2,.2].forEach(x=>{ const arm=mesh(new THREE.BoxGeometry(.015,.015,.28),fr,x,.02,.19,head); arm.rotation.y=x<0?-.25:.25; });
+  const armL=limb(.1,.62,skin,body,-.55,1.7,0), armR=limb(.1,.62,skin,body,.55,1.7,0);
+  [armL,armR].forEach(a=>mesh(new THREE.CapsuleGeometry(.125,.18,6,12),shirt,0,-.14,0,a));
+  mesh(new THREE.SphereGeometry(.11,12,10),skin,0,-.86,0,armL); mesh(new THREE.SphereGeometry(.11,12,10),skin,0,-.86,0,armR);
+  const legL=limb(.125,.6,pants,body,-.15,.85,0), legR=limb(.125,.6,pants,body,.15,.85,0);
+  mesh(new THREE.BoxGeometry(.24,.12,.36),shoe,0,-.84,.06,legL); mesh(new THREE.BoxGeometry(.24,.12,.36),shoe,0,-.84,.06,legR);
+  return {g,body,head,armL,armR,legL,legR,smile};
+}
+const P=person();
+
+// ---------------------------------------------------------------- brand props
+// marshmallow: a soft rounded cylinder
+const mmGeo=new THREE.LatheGeometry([[0,-.15],[.15,-.15],[.2,-.12],[.22,-.06],[.22,.06],[.2,.12],[.15,.15],[0,.15]].map(([x,y])=>new THREE.Vector2(x,y)),32);
+const mmMat=M(0xfffdf7,{roughness:.95});
+function marsh(parent,x,y,z){ const m=mesh(mmGeo,mmMat,x,y,z,parent); return m; }
+// hourglass: wooden caps, posts, glass bulbs, sand that drains
+function hourglass(s=1){ const g=new THREE.Group(); g.scale.setScalar(s); scene.add(g);
+  const wood=M(0x6b3f1f,{roughness:.6});
+  mesh(new THREE.CylinderGeometry(.36,.36,.07,32),wood,0,.5,0,g); mesh(new THREE.CylinderGeometry(.36,.36,.07,32),wood,0,-.5,0,g);
+  [0,1,2].forEach(i=>{ const a=i*Math.PI*2/3; mesh(new THREE.CylinderGeometry(.025,.025,1,8),wood,Math.cos(a)*.3,0,Math.sin(a)*.3,g); });
+  const prof=[[0,-.46],[.24,-.44],[.26,-.3],[.2,-.14],[.05,-.02],[.04,0],[.05,.02],[.2,.14],[.26,.3],[.24,.44],[0,.46]].map(([x,y])=>new THREE.Vector2(x,y));
+  const glass=mesh(new THREE.LatheGeometry(prof,32),new THREE.MeshStandardMaterial({color:0xcfe6ff,transparent:true,opacity:.35,roughness:.05,side:THREE.DoubleSide,depthWrite:false}),0,0,0,g); glass.castShadow=false;
+  const sandM=M(0xf2c14e,{roughness:.9});
+  const top=new THREE.Group(); top.position.y=.03; g.add(top); mesh(new THREE.ConeGeometry(.21,.3,24),sandM,0,.15,0,top).rotation.x=Math.PI;
+  const bot=new THREE.Group(); bot.position.y=-.44; g.add(bot); mesh(new THREE.ConeGeometry(.23,.26,24),sandM,0,.13,0,bot);
+  const stream=mesh(new THREE.CylinderGeometry(.012,.012,.42,6),sandM,0,-.2,0,g);
+  g.userData={top,bot,stream}; return g; }
+function setSand(h,p,flow=true){ const {top,bot,stream}=h.userData; const a=Math.max(.001,Math.cbrt(1-p)), b=Math.max(.001,Math.cbrt(p)); top.scale.set(a,a,a); bot.scale.set(b,b,b); stream.visible=flow&&p>.02&&p<.98; }
+// gold star (extruded) and red pushpin
+const starShape=new THREE.Shape(); for(let i=0;i<10;i++){ const r=i%2?.17:.4, a=Math.PI/2+i*Math.PI/5; i?starShape.lineTo(Math.cos(a)*r,Math.sin(a)*r):starShape.moveTo(Math.cos(a)*r,Math.sin(a)*r); }
+const starGeo=new THREE.ExtrudeGeometry(starShape,{depth:.1,bevelEnabled:true,bevelThickness:.04,bevelSize:.03,bevelSegments:2}); starGeo.center();
+const goldM=M(0xf2c14e,{roughness:.35,metalness:.35});
+function star(s=1){ const m=mesh(starGeo,goldM); m.scale.setScalar(s); return m; }
+const redM=M(0xe53935,{roughness:.35}), steel=M(0xb8c0cc,{roughness:.3,metalness:.7});
+function pushpin(s=1){ const g=new THREE.Group(); g.scale.setScalar(s); scene.add(g);
+  mesh(new THREE.SphereGeometry(.22,24,16),redM,0,.42,0,g); mesh(new THREE.CylinderGeometry(.1,.16,.22,20),redM,0,.2,0,g);
+  mesh(new THREE.CylinderGeometry(.2,.2,.05,24),redM,0,.08,0,g); mesh(new THREE.CylinderGeometry(.015,.005,.35,8),steel,0,-.12,0,g); return g; }
+// background decorations floating in the blue
+const deco=[]; [[-2.6,3.6,-4,.9,'s'],[2.7,3.1,-3.6,.7,'s'],[-3.2,1.6,-3,.6,'p'],[3.3,1.2,-3.4,.7,'p'],[2.1,4.3,-5,.55,'s'],[-1.8,4.6,-5.5,.5,'s']].forEach(([x,y,z,s,k],i)=>{
+  const o=k==='s'?star(s):pushpin(s*1.1); o.position.set(x,y,z); o.rotation.z=k==='p'?(x<0?.5:-.5):0; deco.push({o,x,y,z,i,k}); });
+// counter table with two plates (1 now / 2 later) and an hourglass between them
+const table=new THREE.Group(); table.position.set(0,0,.15); scene.add(table);
+mesh(new THREE.BoxGeometry(2.4,.1,.85),M(CREAM,{roughness:.6}),0,1.0,0,table);
+mesh(new THREE.BoxGeometry(2.3,.9,.75),M(0xe53935,{roughness:.7}),0,.5,0,table);
+mesh(new THREE.BoxGeometry(2.32,.06,.77),M(0xffffff),0,.9,0,table);
+const plateGeo=new THREE.CylinderGeometry(.36,.3,.05,40), plateM=M(0xffffff,{roughness:.4});
+const plateL=new THREE.Group(); plateL.position.set(-.72,1.08,0); table.add(plateL); mesh(plateGeo,plateM,0,0,0,plateL);
+const plateR=new THREE.Group(); plateR.position.set(.72,1.08,0); table.add(plateR); mesh(plateGeo,plateM,0,0,0,plateR);
+const mmL=marsh(plateL,0,.17,0), mmL2=marsh(plateL,.12,.17,.05); mmL2.visible=false;
+const mmR1=marsh(plateR,-.13,.17,0), mmR2=marsh(plateR,.15,.17,.04); mmR2.rotation.y=.6;
+const hgT=hourglass(.6); // sits on the table
+// floating hourglass + barbell for later scenes
+const hgF=hourglass(1.1);
+const barbell=new THREE.Group(); P.g.add(barbell);
+mesh(new THREE.CylinderGeometry(.035,.035,2.6,12),steel,0,0,0,barbell).rotation.z=Math.PI/2;
+[-1.15,-1.0,1.0,1.15].forEach((x,i)=>{ const p=mesh(new THREE.CylinderGeometry(i%3?.3:.24,i%3?.3:.24,.1,28),i%3?M(0x0f2f6b):redM,x,0,0,barbell); p.rotation.z=Math.PI/2; });
+// emoji sprites
+function emoji(ch,size=1){ const c=document.createElement('canvas'); c.width=c.height=256; const x=c.getContext('2d'); x.font='200px "Noto Color Emoji"'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(ch,128,140);
+  const tx=new THREE.CanvasTexture(c); tx.colorSpace=THREE.SRGBColorSpace; const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true,depthWrite:false})); sp.scale.set(size,size,1); sp.visible=false; scene.add(sp); return sp; }
+const ePhone=emoji('📱'), eDonut=emoji('🍩'), eBag=emoji('🛍️'), eBolt=emoji('⚡'), eThink=emoji('🤔'), eParty=emoji('🎉');
+// burst of little stars (3D) for the reward moments
+const burst=[...Array(8)].map(()=>{ const s=star(.28); s.visible=false; return s; });
+
+// ---------------------------------------------------------------- camera keys: [time, pos, target]
+const STAND=[0,0,-.75];
+const CAM=[
+ [0,[0,2.35,2.7],[0,1.15,-.1]],
+ [SC.hook.end-.2,[0,2.25,2.5],[0,1.15,-.1]],
+ [SC.what.start+.4,[.2,2.2,5.2],[0,2.3,-.5]],
+ [SC.what.end-.2,[.1,2.2,4.8],[0,2.3,-.5]],
+ [SC.test.start+.4,[-.9,1.95,2.6],[0,1.55,-.3]],
+ [SC.test.end-.2,[-.7,1.9,2.4],[0,1.55,-.3]],
+ [SC.brain.start+.4,[0,2.3,5.0],[0,2.2,-.6]],
+ [SC.brain.end-.2,[0,2.3,4.6],[0,2.2,-.6]],
+ [SC.skill.start+.4,[.6,2.4,5.6],[0,2.4,-.6]],
+ [SC.skill.end-.2,[.5,2.4,5.2],[0,2.4,-.6]],
+ [SC.start.start+.4,[-.4,2.3,5.4],[0,2.35,-.6]],
+ [SC.start.end-.2,[-.3,2.3,5.0],[0,2.35,-.6]],
+ [SC.poll.start+.4,[.4,2.6,5.4],[0,2.6,-.6]],
+ [SC.poll.end-.2,[.4,2.5,5.0],[0,2.6,-.6]],
+ [SC.outro.start+.5,[0,3.0,7.2],[0,2.0,-.8]],
+ [TL.total,[0,3.4,8.2],[0,2.1,-.8]],
+];
+function camAt(t){ let a=CAM[0],b=CAM[0];
+  for(let i=1;i<CAM.length;i++){ if(t<CAM[i][0]){ a=CAM[i-1]; b=CAM[i]; break; } a=b=CAM[i]; }
+  const k=a===b?0:eio(seg(t,a[0],b[0])); const L=(u,v)=>u.map((x,i)=>lerp(x,v[i],k));
+  return [L(a[1],b[1]),L(a[2],b[2])]; }
+
+// ---------------------------------------------------------------- captions: 2–3 words at a time
+const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.text.length; let acc=0;
+  for(let i=0;i<ws.length;){ const n=(ws[i].length<=3&&ws[i+1])?3:2; const part=ws.slice(i,i+n); const a=acc/tot;
+    acc+=part.join(' ').length+1; CHUNKS.push({text:part.join(' ').replace(/[.,:]$/,''),start:l.start+(l.end-l.start)*a,end:l.start+(l.end-l.start)*Math.min(1,acc/tot)}); i+=n; } });
+
+const LABELS=[[when('test','marshmallow')-.2,SC.test.end-.1,'MARSHMALLOW TEST'],[SC.brain.start+.2,when('brain','feel')-.1,'YOUR BRAIN WANTS NOW'],
+  [SC.skill.start+.2,SC.skill.end-.1,'WAITING = A SKILL'],[when('start','wait')-.2,SC.start.end-.1,'WAIT 10 MINUTES']];
+const TEST_A=SC.test.start+.6, TEST_B=when('test','better');
+const RING_A=when('start','wait'), RING_B=SC.start.end-.5;
+window.POPS=[...LABELS.map(l=>l[0]),when('hook','now'),when('hook','two'),when('what','small'),when('what','bigger'),when('brain','scrolling'),when('brain','snacks'),when('brain','shopping'),SC.poll.start+.3];
+window.CLICKS=[when('hook','pick')+.2,when('poll','later')+.2,...[0,1,2,3].map(i=>SC.outro.start+1.2+i*.15)];
+window.CONFS=[TEST_B,when('skill','train'),RING_B,SC.outro.start+1.4];
+window.SWAPS=TL.scenes.slice(1).map(s=>s.start); window.WORDS=[]; window.XP=[when('skill','skill'),when('skill','any'),when('skill','train')];
+
+// ---------------------------------------------------------------- render(t)
+function render(t){
+  // --- defaults
+  const B=P.body; P.g.position.set(...STAND); P.g.rotation.set(0,0,0); B.rotation.set(0,0,0); B.position.set(0,0,0);
+  P.armL.rotation.set(0,0,.12); P.armR.rotation.set(0,0,-.12); P.legL.rotation.set(0,0,0); P.legR.rotation.set(0,0,0); P.head.rotation.set(0,0,0);
+  [ePhone,eDonut,eBag,eBolt,eThink,eParty].forEach(x=>x.visible=false); burst.forEach(b=>b.visible=false); barbell.visible=false;
+  const breathe=Math.sin(t*2.2)*.015; B.position.y=breathe;
+  const pop=(g,a,b,k=1)=>{ const v=t>=a-.05&&t<b+.3; g.visible=v; if(v) g.scale.setScalar(Math.max(.001,k*back(seg(t,a,a+.5))*(1-seg(t,b-.1,b+.3)))); return v; };
+  const spr=(sp,a,b,k,x,y,z)=>{ const v=t>=a-.05&&t<b+.3; sp.visible=v; if(v){ const q=Math.max(.001,k*back(seg(t,a,a+.45))*(1-seg(t,b-.1,b+.3))); sp.scale.set(q,q,1); sp.position.set(x,y,z); } };
+  const doBurst=(t0,cx,cy,cz)=>{ if(t<t0||t>t0+1.1) return; const k=seg(t,t0,t0+1.1); burst.forEach((b,i)=>{ const a=i/8*Math.PI*2; b.visible=true; const r=eout(k)*1.1;
+    b.position.set(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.8+.2,cz+.2); b.scale.setScalar(Math.max(.001,.28*(1-k*k))); b.rotation.set(0,k*6,a); }); };
+  // background deco bob
+  deco.forEach(d=>{ d.o.position.y=d.y+Math.sin(t*1.3+d.i)*.12; if(d.k==='s') d.o.rotation.y=t*.8+d.i; else d.o.rotation.y=Math.sin(t+d.i)*.4; });
+
+  // --- table + plates (hook → test)
+  const tableOn=t<SC.brain.start+.2; table.visible=tableOn; hgT.visible=tableOn;
+  if(tableOn){ const drop=eio(seg(t,SC.brain.start-.3,SC.brain.start+.2)); table.position.y=-1.3*drop; }
+  // in the test, the "later" plate leaves and the "now" plate slides to the middle
+  const slide=eio(seg(t,SC.test.start,SC.test.start+.6));
+  plateL.position.x=lerp(-.72,0,slide); plateR.visible=slide<.99; plateR.scale.setScalar(Math.max(.001,1-slide));
+  hgT.position.set(lerp(0,.85,slide),table.position.y+1.1+.3,table.position.z+lerp(0,.05,slide)); hgT.rotation.set(0,0,0);
+  setSand(hgT,t<TEST_A?0:seg(t,TEST_A,TEST_B));
+  mmL2.visible=t>=TEST_B-.05&&t<SC.brain.start+.3; if(mmL2.visible){ const q=back(seg(t,TEST_B-.05,TEST_B+.35)); mmL2.scale.setScalar(Math.max(.001,q)); mmL2.position.y=.17+.6*(1-seg(t,TEST_B-.05,TEST_B+.3)); }
+  // the plate pulses when the voice names it
+  if(t<SC.hook.end){ const pl=x=>1+.18*Math.max(0,Math.sin(seg(t,x,x+.5)*Math.PI)); plateL.scale.setScalar(pl(when('hook','now'))); plateR.scale.setScalar(pl(when('hook','two'))); }
+  else plateL.scale.setScalar(1);
+
+  // --- character poses
+  // hook: looks from one plate to the other, hand on chin
+  if(t<SC.hook.end){ const lk=t<when('hook','two')?-1:t<when('hook','what')?1:0; P.head.rotation.y=lerp(P.head.rotation.y,.35*lk,1); P.head.rotation.x=.28;
+    const th=seg(t,when('hook','what')-.2,when('hook','what')+.2); P.armR.rotation.x=-2.2*th; P.armR.rotation.z=-.12-.5*th; P.head.rotation.z=.1*th; }
+  // what: open-hand gestures to each side as the definition lands
+  if(t>=SC.what.start&&t<SC.what.end){ const s=seg(t,when('what','small')-.3,when('what','small')), b=seg(t,when('what','bigger')-.3,when('what','bigger'));
+    P.armL.rotation.z=.12+1.0*s*(1-b*.5); P.armL.rotation.x=-.5*s; P.armR.rotation.z=-.12-1.5*b; P.armR.rotation.x=-.4*b; P.head.rotation.y=-.2*s*(1-b)+.2*b; }
+  // test: hands behind the back, staring at the marshmallow, fidgeting; then celebrates
+  if(t>=SC.test.start&&t<SC.test.end){ const w=t<TEST_B; if(w){ P.armL.rotation.x=.45; P.armR.rotation.x=.45; P.head.rotation.x=.42+Math.sin(t*3)*.04; P.head.rotation.y=Math.sin(t*1.7)*.18; B.rotation.z=Math.sin(t*2.5)*.03; P.smile.scale.x=.6; }
+    else { const c=back(seg(t,TEST_B,TEST_B+.4)); P.armL.rotation.z=.12+2.4*c; P.armR.rotation.z=-.12-2.4*c; P.g.position.y=.25*Math.max(0,Math.sin((t-TEST_B)*Math.PI/.4))*(t<TEST_B+.8?1:0); P.smile.scale.x=1.4; } }
+  else P.smile.scale.x=1;
+  doBurst(TEST_B,0,1.4,.2);
+  // brain: emojis pop around his head, he turns to each; then they shrink away
+  if(t>=SC.brain.start&&t<SC.brain.end){ const fd=when('brain','fade');
+    spr(ePhone,when('brain','scrolling')-.1,fd,.85,-1.15,2.6,-.5); spr(eDonut,when('brain','snacks')-.1,fd,.85,1.15,2.75,-.5); spr(eBag,when('brain','shopping')-.1,fd,.85,0,3.35,-.6);
+    spr(eBolt,SC.brain.start+.3,when('brain','scrolling')-.2,.8,.75,3.0,-.5);
+    const lk=t<when('brain','snacks')?-1:t<when('brain','shopping')?1:0; P.head.rotation.y=.35*lk; P.head.rotation.x=lk===0&&t>when('brain','shopping')?-.25:0;
+    const grab=Math.sin(t*5)*.2; P.armR.rotation.x=-1.2+grab; P.armL.rotation.x=-1.0-grab; }
+  // skill: barbell overhead, pressing in rhythm
+  if(t>=SC.skill.start&&t<SC.skill.end){ const k=eio(seg(t,SC.skill.start,SC.skill.start+.5)); const pr=(Math.sin((t-SC.skill.start)*Math.PI*1.4)+1)/2;
+    const z=lerp(.12,lerp(2.35,2.95,pr),k); P.armL.rotation.z=z; P.armR.rotation.z=-z;
+    barbell.visible=true; barbell.position.set(0,1.7-.97*Math.cos(z)+breathe,0); barbell.scale.setScalar(Math.max(.001,k)); P.head.rotation.x=-.08; }
+  doBurst(when('skill','train'),0,3.0,-.4);
+  // start: arms crossed, tapping a foot while the 10 minutes run; the big hourglass flips
+  const hgOn=t>=SC.start.start&&t<SC.poll.start+.2; hgF.visible=hgOn;
+  if(hgOn){ const q=back(seg(t,SC.start.start+.1,SC.start.start+.6))*(1-seg(t,SC.poll.start-.2,SC.poll.start+.2)); hgF.scale.setScalar(Math.max(.001,1.1*q));
+    const fl=eio(seg(t,RING_A-.5,RING_A)); hgF.position.set(1.25,1.9+Math.sin(t*1.5)*.06,-.6); hgF.rotation.set(0,t*.3,Math.PI*(1-fl)); setSand(hgF,fl<1?1:seg(t,RING_A,RING_B),fl>=1); }
+  if(t>=SC.start.start&&t<SC.start.end){ const k=eio(seg(t,SC.start.start,SC.start.start+.4));
+    if(t<RING_B){ P.armL.rotation.x=-1.25*k; P.armR.rotation.x=-1.25*k; P.armL.rotation.z=.12-.85*k; P.armR.rotation.z=-.12+.85*k; P.armR.position.z=.06; P.legR.rotation.x=-.25*Math.max(0,Math.sin(t*9))*k; P.head.rotation.y=.25; }
+    else { const c=back(seg(t,RING_B,RING_B+.35)); P.armR.rotation.z=-.12-2.6*c; P.armL.rotation.z=.12+.5*c; P.smile.scale.x=1.4; } }
+  else P.armR.position.z=0;
+  doBurst(RING_B,1.25,1.9,-.6);
+  // poll: thinking
+  if(t>=SC.poll.start&&t<SC.poll.end){ P.armR.rotation.x=-2.3; P.armR.rotation.z=-.55; P.head.rotation.z=.12; spr(eThink,SC.poll.start+.3,SC.poll.end,.8,.9,3.0,-.5); }
+  // outro: wave
+  if(t>=SC.outro.start){ const wv=seg(t,SC.outro.start+.3,SC.outro.start+.8); P.armR.rotation.z=-lerp(.12,2.6,wv)-Math.sin(t*8)*.25*wv; spr(eParty,SC.outro.start+1.4,TL.total,1.1,-1.2,2.4,-.6); }
+
+  const [cp,ct]=camAt(t); camera.position.set(...cp); camera.lookAt(...ct); camera.updateMatrixWorld();
+  renderer.render(scene,camera);
+
+  // ---- 2D overlays
+  const show=(id,a,b)=>{ const e=$(id), q=back(seg(t,a,a+.4)), o=t>=a&&t<b+.3?clamp(q*1.5)*(1-seg(t,b,b+.3)):0; e.style.opacity=o; e.style.transform=`scale(${lerp(.85,1,q)})`; return o; };
+  const lab=LABELS.find(l=>t>=l[0]&&t<l[1]), L=$('label');
+  if(lab){ const p=back(seg(t,lab[0],lab[0]+.35)), o=1-seg(t,lab[1]-.2,lab[1]); L.textContent=lab[2]; L.style.opacity=clamp(p*1.5)*o; L.style.transform=`scale(${lerp(.4,1,p)}) rotate(${Math.sin(t*2)*1.2}deg)`; }
+  else L.style.opacity=0;
+  // title (hook)
+  { const T=$('title'), a=.15, b=SC.hook.end+.2, p=back(seg(t,a,a+.5)), o=1-seg(t,b-.35,b);
+    T.style.opacity=t<b?clamp(p*1.5)*o:0; T.style.transform=`translateY(${lerp(-60,0,p)}px) scale(${lerp(.85,1,p)})`;
+    $('tpin').style.transform=`scale(${back(seg(t,.5,.85))}) rotate(${-8+Math.sin(t*3)*6}deg)`; $('tst1').style.transform=`scale(${back(seg(t,.65,1))}) rotate(${t*40}deg)`; $('tst2').style.transform=`scale(${back(seg(t,.8,1.15))}) rotate(${-t*50}deg)`;
+    $('tag').style.visibility=t<b?'hidden':'visible'; }
+  // choice cards (hook)
+  { const b=SC.hook.end; [0,1].forEach(i=>{ const a=when('hook',i?'two':'now')-.15, q=back(seg(t,a,a+.4)), e=$('ch'+i);
+      e.style.opacity=t<b+.3?clamp(q*1.5)*(1-seg(t,b,b+.3)):0; e.style.transform=`scale(${q}) rotate(${(i?3:-3)+Math.sin(t*2.4+i)*1.5}deg)`; e.className='o'+(i===1&&t>=when('hook','pick')+.2?' pick':''); });
+    const v=back(seg(t,when('hook','two')-.3,when('hook','two')+.1)); $('vs').style.opacity=t<b+.3?clamp(v*1.5)*(1-seg(t,b,b+.3)):0; $('vs').style.transform=`scale(${v})`; }
+  // definition note (what)
+  { const o=show('def',when('what','delayed')-.25,SC.what.end); $('def').style.transform+=` rotate(${-1.5+Math.sin(t*1.6)*.6}deg)`;
+    $('def').querySelector('.pin').style.transform=`translateY(${-60*(1-eout(seg(t,when('what','delayed')+.1,when('what','delayed')+.4)))}px)`;
+    const s=back(seg(t,when('what','small')-.1,when('what','small')+.3)), g=back(seg(t,when('what','bigger')-.1,when('what','bigger')+.3));
+    $('db0').style.transform=`scale(${s})`; $('db1').style.transform=`scale(${g*(1+.06*Math.sin(t*6)*seg(t,when('what','bigger'),when('what','bigger')+.2))})`; $('dlt').style.opacity=seg(t,when('what','bigger')-.2,when('what','bigger')); }
+  // countdown (test)
+  { const o=show('timer',TEST_A-.2,SC.test.end), r=t<TEST_A?1:1-seg(t,TEST_A,TEST_B), sec=Math.ceil(r*900); const d=t>=TEST_B;
+    $('timer').textContent=d?'✅ 0:00':'⏳ '+Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); $('timer').className=d?'done':''; if(d) $('timer').style.transform=`scale(${1+.15*Math.max(0,Math.sin(seg(t,TEST_B,TEST_B+.4)*Math.PI))})`; }
+  // reward graph (brain)
+  { const a=when('brain','feel')-.2; show('graph',a,SC.brain.end); $('gq').setAttribute('stroke-dashoffset',1-eio(seg(t,a+.2,a+1.4))); $('gd').setAttribute('stroke-dashoffset',1-eio(seg(t,a+.9,SC.brain.end)));
+    const gs=back(seg(t,SC.brain.end-.3,SC.brain.end+.1)); $('gstar').setAttribute('opacity',clamp(gs*1.5)); }
+  // patience level (skill)
+  { const a=when('skill','skill')-.2; show('lvl',a,SC.skill.end); const marks=['skill','any','train'].map(w=>when('skill',w)); const n=marks.filter(m=>t>=m).length;
+    $('lvn').textContent='LEVEL '+Math.max(1,n); if(!$('lst').childElementCount) $('lst').innerHTML=[0,1,2].map(i=>`<svg id="ls${i}" viewBox="0 0 100 100"><use href="#starE"/><use href="#starS" class="f"/></svg>`).join('');
+    marks.forEach((m,i)=>{ const q=t>=m?back(seg(t,m,m+.35)):0; $('ls'+i).querySelector('.f').style.transform=`scale(${q})`; $('ls'+i).querySelector('.f').style.transformOrigin='50px 50px'; }); }
+  // ring timer (start)
+  { show('ring',RING_A-.3,SC.start.end); const r=t<RING_A?1:1-seg(t,RING_A,RING_B), sec=Math.ceil(r*600); const d=t>=RING_B;
+    $('rarc').setAttribute('stroke-dashoffset',1-r); $('rarc').setAttribute('stroke',d?'#f2c14e':'#1a50a8'); $('rtx').textContent=d?'✅':Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); }
+  // patience meter: fills a little with every idea
+  { const lv=[[0,.04],[when('what','bigger'),.2],[TEST_B,.4],[SC.brain.end-.5,.55],[when('skill','train'),.75],[RING_B,1]];
+    let v=.04; for(let i=1;i<lv.length;i++) v=lerp(v,lv[i][1],eout(seg(t,lv[i][0],lv[i][0]+.8)));
+    $('meter').style.opacity=t<SC.poll.start?Math.min(seg(t,SC.hook.end+.2,SC.hook.end+.6),1-seg(t,SC.poll.start-.4,SC.poll.start)):0; $('mfill').style.width=(v*100)+'%'; }
+  // poll
+  { const pp=back(seg(t,SC.poll.start,SC.poll.start+.4)), po=t>=SC.poll.start&&t<SC.poll.end?1-seg(t,SC.poll.end-.3,SC.poll.end):0;
+    $('poll').style.opacity=clamp(pp*1.5)*po; $('poll').style.transform=`scale(${lerp(.8,1,pp)})`;
+    const pk=when('poll','later')+.2, pv=eout(seg(t,pk,pk+.8));
+    [0,1].forEach(i=>{ const a=SC.poll.start+.3+i*.12; const e=$('po'+i); e.style.opacity=seg(t,a,a+.2); e.className='op'+(i===1&&t>=pk?' pick':''); $('pc'+i).textContent=t>=pk?Math.round((i?72:28)*pv)+'%':''; });
+    const cq=back(seg(t,when('poll','comments')-.2,when('poll','comments')+.2)); $('cmt').style.opacity=clamp(cq*1.5); $('cmt').style.transform=`scale(${cq})`; }
+  // end card
+  { const E=$('end'); const ep=back(seg(t,SC.outro.start+.4,SC.outro.start+.9)); E.style.opacity=t>=SC.outro.start?clamp(ep*1.5):0; E.style.transform=`scale(${lerp(.7,1,ep)})`;
+    [0,1,2,3].forEach(i=>{ const a=SC.outro.start+1.2+i*.15, q=back(seg(t,a,a+.3)); $('ck'+i).style.transform=`scale(${q})`; }); }
+  $('tag').style.opacity=t<SC.outro.start?1:1-seg(t,SC.outro.start,SC.outro.start+.4);
+  const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), C=$('cap');
+  if(ch){ C.textContent=ch.text; C.style.opacity=1; } else C.style.opacity=0;
+  $('fade').style.opacity=t<.25?1-seg(t,0,.25):seg(t,TL.total-.5,TL.total);
+}
+window.render=render;
+document.fonts.ready.then(()=>{ render(0); window.READY=true; });
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ if(window.READY) render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script></body></html>

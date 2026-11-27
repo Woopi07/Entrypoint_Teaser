@@ -1,0 +1,304 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>DG Day 1 (drawn)</title>
+<!--
+  Delayed Gratification Day 1: "What Is Delayed Gratification?" in a hand-drawn whiteboard style.
+  A hand with a marker draws each scene on a cream sheet pinned to the royal-blue board.
+  Brand: blue #1A50A8, cream #F6EBB5, red pushpin #E53935, gold star #F2C14E.
+  Line art comes from rough.js (seeded, so every render is identical); render(t) sets every stroke for time t.
+  Timings come from timeline.js (build_timeline.py). The earlier 3D version is scene3d.html.
+-->
+<style>
+@font-face{font-family:Kalam;font-weight:700;src:url(kalam.woff2) format("woff2")}
+:root{--blue:#1a50a8;--navy:#0f2f6b;--cream:#f6ebb5;--red:#e53935;--gold:#f2c14e}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#1a50a8}
+#board{position:absolute;inset:0;width:1080px;height:1920px}
+#ui{position:absolute;inset:0;pointer-events:none;font-family:Inter,"DejaVu Sans",sans-serif}
+#cap{position:absolute;left:0;right:0;top:1405px;text-align:center;font:800 64px Inter;color:#fff;
+  text-shadow:0 0 6px rgba(0,0,0,.8),0 3px 12px rgba(0,0,0,.5);opacity:0}
+#tag{position:absolute;left:44px;top:60px;background:var(--cream);color:var(--blue);font:900 40px "Inter Display";border-radius:999px;padding:12px 28px;box-shadow:0 8px 0 rgba(8,30,80,.35)}
+#tag b{color:var(--red)}
+#meter{position:absolute;left:44px;top:150px;display:flex;align-items:center;gap:16px;background:var(--cream);border-radius:999px;padding:12px 22px 12px 24px;box-shadow:0 8px 0 rgba(8,30,80,.35);opacity:0}
+#meter span{font:900 30px Inter;color:var(--blue);letter-spacing:1px}
+#meter .bar{width:300px;height:30px;border-radius:999px;background:#d8dff0;overflow:hidden}
+#meter i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ffd978,var(--gold))}
+#end{position:absolute;left:0;right:0;top:330px;text-align:center;opacity:0}
+#end .logo{width:360px;height:360px;border-radius:76px;border:10px solid var(--cream);box-shadow:0 16px 0 rgba(8,30,80,.45);display:block;margin:0 auto}
+#checks{position:absolute;left:0;right:0;top:1160px;display:flex;gap:18px;justify-content:center}
+#checks div{width:130px;height:130px;border-radius:34px;background:var(--cream);display:grid;place-items:center;font-size:66px;box-shadow:0 10px 0 rgba(8,30,80,.4);transform:scale(0)}
+#fade{position:absolute;inset:0;background:#000;opacity:0}
+</style></head>
+<body>
+<svg id="board" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="pinS" viewBox="0 0 120 120"><line x1="22" y1="104" x2="54" y2="70" stroke="#8d97a8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M44 62 L64 46 L80 62 L64 82Z" fill="#c62828"/><circle cx="76" cy="44" r="26" fill="#e53935"/><circle cx="68" cy="36" r="8" fill="#ff8a80"/></symbol>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="16" stdDeviation="0" flood-color="#081e50" flood-opacity=".4"/></filter>
+    <filter id="hs" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="-14" dy="18" stdDeviation="10" flood-color="#081e50" flood-opacity=".35"/></filter>
+    <pattern id="dots" width="44" height="44" patternUnits="userSpaceOnUse"><circle cx="22" cy="22" r="2.4" fill="#2a62c0"/></pattern>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#dots)"/>
+  <g id="sheets"></g>
+  <g id="free"></g>
+  <!-- the drawing hand: marker tip at (0,0), hand and sleeve reach down to the right -->
+  <g id="hand" filter="url(#hs)"><g transform="rotate(-32)">
+    <rect x="-40" y="300" width="150" height="900" rx="40" fill="#0f2f6b"/><rect x="-40" y="300" width="150" height="34" fill="#e53935"/>
+    <path d="M-28 150 C-40 230,-30 300,-24 330 L96 330 C100 280,104 220,90 150Z" fill="#f2c6a2" stroke="#c99068" stroke-width="5"/>
+    <path d="M0 0 L-12 30 L12 30Z" fill="#0f2f6b"/><rect x="-15" y="28" width="30" height="30" rx="4" fill="#9aa5b8"/>
+    <rect x="-18" y="56" width="36" height="250" rx="12" fill="#fffdf4" stroke="#c9c2a2" stroke-width="4"/><rect x="-18" y="190" width="36" height="22" fill="#e53935"/>
+    <ellipse cx="34" cy="168" rx="66" ry="74" fill="#f2c6a2" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-26" cy="132" rx="30" ry="20" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-30" cy="170" rx="30" ry="20" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-24" cy="207" rx="28" ry="19" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="24" cy="112" rx="22" ry="40" transform="rotate(-20 24 112)" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <path d="M40 200 q14 10 30 4" fill="none" stroke="#c99068" stroke-width="4" stroke-linecap="round"/>
+  </g></g>
+</svg>
+<div id="ui">
+  <div id="tag">DAY <b>1</b>/30</div>
+  <div id="meter"><span>⏳ PATIENCE</span><div class="bar"><i id="mfill"></i></div></div>
+  <div id="end"><img class="logo" src="logo.jpg" alt="dg"></div>
+  <div id="checks"><div id="ck0">⏳</div><div id="ck1">🍡</div><div id="ck2">⭐</div><div id="ck3">📌</div></div>
+  <div id="cap"></div>
+  <div id="fade"></div>
+</div>
+<script src="timeline.js"></script>
+<script type="module">
+import rough from './rough.js';
+const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7,d=c+1;return 1+d*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL, SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+function when(id,word,k=0){ const l=TL.lines.filter(l=>l.scene===id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); if(i<0) throw new Error('cue '+word); return l.start+(l.end-l.start)*i/l.text.length; }
+
+const BLUE='#1a50a8', NAVY='#0f2f6b', RED='#e53935', GOLD='#f2c14e', PAPER='#fbf4d8', SKIN='#ffe6d0', WHITE='#ffffff', CREAM='#f6ebb5';
+const svg=$('board'), rc=rough.svg(svg);
+let seed=7;
+const O=o=>({stroke:BLUE,strokeWidth:5,roughness:1.3,bowing:1.2,fillWeight:3.5,hachureGap:11,seed:seed++,...o});
+
+// ---------------------------------------------------------------- elements: every stroke group knows when it is drawn
+const ELS=[];       // {g, a, d, kind:'stroke'|'text', ...}
+function el(parent,nodes,a,d){ const g=document.createElementNS(NS,'g'); parent.appendChild(g); [].concat(nodes).forEach(n=>g.appendChild(n));
+  const e={g,a,d,kind:'stroke'}; ELS.push(e); return e; }
+function txt(parent,s,x,y,size,a,d,color=BLUE,anchor='middle'){ const t=document.createElementNS(NS,'text'); t.textContent=s;
+  Object.entries({x,y,'font-family':'Kalam','font-weight':700,'font-size':size,fill:color,'text-anchor':anchor}).forEach(([k,v])=>t.setAttribute(k,v));
+  const g=document.createElementNS(NS,'g'); parent.appendChild(g); g.appendChild(t);
+  const e={g,t,a,d,kind:'text',x,y,size}; ELS.push(e); return e; }
+// shapes
+const P=(d,o)=>rc.path(d,O(o)), C=(x,y,dm,o)=>rc.circle(x,y,dm,O(o)), Ln=(x1,y1,x2,y2,o)=>rc.line(x1,y1,x2,y2,O(o)), E=(x,y,w,h,o)=>rc.ellipse(x,y,w,h,O(o)), Rc=(x,y,w,h,o)=>rc.rectangle(x,y,w,h,O(o));
+const rr=(x,y,w,h,r)=>`M${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+h-r} Q${x+w} ${y+h} ${x+w-r} ${y+h} H${x+r} Q${x} ${y+h} ${x} ${y+h-r} V${y+r} Q${x} ${y} ${x+r} ${y}Z`;
+const starD=(x,y,R)=>{ let d=''; for(let i=0;i<10;i++){ const r=i%2?R*.45:R, a=-Math.PI/2+i*Math.PI/5; d+=(i?'L':'M')+(x+Math.cos(a)*r).toFixed(1)+' '+(y+Math.sin(a)*r).toFixed(1); } return d+'Z'; };
+const mm=(x,y,w=92,h=74)=>[P(rr(x-w/2,y-h/2,w,h,24),{fill:WHITE,fillStyle:'solid'}),P(`M${x-w/2+8} ${y-h/2+18} Q${x} ${y-h/2+34} ${x+w/2-8} ${y-h/2+18}`,{strokeWidth:3.5})];
+const star=(x,y,R)=>P(starD(x,y,R),{fill:GOLD,fillStyle:'hachure',hachureGap:7,stroke:'#c99a2a'});
+// the dg doodle guy: square glasses, smooth hair, blush
+function head(x,y,mouth='smile'){ const n=[C(x,y,150,{fill:SKIN,fillStyle:'solid'}),
+  P(`M${x-76} ${y-4} C${x-82} ${y-98} ${x+82} ${y-98} ${x+76} ${y-4} C${x+46} ${y-44} ${x-46} ${y-44} ${x-76} ${y-4}Z`,{fill:NAVY,fillStyle:'solid',stroke:NAVY}),
+  Rc(x-63,y-8,52,40,{stroke:NAVY,strokeWidth:4.5}),Rc(x+11,y-8,52,40,{stroke:NAVY,strokeWidth:4.5}),Ln(x-11,y+6,x+11,y+6,{stroke:NAVY,strokeWidth:4}),
+  C(x-37,y+12,10,{stroke:NAVY,fill:NAVY,fillStyle:'solid',roughness:.4}),C(x+37,y+12,10,{stroke:NAVY,fill:NAVY,fillStyle:'solid',roughness:.4}),
+  Ln(x-58,y+44,x-50,y+34,{stroke:RED,strokeWidth:4}),Ln(x-48,y+46,x-40,y+36,{stroke:RED,strokeWidth:4}),Ln(x+42,y+44,x+50,y+34,{stroke:RED,strokeWidth:4}),Ln(x+52,y+46,x+60,y+36,{stroke:RED,strokeWidth:4})];
+  if(mouth==='smile') n.push(P(`M${x-20} ${y+48} Q${x} ${y+64} ${x+20} ${y+48}`,{stroke:NAVY,strokeWidth:4.5}));
+  else if(mouth==='o') n.push(C(x,y+52,20,{stroke:NAVY,strokeWidth:4}));
+  else n.push(Ln(x-16,y+52,x+16,y+52,{stroke:NAVY,strokeWidth:4.5}));
+  return n; }
+const torso=(x,y,h=200)=>P(`M${x-96} ${y+28} Q${x-90} ${y} ${x-50} ${y} L${x+50} ${y} Q${x+90} ${y} ${x+96} ${y+28} L${x+80} ${y+h} L${x-80} ${y+h}Z`,{fill:RED,fillStyle:'hachure',hachureGap:9});
+
+// ---------------------------------------------------------------- sheets (one per scene), pinned to the board
+const SHEETS={};
+function sheet(id,rot){ const g=document.createElementNS(NS,'g'); $('sheets').appendChild(g);
+  const paper=document.createElementNS(NS,'rect'); Object.entries({x:0,y:0,width:960,height:1000,rx:22,fill:PAPER,filter:'url(#sh)'}).forEach(([k,v])=>paper.setAttribute(k,v)); g.appendChild(paper);
+  const inner=document.createElementNS(NS,'g'); g.appendChild(inner);
+  const pins=[[30,-38],[840,-38]].map(([x,y])=>{ const u=document.createElementNS(NS,'use'); u.setAttribute('href','#pinS'); Object.entries({x,y,width:100,height:100}).forEach(([k,v])=>u.setAttribute(k,v)); g.appendChild(u); return u; });
+  SHEETS[id]={g,inner,pins,rot}; return inner; }
+const ORDER=['hook','what','test','brain','skill','start','poll'];
+const rots={hook:-.8,what:.7,test:-.6,brain:.8,skill:-.7,start:.6,poll:-.5};
+ORDER.forEach(id=>sheet(id,rots[id]));
+const S=id=>SHEETS[id].inner;
+const st=id=>SC[id].start+(id==='hook'?.1:.35);
+
+// ---------------------------------------------------------------- scene content
+// HOOK: one marshmallow now, or two later?
+{ const g=S('hook'), a=.12;
+  txt(g,'What is delayed',480,125,92,a,.55); txt(g,'gratification?',480,220,92,a+.55,.55,RED);
+  el(g,Ln(250,250,720,246,{stroke:GOLD,strokeWidth:9}),a+1.1,.2);
+  const tn=when('hook','now')-.35; el(g,E(250,760,240,48,{fill:WHITE,fillStyle:'solid'}),tn,.22); el(g,mm(250,718),tn+.22,.3); txt(g,'NOW',250,860,66,tn+.55,.3);
+  const tw=when('hook','two')-.3; el(g,E(710,760,270,48,{fill:WHITE,fillStyle:'solid'}),tw,.22); el(g,mm(662,718),tw+.22,.25); el(g,mm(758,718),tw+.47,.25); txt(g,'LATER',710,860,66,tw+.75,.3);
+  const tf=when('hook','fifteen')-.25; el(g,[C(820,400,140,{fill:WHITE,fillStyle:'solid'}),Ln(820,400,820,350,{strokeWidth:6}),Ln(820,400,855,415,{strokeWidth:6}),Ln(780,330,795,345,{stroke:RED}),Ln(860,330,845,345,{stroke:RED})],tf,.5);
+  txt(g,'15 min',820,512,48,tf+.5,.3,RED);
+  const tt=when('hook','minutes')+.05; el(g,[Ln(40,786,920,782,{strokeWidth:6}),Ln(100,786,104,960),Ln(860,784,856,960)],tt,.4);
+  const th=when('hook','what')-.15; el(g,head(480,470,'flat'),th,.55); el(g,[torso(480,548,236),P('M392 590 Q352 680 345 776',{strokeWidth:6}),P('M568 590 Q608 680 615 776',{strokeWidth:6})],th+.55,.35);
+  const tq=when('hook','pick')-.1; txt(g,'?',340,410,110,tq,.18,RED); txt(g,'?',630,385,90,tq+.18,.18,RED); }
+// WHAT: small now < BIG later
+{ const g=S('what'), a=st('what');
+  txt(g,'delayed gratification',480,130,92,a,.9); el(g,P('M150 160 Q480 178 810 156',{stroke:RED,strokeWidth:8}),a+.9,.25);
+  el(g,P('M330 238 L346 214 M480 228 L480 200 M630 238 L614 214',{stroke:GOLD,strokeWidth:6}),a+1.15,.25);
+  const ts=when('what','small')-.4; el(g,Rc(70,290,360,380,{strokeWidth:5.5}),ts,.35); el(g,mm(250,420,100,80),ts+.35,.3); txt(g,'small',250,565,66,ts+.65,.25); txt(g,'NOW',250,640,62,ts+.9,.2,RED);
+  const tl=when('what','small')+.9; el(g,P('M520 420 L440 480 L520 540',{stroke:RED,strokeWidth:11}),tl,.3);
+  const tb=when('what','bigger')-.45; el(g,Rc(530,290,360,380,{stroke:'#c99a2a',strokeWidth:6,fill:GOLD,fillStyle:'hachure',hachureGap:26,fillWeight:2}),tb,.4);
+  el(g,mm(658,420,100,80),tb+.4,.22); el(g,mm(768,420,100,80),tb+.62,.22); txt(g,'BIGGER',710,565,66,tb+.85,.3); txt(g,'LATER',710,640,62,tb+1.15,.22,RED);
+  el(g,[star(590,330,26),star(845,340,20)],tb+1.4,.3);
+  const ta=SC.what.end-1.35; el(g,[P('M250 705 Q480 880 700 712',{strokeWidth:6}),P('M668 690 L702 712 L668 740',{strokeWidth:6})],ta,.45);
+  el(g,[P('M440 860 L520 860 L480 905Z',{stroke:NAVY,strokeWidth:4}),P('M440 950 L520 950 L480 905Z',{stroke:NAVY,strokeWidth:4,fill:GOLD,fillStyle:'solid'})],ta+.45,.35); txt(g,'wait...',600,930,58,ta+.8,.35,NAVY,'start'); }
+// TEST: the marshmallow test
+const TEST_A=st('test')+1.6, TEST_B=when('test','better');
+const testClock={}, testCount={};
+{ const g=S('test'), a=st('test');
+  txt(g,'The Marshmallow Test',480,125,88,a,.85); el(g,Ln(170,152,790,148,{stroke:GOLD,strokeWidth:9}),a+.85,.2);
+  el(g,head(440,450,'o'),a+1.8,.5); el(g,[torso(440,528,240),P('M352 570 Q318 520 372 486',{strokeWidth:6}),P('M528 570 Q562 520 508 486',{strokeWidth:6})],a+2.3,.35);
+  el(g,[Ln(40,770,920,766,{strokeWidth:6}),Ln(100,770,104,960),Ln(860,768,856,960)],a+1.05,.3);
+  el(g,E(450,748,280,50,{fill:WHITE,fillStyle:'solid'}),a+1.35,.2); el(g,mm(430,708),a+1.55,.25);
+  el(g,P('M555 372 Q540 398 555 405 Q570 398 555 372Z',{stroke:'#5fa8e8',fill:'#bfe1ff',fillStyle:'solid'}),a+2.65,.15);
+  el(g,[C(800,380,160,{fill:WHITE,fillStyle:'solid'}),Ln(760,300,780,318,{stroke:RED}),Ln(840,300,820,318,{stroke:RED})],a+2.8,.35);
+  // clock hand + countdown are live, not drawn
+  testClock.h=document.createElementNS(NS,'line'); Object.entries({x1:800,y1:380,x2:800,y2:320,stroke:NAVY,'stroke-width':7,'stroke-linecap':'round'}).forEach(([k,v])=>testClock.h.setAttribute(k,v)); g.appendChild(testClock.h);
+  testCount.t=document.createElementNS(NS,'text'); Object.entries({x:800,y:510,'font-family':'Kalam','font-weight':700,'font-size':64,fill:RED,'text-anchor':'middle'}).forEach(([k,v])=>testCount.t.setAttribute(k,v)); g.appendChild(testCount.t);
+  el(g,mm(522,708),TEST_B,.25); el(g,[star(300,640,30),star(620,600,26),star(650,690,18)],TEST_B+.25,.35);
+  el(g,P('M690 600 L730 650 L820 540',{stroke:'#1f9a4c',strokeWidth:12}),TEST_B+.6,.3);
+  const tb=when('test','linked')-.2; txt(g,'waiting = better results',480,890,60,tb,.9); }
+// BRAIN: quick rewards
+{ const g=S('brain'), a=st('brain');
+  txt(g,'Your brain wants it NOW',480,125,82,a,.9);
+  const b='M340 380 C300 330 340 270 400 280 C420 230 500 230 520 268 C570 240 640 270 630 320 C680 340 670 410 630 425 C640 470 580 495 545 475 C520 505 450 505 430 480 C390 500 330 475 345 430 C310 420 310 390 340 380Z';
+  el(g,P(b,{stroke:'#c2185b',fill:'#ff9fb6',fillStyle:'hachure',hachureGap:10}),a+.95,.55);
+  el(g,P('M480 260 Q460 320 490 360 Q510 410 480 480 M400 330 Q430 350 420 390 M560 320 Q540 360 570 400',{stroke:'#c2185b',strokeWidth:4}),a+1.5,.3);
+  el(g,[E(790,300,230,130,{fill:WHITE,fillStyle:'solid'}),P('M720 350 L668 392 L748 360',{strokeWidth:5})],a+1.8,.3); txt(g,'NOW!',790,322,64,a+2.1,.25,RED);
+  const ip=[]; const t1=when('brain','scrolling')-.15, t2=when('brain','snacks')-.15, t3=when('brain','shopping')-.15;
+  ip.push(el(g,[P(rr(140,560,110,170,20),{fill:NAVY,fillStyle:'solid',stroke:NAVY}),P(rr(152,578,86,124,8),{fill:'#7fb8ff',fillStyle:'solid',stroke:'#7fb8ff',strokeWidth:2}),Ln(165,600,225,600,{stroke:WHITE,strokeWidth:6}),Ln(165,630,210,630,{stroke:WHITE,strokeWidth:6}),Ln(165,660,220,660,{stroke:WHITE,strokeWidth:6})],t1,.45));
+  ip.push(el(g,[C(480,645,160,{fill:GOLD,fillStyle:'solid',stroke:'#c99a2a'}),P('M420 620 Q480 570 540 620 Q560 660 520 690 Q480 710 440 690 Q400 660 420 620Z',{fill:'#ff8fb1',fillStyle:'solid',stroke:'#e86a92'}),C(480,645,46,{fill:PAPER,fillStyle:'solid',stroke:'#c99a2a'}),Ln(445,620,455,612,{stroke:BLUE,strokeWidth:5}),Ln(510,610,520,618,{stroke:WHITE,strokeWidth:5}),Ln(500,680,510,672,{stroke:GOLD,strokeWidth:5})],t2,.45));
+  ip.push(el(g,[P('M720 600 L860 600 L875 740 L705 740Z',{fill:RED,fillStyle:'hachure',hachureGap:9}),P('M750 600 Q750 545 790 545 Q830 545 830 600',{strokeWidth:6})],t3,.45));
+  const tg=when('brain','feel')-.1;
+  el(g,[Ln(110,960,880,958,{strokeWidth:5}),Ln(110,960,112,790,{strokeWidth:5})],tg,.3);
+  el(g,P('M120 950 L280 948 L340 800 L410 945 L870 948',{stroke:RED,strokeWidth:8}),tg+.3,.6); txt(g,'quick',340,790,46,tg+.9,.25,RED);
+  el(g,P('M120 952 C380 945 640 900 860 805',{stroke:'#d9a420',strokeWidth:8}),when('brain','fade')-.1,.6); txt(g,'delayed',760,790,46,when('brain','fade')+.5,.3,'#c99a2a');
+  window._brainIcons=ip; }
+// SKILL: lifting patience
+const LV=['skill','any','train'].map(w=>when('skill',w));
+const guySkill=[];
+{ const g=S('skill'), a=st('skill');
+  txt(g,'Waiting = a skill',480,125,92,a,.8); el(g,Ln(190,152,770,148,{stroke:GOLD,strokeWidth:9}),a+.8,.2);
+  const gg=document.createElementNS(NS,'g'); g.appendChild(gg); guySkill.push(gg);
+  el(gg,head(440,520),a+1.0,.5); el(gg,[torso(440,598,200),P('M380 798 L366 940 M500 798 L514 940',{stroke:NAVY,strokeWidth:9})],a+1.5,.35);
+  el(gg,[P('M352 640 Q300 520 296 370',{strokeWidth:7}),P('M528 640 Q580 520 584 370',{strokeWidth:7})],a+1.85,.3);
+  el(gg,[Ln(140,362,740,358,{stroke:NAVY,strokeWidth:9}),P(rr(160,290,44,150,10),{fill:RED,fillStyle:'solid',stroke:NAVY}),P(rr(676,286,44,150,10),{fill:RED,fillStyle:'solid',stroke:NAVY}),
+    P(rr(210,310,30,110,8),{fill:BLUE,fillStyle:'solid',stroke:NAVY}),P(rr(640,306,30,110,8),{fill:BLUE,fillStyle:'solid',stroke:NAVY})],a+2.15,.4);
+  txt(gg,'PATIENCE',440,335,48,a+2.55,.4,RED);
+  txt(g,'level',840,470,52,LV[0]-.4,.3);
+  LV.forEach((t,i)=>{ el(g,P(starD(840,560+i*130,52),{stroke:'#c99a2a',strokeWidth:5}),t-.3,.25); el(g,P(starD(840,560+i*130,52),{stroke:'#c99a2a',fill:GOLD,fillStyle:'solid'}),t,.2); }); }
+// START: wait 10 minutes
+const RING_A=when('start','wait'), RING_B=SC.start.end-.4;
+const ring={};
+{ const g=S('start'), a=st('start');
+  txt(g,'Start small',480,120,96,a,.6); txt(g,'wait just 10 minutes',480,200,62,a+.6,.6,RED);
+  ring.wedge=document.createElementNS(NS,'path'); ring.wedge.setAttribute('fill','rgba(242,193,78,.75)'); g.appendChild(ring.wedge);
+  el(g,C(330,520,420,{strokeWidth:6}),a+1.25,.45);
+  el(g,[...Array(12)].map((_,i)=>{ const an=i*Math.PI/6; return Ln(330+Math.cos(an)*180,520+Math.sin(an)*180,330+Math.cos(an)*200,520+Math.sin(an)*200,{strokeWidth:i%3?4:7}); }),a+1.7,.35);
+  ring.hand=document.createElementNS(NS,'line'); Object.entries({x1:330,y1:520,x2:330,y2:360,stroke:NAVY,'stroke-width':9,'stroke-linecap':'round'}).forEach(([k,v])=>ring.hand.setAttribute(k,v)); g.appendChild(ring.hand);
+  ring.t=document.createElementNS(NS,'text'); Object.entries({x:330,y:820,'font-family':'Kalam','font-weight':700,'font-size':96,fill:BLUE,'text-anchor':'middle'}).forEach(([k,v])=>ring.t.setAttribute(k,v)); g.appendChild(ring.t);
+  // hourglass
+  el(g,[Ln(660,330,880,330,{strokeWidth:9,stroke:'#6b3f1f'}),Ln(660,720,880,720,{strokeWidth:9,stroke:'#6b3f1f'}),P('M680 335 L860 335 L780 525 L860 715 L680 715 L760 525Z',{strokeWidth:5})],a+2.1,.5);
+  ring.top=document.createElementNS(NS,'path'); ring.bot=document.createElementNS(NS,'path'); [ring.top,ring.bot].forEach(p=>{ p.setAttribute('fill',GOLD); g.appendChild(p); });
+  el(g,P('M200 900 L240 940 L320 850',{stroke:'#1f9a4c',strokeWidth:12}),RING_B,.3); txt(g,'then decide',600,920,66,RING_B+.25,.5,NAVY); }
+// POLL
+const POLL_PICK=when('poll','later')+.15;
+{ const g=S('poll'), a=st('poll');
+  txt(g,'One now or two later?',480,125,80,a,.8);
+  el(g,Rc(80,250,360,380,{strokeWidth:5.5}),a+.8,.3); el(g,mm(260,400,104,84),a+1.1,.22); txt(g,'1 NOW',260,570,70,a+1.32,.3);
+  el(g,Rc(520,250,360,380,{strokeWidth:5.5}),a+1.0,.3); el(g,mm(645,400,104,84),a+1.3,.2); el(g,mm(760,400,104,84),a+1.5,.2); txt(g,'2 LATER',700,570,70,a+1.7,.3);
+  el(g,E(700,440,430,470,{stroke:RED,strokeWidth:7}),POLL_PICK,.35);
+  txt(g,'comment below',420,820,72,when('poll','comments')-.3,.55,RED); el(g,[P('M760 780 Q800 850 770 930',{strokeWidth:7}),P('M740 900 L770 935 L800 902',{strokeWidth:7})],when('poll','comments')+.25,.3); }
+// OUTRO: cream doodles on the blue board around the logo
+{ const g=$('free'), a=SC.outro.start+.5, cr={stroke:CREAM,strokeWidth:6};
+  txt(g,'Follow for more',540,880,92,a+.55,.55,CREAM); txt(g,'delayed gratification',540,985,86,a+1.1,.6,GOLD);
+  el(g,[P(starD(250,420,40),{...cr,fill:GOLD,fillStyle:'solid'}),P(starD(840,600,30),{...cr,fill:GOLD,fillStyle:'solid'})],a+1.75,.4);
+  el(g,P('M300 1030 Q540 1080 780 1026',cr),a+2.1,.3); }
+
+// ---------------------------------------------------------------- measure strokes once fonts are in
+function prep(){
+  ELS.forEach(e=>{
+    if(e.kind==='text'){ const bb=e.t.getBBox(); e.bb=bb; const id='cl'+Math.random().toString(36).slice(2);
+      const cp=document.createElementNS(NS,'clipPath'); cp.setAttribute('id',id); const r=document.createElementNS(NS,'rect'); r.setAttribute('x',bb.x-6); r.setAttribute('y',bb.y-30); r.setAttribute('height',bb.height+60); r.setAttribute('width',0); cp.appendChild(r);
+      e.g.appendChild(cp); e.t.setAttribute('clip-path',`url(#${id})`); e.clip=r; return; }
+    const paths=[...e.g.querySelectorAll('path')]; e.out=[]; e.hatch=[]; e.solid=[];
+    paths.forEach(p=>{ const f=p.getAttribute('fill'), s=p.getAttribute('stroke');
+      if(f&&f!=='none'&&(!s||s==='none')) e.solid.push(p); else (p.parentNode.firstChild===p&&paths.length>1&&p.getAttribute('stroke-width')&&+p.getAttribute('stroke-width')<4&&false?e.hatch:e.out).push(p); });
+    // rough draws the fill sketch first; draw outlines first, then the hatching
+    const grp=[...e.g.children]; e.out=[]; e.hatch=[];
+    grp.forEach(sub=>{ const ps=[...sub.querySelectorAll?sub.querySelectorAll('path'):[]]; if(!ps.length) return; const k=ps.length>1&&ps[0].getAttribute('fill')==='none'&&ps[0].getAttribute('stroke')!==ps[ps.length-1].getAttribute('stroke');
+      ps.forEach((p,i)=>{ const f=p.getAttribute('fill'), s=p.getAttribute('stroke'); if(f&&f!=='none'&&(!s||s==='none')) return; (k&&i===0?e.hatch:e.out).push(p); }); });
+    e.segs=[...e.out,...e.hatch].map(p=>{ const L=p.getTotalLength(); p.style.strokeDasharray=L+' '+L; return {p,L}; });
+    e.total=e.segs.reduce((s,x)=>s+x.L,0)||1; });
+}
+// tip of the drawing at progress k, in board coordinates
+function tipAt(e,k){ if(e.kind==='text'){ const bb=e.bb, x=bb.x+bb.width*k, y=bb.y+bb.height*.62+Math.sin(k*40)*bb.height*.18; return toBoard(e.t,x,y); }
+  let r=k*e.total; for(const s of e.segs){ if(r<=s.L){ const pt=s.p.getPointAtLength(Math.max(0,r)); return toBoard(s.p,pt.x,pt.y); } r-=s.L; }
+  const s=e.segs[e.segs.length-1]; if(!s) return null; const pt=s.p.getPointAtLength(s.L); return toBoard(s.p,pt.x,pt.y); }
+function toBoard(node,x,y){ const m=node.getCTM(), b=svg.getCTM().inverse(); const p=svg.createSVGPoint(); p.x=x; p.y=y; return p.matrixTransform(m).matrixTransform(b); }
+function setEl(e,t){ const k=e.d>0?seg(t,e.a,e.a+e.d):(t>=e.a?1:0);
+  if(e.kind==='text'){ e.clip.setAttribute('width',(e.bb.width+12)*k); return k; }
+  let r=k*e.total; e.segs.forEach(s=>{ const v=clamp(r/s.L); s.p.style.strokeDashoffset=s.L*(1-v); r-=s.L; });
+  e.solid.forEach(p=>p.style.opacity=seg(k,.55,1)); return k; }
+
+// ---------------------------------------------------------------- captions
+const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.text.length; let acc=0;
+  for(let i=0;i<ws.length;){ const n=(ws[i].length<=3&&ws[i+1])?3:2; const part=ws.slice(i,i+n); const a=acc/tot;
+    acc+=part.join(' ').length+1; CHUNKS.push({text:part.join(' ').replace(/[.,:]$/,''),start:l.start+(l.end-l.start)*a,end:l.start+(l.end-l.start)*Math.min(1,acc/tot)}); i+=n; } });
+
+window.POPS=[when('hook','now'),when('hook','two'),when('what','small'),when('what','bigger'),POLL_PICK];
+window.CLICKS=[...[0,1,2,3].map(i=>SC.outro.start+2.4+i*.15)];
+window.CONFS=[TEST_B,RING_B,SC.outro.start+1.6];
+window.SWAPS=TL.scenes.slice(1).map(s=>s.start); window.WORDS=[]; window.XP=LV;
+window.DRAWS=ELS.map(e=>[e.a,e.d]);
+
+// ---------------------------------------------------------------- render(t)
+const REST={x:1250,y:2150};
+function render(t){
+  // sheets slide in from the right and out to the left
+  ORDER.forEach((id,i)=>{ const s=SHEETS[id], s0=SC[id].start, s1=SC[id].end;
+    const inK=id==='hook'?1:eout(seg(t,s0-.05,s0+.35)), outK=eio(seg(t,s1-.3,s1+.08));
+    const vis=t>=s0-.1&&t<s1+.1; s.g.style.display=vis?'':'none';
+    const dx=1200*(1-inK)-1250*outK; s.g.setAttribute('transform',`translate(${60+dx} 330) rotate(${s.rot+(1-inK)*6} 480 500)`);
+    s.pins.forEach((p,j)=>{ const q=back(seg(t,(id==='hook'?.05:s0+.3)+j*.08,(id==='hook'?.4:s0+.6)+j*.08)); p.setAttribute('transform',`translate(${j?890:80} 12) scale(${Math.max(.001,q)}) translate(${j?-890:-80} -12)`); }); });
+  ELS.forEach(e=>setEl(e,t));
+  // live bits
+  { const r=t<TEST_A?1:1-seg(t,TEST_A,TEST_B), sec=Math.ceil(r*900); const an=(1-r)*Math.PI*2*3;
+    testClock.h.setAttribute('x2',800+Math.sin(an)*58); testClock.h.setAttribute('y2',380-Math.cos(an)*58); testClock.h.style.opacity=seg(t,st('test')+3.0,st('test')+3.2);
+    testCount.t.textContent=t>=TEST_B?'0:00':Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); testCount.t.style.opacity=seg(t,st('test')+3.1,st('test')+3.3); testCount.t.setAttribute('fill',t>=TEST_B?'#1f9a4c':RED); }
+  { const r=t<RING_A?1:1-seg(t,RING_A,RING_B), sec=Math.ceil(r*600), an=(1-r)*Math.PI*2;
+    ring.hand.setAttribute('x2',330+Math.sin(an)*150); ring.hand.setAttribute('y2',520-Math.cos(an)*150); ring.hand.style.opacity=seg(t,st('start')+2.0,st('start')+2.2);
+    const R=176, x=330+Math.sin(an)*R, y=520-Math.cos(an)*R; ring.wedge.setAttribute('d',an<.001?'':`M330 520 L330 ${520-R} A${R} ${R} 0 ${an>Math.PI?1:0} 1 ${x} ${y}Z`);
+    ring.t.textContent=t>=RING_B?'done!':Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); ring.t.style.opacity=seg(t,st('start')+2.0,st('start')+2.3); ring.t.setAttribute('fill',t>=RING_B?'#1f9a4c':BLUE);
+    const p=clamp(1-r), sOn=seg(t,st('start')+2.6,st('start')+2.9);
+    const tw=lerp(1,.05,p), bw=lerp(.05,1,p);
+    ring.top.setAttribute('d',`M${770-80*tw} ${525-170*tw} L${770+80*tw} ${525-170*tw} L770 525Z`); ring.bot.setAttribute('d',`M${770-82*bw} 712 L${770+82*bw} 712 L770 ${712-170*bw}Z`);
+    ring.top.style.opacity=ring.bot.style.opacity=sOn; }
+  (window._brainIcons||[]).forEach(e=>e.g.style.opacity=1-.65*seg(t,when('brain','fade'),when('brain','fade')+.4));
+  guySkill.forEach(gg=>{ const k=t>LV[0]-.5&&t<SC.skill.end+.2?Math.sin((t-LV[0])*Math.PI*1.6)*12:0; gg.setAttribute('transform',`translate(0 ${-Math.abs(k)})`); });
+
+  // the hand follows whatever is being drawn
+  { let act=null, prev=null, next=null;
+    for(const e of ELS){ if(e.d<=0) continue; if(t>=e.a&&t<e.a+e.d){ if(!act||e.a>act.a) act=e; } else if(e.a+e.d<=t){ if(!prev||e.a+e.d>prev.a+prev.d) prev=e; } else if(e.a>t){ if(!next||e.a<next.a) next=e; } }
+    let p;
+    if(act) p=tipAt(act,seg(t,act.a,act.a+act.d));
+    else { const pe=prev?prev.a+prev.d:-9, ns=next?next.a:1e9; const A=prev?tipAt(prev,1):REST, Bp=next?tipAt(next,0):REST;
+      if(ns-pe<.7){ const k=eio(seg(t,pe,ns)); p={x:lerp(A.x,Bp.x,k),y:lerp(A.y,Bp.y,k)-Math.sin(k*Math.PI)*30}; }
+      else { const ko=eio(seg(t,pe,pe+.35)), ki=eio(seg(t,ns-.35,ns)); p=ki>0?{x:lerp(REST.x,Bp.x,ki),y:lerp(REST.y,Bp.y,ki)}:{x:lerp(A.x,REST.x,ko),y:lerp(A.y,REST.y,ko)}; } }
+    $('hand').setAttribute('transform',`translate(${p.x} ${p.y})`); }
+
+  // overlays
+  { const lv=[[0,.04],[when('what','bigger'),.2],[TEST_B,.4],[SC.brain.end-.5,.55],[LV[2],.75],[RING_B,1]];
+    let v=.04; for(let i=1;i<lv.length;i++) v=lerp(v,lv[i][1],eout(seg(t,lv[i][0],lv[i][0]+.8)));
+    $('meter').style.opacity=t<SC.outro.start?seg(t,SC.hook.end,SC.hook.end+.4)*(1-seg(t,SC.outro.start-.3,SC.outro.start)):0; $('mfill').style.width=(v*100)+'%'; }
+  $('tag').style.opacity=t<SC.outro.start?1:1-seg(t,SC.outro.start,SC.outro.start+.4);
+  { const E=$('end'), ep=back(seg(t,SC.outro.start+.2,SC.outro.start+.7)); E.style.opacity=t>=SC.outro.start?clamp(ep*1.5):0; E.style.transform=`scale(${lerp(.6,1,ep)}) rotate(${(1-clamp(ep))*-10}deg)`;
+    [0,1,2,3].forEach(i=>{ const a=SC.outro.start+2.4+i*.15; $('ck'+i).style.transform=`scale(${Math.max(0,back(seg(t,a,a+.3)))})`; }); }
+  const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), Cp=$('cap');
+  if(ch){ Cp.textContent=ch.text; Cp.style.opacity=1; } else Cp.style.opacity=0;
+  $('fade').style.opacity=t<.2?1-seg(t,0,.2):seg(t,TL.total-.5,TL.total);
+}
+window.render=render;
+document.fonts.load('700 40px Kalam').then(()=>document.fonts.ready).then(()=>{ prep(); render(0); window.READY=true; });
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ if(window.READY) render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script></body></html>
