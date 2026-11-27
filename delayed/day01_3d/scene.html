@@ -18,7 +18,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#1a50a8}
   text-shadow:0 0 6px rgba(0,0,0,.8),0 3px 12px rgba(0,0,0,.5);opacity:0}
 #tag{position:absolute;left:44px;top:60px;background:var(--cream);color:var(--blue);font:900 40px "Inter Display";border-radius:999px;padding:12px 28px;box-shadow:0 8px 0 rgba(8,30,80,.35)}
 #tag b{color:var(--red)}
-#meter{position:absolute;left:44px;top:150px;display:flex;align-items:center;gap:16px;background:var(--cream);border-radius:999px;padding:12px 22px 12px 24px;box-shadow:0 8px 0 rgba(8,30,80,.35);opacity:0}
+#meter{position:absolute;left:44px;top:70px;display:flex;align-items:center;gap:16px;background:var(--cream);border-radius:999px;padding:12px 22px 12px 24px;box-shadow:0 8px 0 rgba(8,30,80,.35);opacity:0}
 #meter span{font:900 30px Inter;color:var(--blue);letter-spacing:1px}
 #meter .bar{width:300px;height:30px;border-radius:999px;background:#d8dff0;overflow:hidden}
 #meter i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ffd978,var(--gold))}
@@ -55,7 +55,6 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#1a50a8}
   </g></g>
 </svg>
 <div id="ui">
-  <div id="tag">DAY <b>1</b>/30</div>
   <div id="meter"><span>⏳ PATIENCE</span><div class="bar"><i id="mfill"></i></div></div>
   <div id="end"><img class="logo" src="logo.jpg" alt="dg"></div>
   <div id="checks"><div id="ck0">⏳</div><div id="ck1">🍡</div><div id="ck2">⭐</div><div id="ck3">📌</div></div>
@@ -291,7 +290,6 @@ function render(t){
   { const lv=[[0,.04],[when('what','bigger'),.2],[TEST_B,.4],[SC.brain.end-.5,.55],[LV[2],.75],[RING_B,1]];
     let v=.04; for(let i=1;i<lv.length;i++) v=lerp(v,lv[i][1],eout(seg(t,lv[i][0],lv[i][0]+.8)));
     $('meter').style.opacity=t<SC.outro.start?seg(t,SC.hook.end,SC.hook.end+.4)*(1-seg(t,SC.outro.start-.3,SC.outro.start)):0; $('mfill').style.width=(v*100)+'%'; }
-  $('tag').style.opacity=t<SC.outro.start?1:1-seg(t,SC.outro.start,SC.outro.start+.4);
   { const E=$('end'), ep=back(seg(t,SC.outro.start+.2,SC.outro.start+.7)); E.style.opacity=t>=SC.outro.start?clamp(ep*1.5):0; E.style.transform=`scale(${lerp(.6,1,ep)}) rotate(${(1-clamp(ep))*-10}deg)`;
     [0,1,2,3].forEach(i=>{ const a=SC.outro.start+2.4+i*.15; $('ck'+i).style.transform=`scale(${Math.max(0,back(seg(t,a,a+.3)))})`; }); }
   const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), Cp=$('cap');
