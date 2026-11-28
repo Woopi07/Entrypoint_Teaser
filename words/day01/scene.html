@@ -118,6 +118,12 @@ const PIV=[800,1010];                              // neck pivot in image space
 const EYES=[ {T:[[626,574],[655,562],[695,566],[735,584],[760,624]], B:[[626,578],[650,598],[690,614],[730,626],[760,624]]},
              {T:[[864,648],[895,624],[935,616],[970,620],[996,640]], B:[[864,648],[895,662],[935,668],[970,660],[996,640]]} ];
 const LID='#a97c66', LASH='#24160f';
+// eye openings (inside the lash line); the drawn iris (ic, ir) slides inside them so she can look left and right
+const OPEN=[ {top:[[644,592],[652,578],[670,573],[690,574],[710,580],[730,591],[745,605],[754,623]], bot:[[754,624],[735,626],[715,625],[698,621],[682,615],[666,608],[653,600]], ic:[676,595], ir:31, cx:700},
+             {top:[[864,653],[874,640],[895,631],[920,628],[945,630],[966,635],[984,644],[990,650]], bot:[[990,651],[978,661],[958,667],[934,669],[910,667],[890,663],[874,658]], ic:[895,646], ir:33, cx:930} ];
+// gaze: -1 = her original glance, 0 = centre, 1 = the other side; quick eye movements between held looks
+const GZ=[0,-1,0,1,0,-1,0,1,0,0,1,-1];
+function gazeAt(t){ const step=1.25, k=Math.floor(t/step), f=t/step-k; const a=GZ[k%GZ.length], b=GZ[(k+1)%GZ.length]; return lerp(a,b,eio(clamp((f-.88)/.12))); }
 const SEAM=[[716,813],[748,821],[780,826],[814,830],[844,836]];
 const LOWER=[[716,815],[748,823],[780,828],[814,832],[844,838],[838,860],[800,868],[760,864],[728,850]];
 function poly(pts){ ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.closePath(); }
@@ -198,6 +204,16 @@ function drawTeacher(t,pose){
   const ang=pose.tilt+.018*Math.sin(t*1.3)+.012*Math.sin(t*2.9)+.01*pose.mouth*Math.sin(t*7), dy=pose.nod*12-pose.shrug*20+breathe*1.5+pose.mouth*5, dx=pose.dx||0;
   ctx.save(); ctx.translate(PIV[0]+dx,PIV[1]+dy); ctx.rotate(ang); ctx.translate(-PIV[0],-PIV[1]);
   ctx.drawImage(HEAD,0,0);
+  // eyes look left and right: move her own iris inside the eye opening
+  { const g=gazeAt(t);
+    OPEN.forEach(E=>{ const dx=(E.cx-E.ic[0])*(1+g);
+      ctx.save(); poly([...E.top,...E.bot]); ctx.clip();
+      const y0=Math.min(...E.top.map(p=>p[1]))-4, y1=Math.max(...E.bot.map(p=>p[1]))+2;
+      const sg=ctx.createLinearGradient(0,y0,0,y1); sg.addColorStop(0,'#8f8c96'); sg.addColorStop(.4,'#c9ccd8'); sg.addColorStop(1,'#bfc3cf'); ctx.fillStyle=sg; ctx.fillRect(E.cx-90,y0,180,y1-y0);
+      ctx.save(); ctx.beginPath(); ctx.arc(E.ic[0]+dx,E.ic[1],E.ir,0,7); ctx.clip(); ctx.drawImage(HEAD,dx,0); ctx.restore();
+      const lg=ctx.createLinearGradient(0,y0,0,y0+14); lg.addColorStop(0,'rgba(20,12,10,.6)'); lg.addColorStop(1,'rgba(20,12,10,0)'); ctx.fillStyle=lg; ctx.fillRect(E.cx-90,y0,180,16);
+      ctx.restore();
+      ctx.beginPath(); E.top.forEach(([x,y],i)=>i?ctx.lineTo(x,y-1):ctx.moveTo(x,y-1)); ctx.strokeStyle=LASH; ctx.lineWidth=6; ctx.lineCap='round'; ctx.stroke(); }); }
   // mouth: jaw drops, lower lip follows, upper lip lifts a touch; dark mouth with teeth and tongue
   const o=pose.mouth;
   if(o>.04){ const sh=x=>Math.pow(Math.sin(clamp((x-714)/132)*Math.PI),.8), up=o*5, dn=o*42;
