@@ -252,7 +252,6 @@ function render(t){
     { const pop=back(seg(t,s0,s0+.5)); ctx.save(); ctx.translate(540,400); ctx.scale(lerp(.85,1,clamp(pop,0,1.2)),lerp(.85,1,clamp(pop,0,1.2))); ctx.translate(-540,-400);
       chalkAt(w.en+' =',150,'#f4f1e6',540,400,seg(t,l0.start-.1,l0.end+.15),out); ctx.restore(); }
     { const u=seg(t,l0.end,l0.end+.35); if(u>0){ ctx.save(); ctx.globalAlpha=out*.85; ctx.strokeStyle='#f4f1e6'; ctx.lineWidth=7; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(230,490); ctx.quadraticCurveTo(540,515,lerp(230,850,u),488); ctx.stroke(); ctx.restore(); } }
-    { const hl=eout(seg(t,l1.start-.1,l1.start+.4)); if(hl>0){ const c=chalk(w.tl,128,'#ffe066',880), hw=c.width*.92; ctx.save(); ctx.globalAlpha=out*.22; ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.roundRect(540-hw/2,600,hw*hl,120,26); ctx.fill(); ctx.restore(); } }
     const rv=seg(t,l1.start,l1.end+.25); { const bo=t>l1.end?1+.06*Math.sin(seg(t,l1.end,l1.end+.5)*Math.PI):1; ctx.save(); ctx.translate(540,660); ctx.scale(bo,bo); ctx.translate(-540,-660); chalkAt(w.tl,128,'#ffe066',540,660,rv,out,880); ctx.restore(); }
     // chalk sparkles when the meaning lands
     if(t>=l1.end){ const k=seg(t,l1.end,l1.end+.5); ctx.save(); ctx.globalAlpha=out*(1-seg(t,l1.end+1.2,l1.end+1.6)); ctx.strokeStyle='#ffe066'; ctx.lineWidth=5;

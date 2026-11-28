@@ -69,7 +69,15 @@ def main():
             t += pace[1]
         if scene != prev:
             scenes.append({'id': scene, 'start': round(t - (0 if prev is None else .45), 3)})
-        samples, sr = k.create(text, voice=VOICE, speed=pace[0], lang='en-us')
+        if text.startswith('[tl]'):
+            # Tagalog: Spanish phonemes are very close (same vowels, stress from the accent marks);
+            # then make b/d/g hard, y a plain glide and 'ng' a single sound, as in Tagalog
+            ph = k.tokenizer.phonemize(text[4:].strip(), 'es')
+            for x, y in [('β', 'b'), ('ð', 'd'), ('ɣ', 'ɡ'), ('ʝ', 'j'), ('ŋɡk', 'ŋk'), ('ŋɡ', 'ŋ')]:
+                ph = ph.replace(x, y)
+            samples, sr = k.create(ph, voice=VOICE, speed=pace[0] * 0.9, is_phonemes=True)
+        else:
+            samples, sr = k.create(text, voice=VOICE, speed=pace[0], lang='en-us')
         samples = trim(samples, sr)
         path = os.path.join(out, f'vo_{i:02d}.wav')
         sf.write(path, samples, sr)
