@@ -1,0 +1,249 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>DG Day 9 (drawn)</title>
+<!--
+  Delayed Gratification Day 9: "Out of Sight, Out of Mind" in a hand-drawn whiteboard style.
+  A hand with a marker draws each scene on a cream sheet pinned to the royal-blue board.
+  Brand: blue #1A50A8, cream #F6EBB5, red pushpin #E53935, gold star #F2C14E.
+  Line art comes from rough.js (seeded, so every render is identical); render(t) sets every stroke for time t.
+  Timings come from timeline.js (build_timeline.py). The earlier 3D version is scene3d.html.
+-->
+<style>
+@font-face{font-family:Kalam;font-weight:700;src:url(kalam.woff2) format("woff2")}
+:root{--blue:#1a50a8;--navy:#0f2f6b;--cream:#f6ebb5;--red:#e53935;--gold:#f2c14e}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#1a50a8}
+#board{position:absolute;inset:0;width:1080px;height:1920px}
+#ui{position:absolute;inset:0;pointer-events:none;font-family:Inter,"DejaVu Sans",sans-serif}
+#cap{position:absolute;left:0;right:0;top:1405px;text-align:center;font:800 64px Inter;color:#fff;
+  text-shadow:0 0 6px rgba(0,0,0,.8),0 3px 12px rgba(0,0,0,.5);opacity:0}
+#tag{position:absolute;left:44px;top:60px;background:var(--cream);color:var(--blue);font:900 40px "Inter Display";border-radius:999px;padding:12px 28px;box-shadow:0 8px 0 rgba(8,30,80,.35)}
+#tag b{color:var(--red)}
+#meter{position:absolute;left:44px;top:70px;display:flex;align-items:center;gap:16px;background:var(--cream);border-radius:999px;padding:12px 22px 12px 24px;box-shadow:0 8px 0 rgba(8,30,80,.35);opacity:0}
+#meter span{font:900 30px Inter;color:var(--blue);letter-spacing:1px}
+#meter .bar{width:300px;height:30px;border-radius:999px;background:#d8dff0;overflow:hidden}
+#meter i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ffd978,var(--gold))}
+#end{position:absolute;left:0;right:0;top:330px;text-align:center;opacity:0}
+#end .logo{width:360px;height:360px;border-radius:76px;border:10px solid var(--cream);box-shadow:0 16px 0 rgba(8,30,80,.45);display:block;margin:0 auto}
+#checks{position:absolute;left:0;right:0;top:1160px;display:flex;gap:18px;justify-content:center}
+#checks div{width:130px;height:130px;border-radius:34px;background:var(--cream);display:grid;place-items:center;font-size:66px;box-shadow:0 10px 0 rgba(8,30,80,.4);transform:scale(0)}
+#fade{position:absolute;inset:0;background:#000;opacity:0}
+</style></head>
+<body>
+<svg id="board" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="pinS" viewBox="0 0 120 120"><line x1="22" y1="104" x2="54" y2="70" stroke="#8d97a8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M44 62 L64 46 L80 62 L64 82Z" fill="#c62828"/><circle cx="76" cy="44" r="26" fill="#e53935"/><circle cx="68" cy="36" r="8" fill="#ff8a80"/></symbol>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="16" stdDeviation="0" flood-color="#081e50" flood-opacity=".4"/></filter>
+    <filter id="hs" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="-14" dy="18" stdDeviation="10" flood-color="#081e50" flood-opacity=".35"/></filter>
+    <pattern id="dots" width="44" height="44" patternUnits="userSpaceOnUse"><circle cx="22" cy="22" r="2.4" fill="#2a62c0"/></pattern>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#dots)"/>
+  <g id="sheets"></g>
+  <g id="free"></g>
+  <!-- the drawing hand: marker tip at (0,0), hand and sleeve reach down to the right -->
+  <g id="hand" filter="url(#hs)"><g transform="rotate(-32)">
+    <rect x="-40" y="300" width="150" height="900" rx="40" fill="#0f2f6b"/><rect x="-40" y="300" width="150" height="34" fill="#e53935"/>
+    <path d="M-28 150 C-40 230,-30 300,-24 330 L96 330 C100 280,104 220,90 150Z" fill="#f2c6a2" stroke="#c99068" stroke-width="5"/>
+    <path d="M0 0 L-12 30 L12 30Z" fill="#0f2f6b"/><rect x="-15" y="28" width="30" height="30" rx="4" fill="#9aa5b8"/>
+    <rect x="-18" y="56" width="36" height="250" rx="12" fill="#fffdf4" stroke="#c9c2a2" stroke-width="4"/><rect x="-18" y="190" width="36" height="22" fill="#e53935"/>
+    <ellipse cx="34" cy="168" rx="66" ry="74" fill="#f2c6a2" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-26" cy="132" rx="30" ry="20" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-30" cy="170" rx="30" ry="20" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="-24" cy="207" rx="28" ry="19" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <ellipse cx="24" cy="112" rx="22" ry="40" transform="rotate(-20 24 112)" fill="#f6cfae" stroke="#c99068" stroke-width="5"/>
+    <path d="M40 200 q14 10 30 4" fill="none" stroke="#c99068" stroke-width="4" stroke-linecap="round"/>
+  </g></g>
+</svg>
+<div id="ui">
+  <div id="meter"><span>⏳ PATIENCE</span><div class="bar"><i id="mfill"></i></div></div>
+  <div id="end"><img class="logo" src="logo.jpg" alt="dg"></div>
+  <div id="checks"><div id="ck0">⏳</div><div id="ck1">🍡</div><div id="ck2">⭐</div><div id="ck3">📌</div></div>
+  <div id="cap"></div>
+  <div id="fade"></div>
+</div>
+<script src="timeline.js"></script>
+<script type="module">
+import rough from './rough.js';
+const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7,d=c+1;return 1+d*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const TL=window.TL, SC={}; TL.scenes.forEach(s=>SC[s.id]=s);
+function when(id,word,k=0){ const l=TL.lines.filter(l=>l.scene===id)[k]; if(!word) return l.start;
+  const i=l.text.toLowerCase().indexOf(word.toLowerCase()); if(i<0) throw new Error('cue '+word); return l.start+(l.end-l.start)*i/l.text.length; }
+
+const BLUE='#1a50a8', NAVY='#0f2f6b', RED='#e53935', GOLD='#f2c14e', PAPER='#fbf4d8', SKIN='#ffe6d0', WHITE='#ffffff', CREAM='#f6ebb5';
+const svg=$('board'), rc=rough.svg(svg);
+let seed=7;
+const O=o=>({stroke:BLUE,strokeWidth:5,roughness:1.3,bowing:1.2,fillWeight:3.5,hachureGap:11,seed:seed++,...o});
+
+// ---------------------------------------------------------------- elements: every stroke group knows when it is drawn
+const ELS=[];       // {g, a, d, kind:'stroke'|'text', ...}
+function el(parent,nodes,a,d){ const g=document.createElementNS(NS,'g'); parent.appendChild(g); [].concat(nodes).forEach(n=>g.appendChild(n));
+  const e={g,a,d,kind:'stroke'}; ELS.push(e); return e; }
+function txt(parent,s,x,y,size,a,d,color=BLUE,anchor='middle'){ const t=document.createElementNS(NS,'text'); t.textContent=s;
+  Object.entries({x,y,'font-family':'Kalam','font-weight':700,'font-size':size,fill:color,'text-anchor':anchor}).forEach(([k,v])=>t.setAttribute(k,v));
+  const g=document.createElementNS(NS,'g'); parent.appendChild(g); g.appendChild(t);
+  const e={g,t,a,d,kind:'text',x,y,size}; ELS.push(e); return e; }
+// shapes
+const P=(d,o)=>rc.path(d,O(o)), C=(x,y,dm,o)=>rc.circle(x,y,dm,O(o)), Ln=(x1,y1,x2,y2,o)=>rc.line(x1,y1,x2,y2,O(o)), E=(x,y,w,h,o)=>rc.ellipse(x,y,w,h,O(o)), Rc=(x,y,w,h,o)=>rc.rectangle(x,y,w,h,O(o));
+const rr=(x,y,w,h,r)=>`M${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+h-r} Q${x+w} ${y+h} ${x+w-r} ${y+h} H${x+r} Q${x} ${y+h} ${x} ${y+h-r} V${y+r} Q${x} ${y} ${x+r} ${y}Z`;
+const starD=(x,y,R)=>{ let d=''; for(let i=0;i<10;i++){ const r=i%2?R*.45:R, a=-Math.PI/2+i*Math.PI/5; d+=(i?'L':'M')+(x+Math.cos(a)*r).toFixed(1)+' '+(y+Math.sin(a)*r).toFixed(1); } return d+'Z'; };
+const mm=(x,y,w=92,h=74)=>[P(rr(x-w/2,y-h/2,w,h,24),{fill:WHITE,fillStyle:'solid'}),P(`M${x-w/2+8} ${y-h/2+18} Q${x} ${y-h/2+34} ${x+w/2-8} ${y-h/2+18}`,{strokeWidth:3.5})];
+const star=(x,y,R)=>P(starD(x,y,R),{fill:GOLD,fillStyle:'hachure',hachureGap:7,stroke:'#c99a2a'});
+// the dg doodle guy: square glasses, smooth hair, blush
+function head(x,y,mouth='smile'){ const n=[C(x,y,150,{fill:SKIN,fillStyle:'solid'}),
+  P(`M${x-76} ${y-4} C${x-82} ${y-98} ${x+82} ${y-98} ${x+76} ${y-4} C${x+46} ${y-44} ${x-46} ${y-44} ${x-76} ${y-4}Z`,{fill:NAVY,fillStyle:'solid',stroke:NAVY}),
+  Rc(x-63,y-8,52,40,{stroke:NAVY,strokeWidth:4.5}),Rc(x+11,y-8,52,40,{stroke:NAVY,strokeWidth:4.5}),Ln(x-11,y+6,x+11,y+6,{stroke:NAVY,strokeWidth:4}),
+  C(x-37,y+12,10,{stroke:NAVY,fill:NAVY,fillStyle:'solid',roughness:.4}),C(x+37,y+12,10,{stroke:NAVY,fill:NAVY,fillStyle:'solid',roughness:.4}),
+  Ln(x-58,y+44,x-50,y+34,{stroke:RED,strokeWidth:4}),Ln(x-48,y+46,x-40,y+36,{stroke:RED,strokeWidth:4}),Ln(x+42,y+44,x+50,y+34,{stroke:RED,strokeWidth:4}),Ln(x+52,y+46,x+60,y+36,{stroke:RED,strokeWidth:4})];
+  if(mouth==='smile') n.push(P(`M${x-20} ${y+48} Q${x} ${y+64} ${x+20} ${y+48}`,{stroke:NAVY,strokeWidth:4.5}));
+  else if(mouth==='o') n.push(C(x,y+52,20,{stroke:NAVY,strokeWidth:4}));
+  else n.push(Ln(x-16,y+52,x+16,y+52,{stroke:NAVY,strokeWidth:4.5}));
+  return n; }
+const torso=(x,y,h=200)=>P(`M${x-96} ${y+28} Q${x-90} ${y} ${x-50} ${y} L${x+50} ${y} Q${x+90} ${y} ${x+96} ${y+28} L${x+80} ${y+h} L${x-80} ${y+h}Z`,{fill:RED,fillStyle:'hachure',hachureGap:9});
+
+// ---------------------------------------------------------------- sheets (one per scene), pinned to the board
+const SHEETS={};
+function sheet(id,rot){ const g=document.createElementNS(NS,'g'); $('sheets').appendChild(g);
+  const paper=document.createElementNS(NS,'rect'); Object.entries({x:0,y:0,width:960,height:1000,rx:22,fill:PAPER,filter:'url(#sh)'}).forEach(([k,v])=>paper.setAttribute(k,v)); g.appendChild(paper);
+  const inner=document.createElementNS(NS,'g'); g.appendChild(inner);
+  const pins=[[30,-38],[840,-38]].map(([x,y])=>{ const u=document.createElementNS(NS,'use'); u.setAttribute('href','#pinS'); Object.entries({x,y,width:100,height:100}).forEach(([k,v])=>u.setAttribute(k,v)); g.appendChild(u); return u; });
+  SHEETS[id]={g,inner,pins,rot}; return inner; }
+const cloudD=(x,y,s)=>`M${x-120*s} ${y+50*s} C${x-170*s} ${y+50*s} ${x-170*s} ${y-20*s} ${x-115*s} ${y-20*s} C${x-115*s} ${y-80*s} ${x-30*s} ${y-95*s} ${x-5*s} ${y-50*s} C${x+20*s} ${y-105*s} ${x+120*s} ${y-90*s} ${x+110*s} ${y-25*s} C${x+175*s} ${y-25*s} ${x+175*s} ${y+50*s} ${x+120*s} ${y+50*s}Z`;
+const ORDER=['hook','cues','hide','show','point','poll'];
+const rots={hook:-.8,cues:.7,hide:-.6,show:.8,point:-.7,poll:.6};
+ORDER.forEach(id=>sheet(id,rots[id]));
+const S=id=>SHEETS[id].inner;
+const st=id=>SC[id].start+(id==='hook'?.1:.35);
+const eye=(x,y,w,open=true)=>open?[P(`M${x-w/2} ${y} Q${x} ${y-w*.55} ${x+w/2} ${y} Q${x} ${y+w*.55} ${x-w/2} ${y}Z`,{fill:WHITE,fillStyle:'solid',strokeWidth:6}),C(x,y,w*.34,{fill:BLUE,fillStyle:'solid'}),C(x,y,w*.14,{fill:NAVY,fillStyle:'solid',stroke:NAVY})]
+  :[P(`M${x-w/2} ${y} Q${x} ${y+w*.4} ${x+w/2} ${y}`,{strokeWidth:7}),...[-.3,0,.3].map(k=>Ln(x+k*w,y+w*.18,x+k*w*1.3,y+w*.34,{strokeWidth:5}))];
+const donut=(x,y,d)=>[C(x,y,d,{fill:GOLD,fillStyle:'solid',stroke:'#c99a2a'}),P(`M${x-d*.38} ${y-d*.12} Q${x} ${y-d*.5} ${x+d*.38} ${y-d*.12} Q${x+d*.48} ${y+d*.12} ${x+d*.25} ${y+d*.3} Q${x} ${y+d*.42} ${x-d*.25} ${y+d*.3} Q${x-d*.48} ${y+d*.12} ${x-d*.38} ${y-d*.12}Z`,{fill:'#ff8fb1',fillStyle:'solid',stroke:'#e86a92'}),C(x,y,d*.28,{fill:PAPER,fillStyle:'solid',stroke:'#c99a2a'})];
+const phone=(x,y,w,h)=>[P(rr(x-w/2,y-h/2,w,h,Math.min(22,w/4)),{fill:NAVY,fillStyle:'solid',stroke:NAVY}),P(rr(x-w/2+w*.12,y-h/2+h*.1,w*.76,h*.8,6),{fill:'#7fb8ff',fillStyle:'solid',stroke:'#7fb8ff',strokeWidth:2})];
+const arrow=(x1,y,x2,col=BLUE)=>[Ln(x1,y,x2,y,{stroke:col,strokeWidth:7}),P(`M${x2-24} ${y-20} L${x2} ${y} L${x2-24} ${y+20}`,{stroke:col,strokeWidth:7})];
+// HOOK
+{ const g=S('hook'), a=.12;
+  txt(g,'Out of sight,',480,135,96,a,.5); txt(g,'out of mind',480,232,96,a+.5,.5,RED); el(g,Ln(230,262,730,258,{stroke:GOLD,strokeWidth:9}),a+1.0,.2);
+  const tr=when('hook','resist')-.3; el(g,eye(240,520,220),tr,.45); el(g,arrow(380,520,460,RED),tr+.45,.15); el(g,donut(600,520,170),tr+.6,.4);
+  txt(g,'want it...',420,700,60,tr+1.0,.3,RED);
+  const tl=when('hook','look')-.3; el(g,eye(240,820,220,false),tl,.35); el(g,arrow(380,830,460,'#1f9a4c'),tl+.35,.15); txt(g,"don't look",660,850,66,tl+.5,.35,'#1f9a4c'); }
+// CUES: see it, want it
+{ const g=S('cues'), a=st('cues');
+  txt(g,'See it = want it',480,125,92,a,.6); el(g,Ln(200,152,760,148,{stroke:GOLD,strokeWidth:9}),a+.6,.2);
+  const t1=when('cues','see a snack')-.2; el(g,eye(170,380,170),t1,.3); el(g,arrow(280,380,350),t1+.3,.12); el(g,donut(450,380,140),t1+.42,.3);
+  el(g,arrow(560,380,630),when('cues','want')-.2,.12); txt(g,'want!',760,405,72,when('cues','want')-.1,.25,RED);
+  const t2=when('cues','see your phone')-.2; el(g,eye(170,640,170),t2,.3); el(g,arrow(280,640,350),t2+.3,.12); el(g,phone(450,640,100,170),t2+.42,.3);
+  el(g,arrow(560,640,630),when('cues','grab')-.2,.12); txt(g,'grab!',760,665,72,when('cues','grab')-.1,.25,RED);
+  txt(g,'your brain reacts to what it sees',480,900,52,when('cues','sees')+.1,.9,NAVY); }
+// HIDE: put it away
+{ const g=S('hide'), a=st('hide');
+  txt(g,'Hide it',480,130,104,a,.45); el(g,Ln(320,160,640,156,{stroke:GOLD,strokeWidth:9}),a+.45,.2);
+  const tc=when('hide','cabinet')-.6; el(g,[P(rr(80,260,340,240,10),{fill:'#c99a6b',fillStyle:'hachure',hachureGap:14,stroke:'#7a4a2a'}),Ln(250,260,250,500,{stroke:'#7a4a2a',strokeWidth:5}),C(230,380,16,{fill:'#7a4a2a',fillStyle:'solid',stroke:'#7a4a2a'}),C(270,380,16,{fill:'#7a4a2a',fillStyle:'solid',stroke:'#7a4a2a'})],tc,.5);
+  el(g,[Ln(60,560,440,556,{strokeWidth:6}),P('M70 860 L70 560 M430 860 L430 560',{strokeWidth:5})],tc+.5,.3); txt(g,'snacks up high',250,640,52,tc+.8,.4); el(g,P('M300 520 Q330 470 300 440',{stroke:RED,strokeWidth:6}),tc+1.2,.15);
+  const tr=when('hide','charge')-.3; el(g,[P(rr(560,260,260,520,8),{fill:'#e9dcc0',fillStyle:'hachure',hachureGap:20,stroke:'#7a4a2a'}),C(790,520,22,{fill:GOLD,fillStyle:'solid',stroke:'#c99a2a'})],tr,.45);
+  el(g,[...phone(690,690,70,110),P('M690 745 Q690 790 740 800 L790 800',{strokeWidth:5}),P(rr(790,785,30,30,4),{fill:WHITE,fillStyle:'solid'})],tr+.45,.35);
+  txt(g,'phone in',690,880,52,when('hide','room')-.3,.3); txt(g,'another room',690,940,52,when('hide','room'),.35,RED); }
+// SHOW: make good habits visible
+{ const g=S('show'), a=st('show');
+  txt(g,'Show the good stuff',480,125,88,a,.65); el(g,Ln(180,152,780,148,{stroke:GOLD,strokeWidth:9}),a+.65,.2);
+  const tf=when('show','fruit')-.4; el(g,[Ln(60,620,440,616,{strokeWidth:6}),P('M110 560 Q250 660 390 560Z',{fill:WHITE,fillStyle:'solid'})],tf,.35);
+  el(g,[C(200,520,90,{fill:RED,fillStyle:'solid',stroke:'#b71c1c'}),Ln(200,476,206,452,{stroke:'#7a4a2a',strokeWidth:5}),P('M210 470 Q236 450 246 470 Q226 482 210 470Z',{fill:'#5fae55',fillStyle:'solid',stroke:'#3f8a3f'}),
+    P('M250 540 Q300 450 350 460 Q330 480 320 520 Q300 560 260 560Z',{fill:GOLD,fillStyle:'solid',stroke:'#c99a2a'}),C(300,560,60,{fill:'#ff9f40',fillStyle:'solid',stroke:'#d97a1a'})],tf+.35,.45);
+  txt(g,'fruit on the counter',250,720,48,tf+.8,.45);
+  const tb=when('show','book')-.4; el(g,P(rr(540,520,360,140,40),{fill:WHITE,fillStyle:'solid'}),tb,.3);
+  el(g,[P('M620 540 Q680 515 720 540 L720 610 Q680 585 620 610Z',{fill:BLUE,fillStyle:'solid',stroke:NAVY}),P('M720 540 Q760 515 820 540 L820 610 Q760 585 720 610Z',{fill:BLUE,fillStyle:'solid',stroke:NAVY})],tb+.3,.3);
+  txt(g,'book on your pillow',720,720,48,tb+.6,.45);
+  txt(g,'see it = do it',480,880,80,SC.show.end-.9,.5,'#1f9a4c'); }
+// POINT
+const PT=when('point','fewer');
+{ const g=S('point'), a=st('point');
+  txt(g,'You need...',480,140,96,a,.4);
+  txt(g,'more willpower',480,370,90,when('point','more')-.2,.55,NAVY); el(g,Ln(140,345,820,340,{stroke:RED,strokeWidth:12}),PT-.6,.25);
+  txt(g,'fewer reminders',480,620,100,PT-.1,.6,RED); el(g,P('M170 660 Q480 690 790 656',{stroke:RED,strokeWidth:9}),PT+.5,.25);
+  el(g,P('M400 820 L460 880 L590 740',{stroke:'#1f9a4c',strokeWidth:16}),PT+.85,.3); }
+// POLL
+const POLL_PICK=when('poll','hide')+.15;
+{ const g=S('poll'), a=st('poll');
+  txt(g,"What will you hide?",480,125,90,a,.6);
+  ['snacks','my phone','the TV remote'].forEach((s,i)=>{ const y=250+i*175; el(g,Rc(110,y,740,140,{strokeWidth:5.5,fill:i===1?GOLD:undefined,fillStyle:'hachure',hachureGap:28,fillWeight:2}),a+.6+i*.25,.22); txt(g,s,480,y+95,64,a+.8+i*.25,.35); });
+  el(g,E(480,495,820,200,{stroke:RED,strokeWidth:7}),POLL_PICK,.35);
+  txt(g,'comment below',420,900,72,when('poll','comments')-.3,.55,RED); el(g,[P('M760 860 Q800 910 770 960',{strokeWidth:7}),P('M742 935 L770 965 L798 936',{strokeWidth:7})],when('poll','comments')+.25,.3); }
+// OUTRO
+{ const g=$('free'), a=SC.outro.start+.5, cr={stroke:CREAM,strokeWidth:6};
+  txt(g,'Follow for more',540,880,92,a+.55,.55,CREAM); txt(g,'delayed gratification',540,985,86,a+1.1,.6,GOLD);
+  el(g,[P(starD(250,420,40),{...cr,fill:GOLD,fillStyle:'solid'}),P(starD(840,600,30),{...cr,fill:GOLD,fillStyle:'solid'})],a+1.75,.4);
+  el(g,P('M300 1030 Q540 1080 780 1026',cr),a+2.1,.3); }
+
+// ---------------------------------------------------------------- measure strokes once fonts are in
+function prep(){
+  ELS.forEach(e=>{
+    if(e.kind==='text'){ const bb=e.t.getBBox(); e.bb=bb; const id='cl'+Math.random().toString(36).slice(2);
+      const cp=document.createElementNS(NS,'clipPath'); cp.setAttribute('id',id); const r=document.createElementNS(NS,'rect'); r.setAttribute('x',bb.x-6); r.setAttribute('y',bb.y-30); r.setAttribute('height',bb.height+60); r.setAttribute('width',0); cp.appendChild(r);
+      e.g.appendChild(cp); e.t.setAttribute('clip-path',`url(#${id})`); e.clip=r; return; }
+    const paths=[...e.g.querySelectorAll('path')]; e.out=[]; e.hatch=[]; e.solid=[];
+    paths.forEach(p=>{ const f=p.getAttribute('fill'), s=p.getAttribute('stroke');
+      if(f&&f!=='none'&&(!s||s==='none')) e.solid.push(p); else (p.parentNode.firstChild===p&&paths.length>1&&p.getAttribute('stroke-width')&&+p.getAttribute('stroke-width')<4&&false?e.hatch:e.out).push(p); });
+    // rough draws the fill sketch first; draw outlines first, then the hatching
+    const grp=[...e.g.children]; e.out=[]; e.hatch=[];
+    grp.forEach(sub=>{ const ps=[...sub.querySelectorAll?sub.querySelectorAll('path'):[]]; if(!ps.length) return; const k=ps.length>1&&ps[0].getAttribute('fill')==='none'&&ps[0].getAttribute('stroke')!==ps[ps.length-1].getAttribute('stroke');
+      ps.forEach((p,i)=>{ const f=p.getAttribute('fill'), s=p.getAttribute('stroke'); if(f&&f!=='none'&&(!s||s==='none')) return; (k&&i===0?e.hatch:e.out).push(p); }); });
+    e.segs=[...e.out,...e.hatch].map(p=>{ const L=p.getTotalLength(); p.style.strokeDasharray=L+' '+L; return {p,L}; });
+    e.total=e.segs.reduce((s,x)=>s+x.L,0)||1; });
+}
+// tip of the drawing at progress k, in board coordinates
+function tipAt(e,k){ if(e.kind==='text'){ const bb=e.bb, x=bb.x+bb.width*k, y=bb.y+bb.height*.62+Math.sin(k*40)*bb.height*.18; return toBoard(e.t,x,y); }
+  let r=k*e.total; for(const s of e.segs){ if(r<=s.L){ const pt=s.p.getPointAtLength(Math.max(0,r)); return toBoard(s.p,pt.x,pt.y); } r-=s.L; }
+  const s=e.segs[e.segs.length-1]; if(!s) return null; const pt=s.p.getPointAtLength(s.L); return toBoard(s.p,pt.x,pt.y); }
+function toBoard(node,x,y){ const m=node.getCTM(), b=svg.getCTM().inverse(); const p=svg.createSVGPoint(); p.x=x; p.y=y; return p.matrixTransform(m).matrixTransform(b); }
+function setEl(e,t){ const k=e.d>0?seg(t,e.a,e.a+e.d):(t>=e.a?1:0);
+  if(e.kind==='text'){ e.clip.setAttribute('width',(e.bb.width+12)*k); return k; }
+  let r=k*e.total; e.segs.forEach(s=>{ const v=clamp(r/s.L); s.p.style.strokeDashoffset=s.L*(1-v); r-=s.L; });
+  e.solid.forEach(p=>p.style.opacity=seg(k,.55,1)); return k; }
+
+// ---------------------------------------------------------------- captions
+const CHUNKS=[]; TL.lines.forEach(l=>{ const ws=l.text.split(' '); const tot=l.text.length; let acc=0;
+  for(let i=0;i<ws.length;){ const n=(ws[i].length<=3&&ws[i+1])?3:2; const part=ws.slice(i,i+n); const a=acc/tot;
+    acc+=part.join(' ').length+1; CHUNKS.push({text:part.join(' ').replace(/[.,:]$/,''),start:l.start+(l.end-l.start)*a,end:l.start+(l.end-l.start)*Math.min(1,acc/tot)}); i+=n; } });
+
+window.POPS=[when('hook','look'),when('cues','want'),when('cues','grab'),when('hide','room'),PT,POLL_PICK];
+window.CLICKS=[...[0,1,2,3].map(i=>SC.outro.start+2.4+i*.15)];
+window.CONFS=[PT+.85,SC.outro.start+1.6];
+window.SWAPS=TL.scenes.slice(1).map(s=>s.start); window.WORDS=[]; window.XP=[when('show','fruit'),when('show','book')];
+window.DRAWS=ELS.map(e=>[e.a,e.d]);
+
+// ---------------------------------------------------------------- render(t)
+const REST={x:1250,y:2150};
+function render(t){
+  // sheets slide in from the right and out to the left
+  ORDER.forEach((id,i)=>{ const s=SHEETS[id], s0=SC[id].start, s1=SC[id].end;
+    const inK=id==='hook'?1:eout(seg(t,s0-.05,s0+.35)), outK=eio(seg(t,s1-.3,s1+.08));
+    const vis=t>=s0-.1&&t<s1+.1; s.g.style.display=vis?'':'none';
+    const dx=1200*(1-inK)-1250*outK; s.g.setAttribute('transform',`translate(${60+dx} 330) rotate(${s.rot+(1-inK)*6} 480 500)`);
+    s.pins.forEach((p,j)=>{ const q=back(seg(t,(id==='hook'?.05:s0+.3)+j*.08,(id==='hook'?.4:s0+.6)+j*.08)); p.setAttribute('transform',`translate(${j?890:80} 12) scale(${Math.max(.001,q)}) translate(${j?-890:-80} -12)`); }); });
+  ELS.forEach(e=>setEl(e,t));
+  // the hand follows whatever is being drawn
+  { let act=null, prev=null, next=null;
+    for(const e of ELS){ if(e.d<=0) continue; if(t>=e.a&&t<e.a+e.d){ if(!act||e.a>act.a) act=e; } else if(e.a+e.d<=t){ if(!prev||e.a+e.d>prev.a+prev.d) prev=e; } else if(e.a>t){ if(!next||e.a<next.a) next=e; } }
+    let p;
+    if(act) p=tipAt(act,seg(t,act.a,act.a+act.d));
+    else { const pe=prev?prev.a+prev.d:-9, ns=next?next.a:1e9; const A=prev?tipAt(prev,1):REST, Bp=next?tipAt(next,0):REST;
+      if(ns-pe<.7){ const k=eio(seg(t,pe,ns)); p={x:lerp(A.x,Bp.x,k),y:lerp(A.y,Bp.y,k)-Math.sin(k*Math.PI)*30}; }
+      else { const ko=eio(seg(t,pe,pe+.35)), ki=eio(seg(t,ns-.35,ns)); p=ki>0?{x:lerp(REST.x,Bp.x,ki),y:lerp(REST.y,Bp.y,ki)}:{x:lerp(A.x,REST.x,ko),y:lerp(A.y,REST.y,ko)}; } }
+    $('hand').setAttribute('transform',`translate(${p.x} ${p.y})`); }
+
+  // overlays
+  { const lv=[[0,.04],[when('cues','grab'),.2],[when('hide','room'),.45],[when('show','book'),.7],[PT+.85,1]];
+    let v=.04; for(let i=1;i<lv.length;i++) v=lerp(v,lv[i][1],eout(seg(t,lv[i][0],lv[i][0]+.8)));
+    $('meter').style.opacity=t<SC.outro.start?seg(t,SC.hook.end,SC.hook.end+.4)*(1-seg(t,SC.outro.start-.3,SC.outro.start)):0; $('mfill').style.width=(v*100)+'%'; }
+  { const E=$('end'), ep=back(seg(t,SC.outro.start+.2,SC.outro.start+.7)); E.style.opacity=t>=SC.outro.start?clamp(ep*1.5):0; E.style.transform=`scale(${lerp(.6,1,ep)}) rotate(${(1-clamp(ep))*-10}deg)`;
+    [0,1,2,3].forEach(i=>{ const a=SC.outro.start+2.4+i*.15; $('ck'+i).style.transform=`scale(${Math.max(0,back(seg(t,a,a+.3)))})`; }); }
+  const ch=CHUNKS.find(c=>t>=c.start-.03&&t<c.end+.05), Cp=$('cap');
+  if(ch){ Cp.textContent=ch.text; Cp.style.opacity=1; } else Cp.style.opacity=0;
+  $('fade').style.opacity=t<.2?1-seg(t,0,.2):seg(t,TL.total-.5,TL.total);
+}
+window.render=render;
+document.fonts.load('700 40px Kalam').then(()=>document.fonts.ready).then(()=>{ prep(); render(0); window.READY=true; });
+if(!location.search.includes('render')){ const t0=performance.now(); (function loop(){ if(window.READY) render(((performance.now()-t0)/1000)%TL.total); requestAnimationFrame(loop); })(); }
+</script></body></html>
